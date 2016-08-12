@@ -21,6 +21,8 @@ namespace ASNET {
 			auto FontSize()->int;
 		};
 
+
+
 		struct Image {
 		private:
 			ID2D1Bitmap* bitmap;

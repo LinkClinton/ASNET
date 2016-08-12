@@ -18,6 +18,16 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\Window\Window.Graph.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\Window\Window.Event.h" />
+    <ClInclude Include="src\Window\Window.Graph.h" />
+    <ClInclude Include="src\Window\Window.h" />
+    <ClInclude Include="src\Window\Window.Keycode.h" />
+    <ClInclude Include="src\Window\Window.Page.h" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{CAB55DFD-6B79-4990-BD6D-5879FE6E14E7}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
@@ -145,13 +155,6 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClInclude Include="Window.Event.h" />
-    <ClInclude Include="Window.Graph.h" />
-    <ClInclude Include="Window.h" />
-    <ClInclude Include="Window.Keycode.h" />
-    <ClInclude Include="Window.Page.h" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

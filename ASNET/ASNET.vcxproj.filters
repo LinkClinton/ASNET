@@ -16,21 +16,29 @@
     <Filter Include="头文件\Window">
       <UniqueIdentifier>{781717f1-9ade-4a5c-ac58-3ecc4da0bd43}</UniqueIdentifier>
     </Filter>
+    <Filter Include="源文件\Window">
+      <UniqueIdentifier>{a79b847c-9b5e-4a74-853d-d61d6b1b547d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Window.Event.h">
+    <ClCompile Include="src\Window\Window.Graph.cpp">
+      <Filter>源文件\Window</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\Window\Window.Event.h">
       <Filter>头文件\Window</Filter>
     </ClInclude>
-    <ClInclude Include="Window.Graph.h">
+    <ClInclude Include="src\Window\Window.Graph.h">
       <Filter>头文件\Window</Filter>
     </ClInclude>
-    <ClInclude Include="Window.h">
+    <ClInclude Include="src\Window\Window.h">
       <Filter>头文件\Window</Filter>
     </ClInclude>
-    <ClInclude Include="Window.Keycode.h">
+    <ClInclude Include="src\Window\Window.Keycode.h">
       <Filter>头文件\Window</Filter>
     </ClInclude>
-    <ClInclude Include="Window.Page.h">
+    <ClInclude Include="src\Window\Window.Page.h">
       <Filter>头文件\Window</Filter>
     </ClInclude>
   </ItemGroup>
