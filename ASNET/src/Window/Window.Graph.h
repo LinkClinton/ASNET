@@ -15,10 +15,11 @@ namespace ASNET {
 		struct Font {
 		private:
 			IDWriteTextFormat* textformat;
+			friend class Graph;
 		public:
 			Font();
 			~Font();
-			auto FontSize()->int;
+			auto FontSize()->float;
 		};
 
 
@@ -26,6 +27,7 @@ namespace ASNET {
 		struct Image {
 		private:
 			ID2D1Bitmap* bitmap;
+			friend class Graph;
 		public:
 			Image();
 			~Image();
@@ -34,11 +36,12 @@ namespace ASNET {
 		};
 
 		enum class TextAlign {
-			Left, Center, Right, Up, Down
+			Left, Center, Right, Top, Bottom
 		};
 
 		class Graph {
 		protected:
+			//Information
 			HWND					g_hwnd; 
 			int						g_width;
 			int						g_height;
@@ -63,17 +66,17 @@ namespace ASNET {
 			//IWIC
 			IWICImagingFactory*     g_imagefactory;
 		public:
-			Graph(HWND hwnd, int width, int height, bool IsWindowed = true);
+			Graph(HWND hwnd, bool IsWindowed = true);
 
-			void BeginDraw();
+			void Clear(ASNET::Graph::Color color = ASNET::Graph::Color::White);
 
-			void EndDraw();
+			void Present();
 
 			void DrawLine(ASNET::Graph::Point P1,
-				ASNET::Graph::Point P2, ASNET::Graph::Color Color, int width = 1.0f);
+				ASNET::Graph::Point P2, ASNET::Graph::Color color, float width = 1.0f);
 
 			void DrawRectangle(ASNET::Graph::Rect rect,
-				ASNET::Graph::Color Color, int width = 1.0f, bool IsFill = false,
+				ASNET::Graph::Color color, float width = 1.0f, bool IsFill = false,
 				ASNET::Graph::Color FillColor = ASNET::Graph::Color::White);
 
 			void DrawImage(ASNET::Graph::Image* image,
@@ -81,13 +84,15 @@ namespace ASNET {
 
 			void DrawWord(ASNET::Graph::Word word,
 				ASNET::Graph::Rect rect, ASNET::Graph::Font* font,
+				ASNET::Graph::Color color = ASNET::Graph::Color::Black,
 				ASNET::Graph::TextAlign horizontal = ASNET::Graph::TextAlign::Left,
-				ASNET::Graph::TextAlign vertical = ASNET::Graph::TextAlign::Up);
+				ASNET::Graph::TextAlign vertical = ASNET::Graph::TextAlign::Top);
 			
-			void LoadImage(ASNET::Graph::Image* image);
+			void LoadImage(ASNET::Graph::Word filename,
+				ASNET::Graph::Image* image);
 
-			void LoadFont(ASNET::Graph::Font* font, ASNET::Graph::Word fontname,
-				int fontsize);
+			void LoadFont(ASNET::Graph::Font* font,
+				ASNET::Graph::Word fontname, float fontsize);
 
 
 
