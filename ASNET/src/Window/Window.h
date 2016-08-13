@@ -8,8 +8,7 @@
 #include"Window.Graph.h"
 #include"Window.Page.h"
 namespace ASNET {
-
-
+	
 	class Window {
 	private:
 		HWND								Hwnd;

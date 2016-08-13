@@ -1,7 +1,10 @@
 #pragma once
+#include<vector>
 #include<functional>
 
+
 #include"Window.Keycode.h"
+
 
 namespace ASNET {
 	namespace Event {
@@ -53,13 +56,13 @@ namespace ASNET {
 			int now_width, now_height;
 		};
 
-		typedef std::function<void(void*, EventBase*)> EventBaseHander;
-		typedef std::function<void(void*, EventMouse*)> EventMouseHander;
-		typedef std::function<void(void*, EventMouseMove)> EventMouseMoveHander;
-		typedef std::function<void(void*, EventMouseClick*)> EventMouseClickHander;
-		typedef std::function<void(void*, EventBoard*)> EventBoardHander;
-		typedef std::function<void(void*, EventBoardClick*)> EventBoardClickHander;
-		typedef std::function<void(void*, EventSizeChange*)> EventSizeChangeHander;
+		typedef std::function<void(void*, EventBase*)>			EventBaseHander;
+		typedef std::function<void(void*, EventMouse*)>			EventMouseHander;
+		typedef std::function<void(void*, EventMouseMove)>		EventMouseMoveHander;
+		typedef std::function<void(void*, EventMouseClick*)>	EventMouseClickHander;
+		typedef std::function<void(void*, EventBoard*)> 		EventBoardHander;
+		typedef	std::function<void(void*, EventBoardClick*)>	EventBoardClickHander;
+		typedef std::function<void(void*, EventSizeChange*)>	EventSizeChangeHander;
 
 	}
 }

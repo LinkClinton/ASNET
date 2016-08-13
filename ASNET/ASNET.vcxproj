@@ -19,10 +19,13 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Window\Window.EventHander.cpp" />
     <ClCompile Include="src\Window\Window.Graph.cpp" />
+    <ClCompile Include="src\Window\Window.Page.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Window\Window.Event.h" />
+    <ClInclude Include="src\Window\Window.EventHander.h" />
     <ClInclude Include="src\Window\Window.Graph.h" />
     <ClInclude Include="src\Window\Window.h" />
     <ClInclude Include="src\Window\Window.Keycode.h" />

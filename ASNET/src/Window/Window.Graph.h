@@ -1,9 +1,15 @@
 #pragma once
+#include<vector>
+#include<functional>
 
 #include<d2d1_1.h>
 #include<dwrite.h>
 #include<d3d11.h>
+
+
 #undef LoadImage
+
+
 namespace ASNET {
 	namespace Graph {
 
@@ -97,5 +103,9 @@ namespace ASNET {
 
 
 		};
+
+		typedef std::function<void(void*, ASNET::Graph::Graph*)> EventGraphDrawHander;
+		
+
 	}
 }

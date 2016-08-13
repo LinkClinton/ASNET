@@ -24,6 +24,12 @@
     <ClCompile Include="src\Window\Window.Graph.cpp">
       <Filter>源文件\Window</Filter>
     </ClCompile>
+    <ClCompile Include="src\Window\Window.Page.cpp">
+      <Filter>源文件\Window</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Window\Window.EventHander.cpp">
+      <Filter>源文件\Window</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Window\Window.Event.h">
@@ -39,6 +45,9 @@
       <Filter>头文件\Window</Filter>
     </ClInclude>
     <ClInclude Include="src\Window\Window.Page.h">
+      <Filter>头文件\Window</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Window\Window.EventHander.h">
       <Filter>头文件\Window</Filter>
     </ClInclude>
   </ItemGroup>

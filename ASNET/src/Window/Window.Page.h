@@ -1,6 +1,10 @@
 #pragma once
 #include"Window.Event.h"
 #include"Window.Graph.h"
+#include"Window.EventHander.h"
+
+#include<vector>
+
 namespace ASNET {
 	namespace Page {
 		class Page {
@@ -14,15 +18,17 @@ namespace ASNET {
 			virtual void OnKeyDown(void* sender, ASNET::Event::EventBoardClick* e);
 			virtual void OnKeyUp(void* sender, ASNET::Event::EventBoardClick* e);
 			virtual void OnSizeChanged(void* sender, ASNET::Event::EventSizeChange* e);
-			virtual void OnDraw(void* sender, void* render); //How to draw the page
-			virtual void OnInitalize(void* sender,void* render); //On Load the Page
+			virtual void OnDraw(void* sender, ASNET::Graph::Graph* render); 
+			virtual void OnInitalize(void* sender, void* any);
 		protected:
-			ASNET::Event::EventMouseMoveHander		MouseMoveHander;
-			ASNET::Event::EventMouseClickHander		MouseButtonUpHander;
-			ASNET::Event::EventMouseClickHander		MouseButtonDownHander;
-			ASNET::Event::EventBoardClickHander		BoardUpHander;
-			ASNET::Event::EventBoardClickHander		BoardDownHander;
-			ASNET::Event::EventSizeChangeHander		SizeChangeHander;
+			ASNET::Event::EventMouseMoveHanders			MouseMoveHander;
+			ASNET::Event::EventMouseClickHanders		MouseButtonUpHander;
+			ASNET::Event::EventMouseClickHanders		MouseButtonDownHander;
+			ASNET::Event::EventBoardClickHanders		BoardUpHander;
+			ASNET::Event::EventBoardClickHanders		BoardDownHander;
+			ASNET::Event::EventSizeChangeHanders		SizeChangeHander;
+			ASNET::Event::EventGraphDrawHanders			GraphDrawHander;
+			
 		public:
 		};
 	}
