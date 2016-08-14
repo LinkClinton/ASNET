@@ -41,5 +41,9 @@ namespace ASNET {
 		{
 		}
 
+		Page::Page()
+		{
+		}
+
 	}
 }

@@ -9,7 +9,7 @@
 namespace ASNET {
 	namespace Event {
 
-		enum class EventType {
+		enum class EventType :int {
 			EventOther,
 			EventMouseMove,
 			EventMouseClick,
@@ -63,8 +63,8 @@ namespace ASNET {
 		};
 
 		typedef std::function<void(void*, EventBase*)>			EventBaseHander;
-		typedef std::function<void(void*, EventMouseMove)>		EventMouseMoveHander;
-		typedef std::function<void(void*, EventMouseWheel)>     EventMouseWheelHander;
+		typedef std::function<void(void*, EventMouseMove*)>		EventMouseMoveHander;
+		typedef std::function<void(void*, EventMouseWheel*)>     EventMouseWheelHander;
 		typedef std::function<void(void*, EventMouseClick*)>	EventMouseClickHander;
 		typedef	std::function<void(void*, EventBoardClick*)>	EventBoardClickHander;
 		typedef std::function<void(void*, EventSizeChange*)>	EventSizeChangeHander;

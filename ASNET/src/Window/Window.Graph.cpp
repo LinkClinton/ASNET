@@ -3,6 +3,9 @@
 #include<wincodec.h>
 #include<dxgi.h>
 
+
+
+
 namespace ASNET {
 	namespace Graph {
 

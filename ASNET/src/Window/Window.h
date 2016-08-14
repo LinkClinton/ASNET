@@ -26,12 +26,12 @@ namespace ASNET {
 		LPCWSTR								IcoName;
 		LPCWSTR								Title;
 	
-		ASNET::Graph::Graph                 GraphRender;
+		ASNET::Graph::Graph*                GraphRender;
 		int									NowPage;
 	private:
-		void CoreGetEventArgs(ASNET::Event::EventType type, 
-			ASNET::Event::EventBase* &e);
-		void CoreComputeEvents(ASNET::Event::EventType type);
+		ASNET::Event::EventType CoreGetEventArgs(
+			int message, ASNET::Event::EventBase* &e);
+		void CoreComputeEvents(int message);
 	protected:
 		virtual void OnMouseMove(void* sender, ASNET::Event::EventMouseMove* e);
 		virtual void OnMouseWheel(void* sender, ASNET::Event::EventMouseWheel* e);
@@ -50,6 +50,7 @@ namespace ASNET {
 		ASNET::Event::EventBoardClickHanders		BoardDownHander;
 		ASNET::Event::EventSizeChangeHanders		SizeChangeHander;
 	public:
+		Window();
 		void AddPage(ASNET::Page::Page* page);
 
 		void NextPage();

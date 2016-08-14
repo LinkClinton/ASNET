@@ -34,7 +34,7 @@ namespace ASNET {
 			ASNET::Event::EventGraphDrawHanders			GraphDrawHander;
 			
 		public:
-			
+			Page();
 		};
 	}
 }

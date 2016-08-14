@@ -8,7 +8,7 @@ namespace ASNET {
 
 	namespace Event {
 
-		ASNET::Event::EventType ToEventType(int message);
+	
 
 
 		typedef std::vector<ASNET::Event::EventBaseHander>			EventBaseHanders;
@@ -56,12 +56,17 @@ namespace ASNET {
 				ASNET::Event::EventSizeChangeHander hander
 				);
 		
-			template<typename Handers,typename EventArg> 
-			static void DoEventHanders(Handers handers, void* sender, EventArg eventarg);
+			
 
+			
 		};
 		
-		
+		template<typename Handers, typename EventArg>
+		static void DoEventHanders(Handers handers, void * sender, EventArg eventarg) {
+			int size = handers.size();
+			for (int i = 0; i < size; i++)
+				handers[i](sender, eventarg);
+		}
 
 	}
 

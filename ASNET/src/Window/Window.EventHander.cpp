@@ -1,19 +1,13 @@
 #include"Window.EventHander.h"
 
+#include<Windows.h>
+
 namespace ASNET {
 	namespace Event {
 
 
 		//need finish
-		ASNET::Event::EventType ToEventType(int message){
-			switch (message)
-			{
-				//put your code
-			default:
-				break;
-			}
-			return ASNET::Event::EventType(1);
-		}
+		
 
 		ASNET::Event::EventBaseHanders operator+=(
 			ASNET::Event::EventBaseHanders handers, 
@@ -65,12 +59,7 @@ namespace ASNET {
 			return ASNET::Event::EventSizeChangeHanders(handers);
 		}
 
-		template<typename Handers, typename EventArg>
-		inline void ASNET::Event::EventHander::DoEventHanders(Handers handers, void * sender, EventArg eventarg) {
-			int size = handers.size();
-			for (int i = 0; i < size; i++)
-				handers[i](sender, eventarg);
-		}
+		
 
 
 	}
