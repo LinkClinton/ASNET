@@ -6,8 +6,11 @@ namespace ASNET {
 		
 
 		void ASNET::Page::Page::OnMouseMove(void * sender, ASNET::Event::EventMouseMove * e)
+		{	
+		}
+
+		void ASNET::Page::Page::OnMouseWheel(void * sender, ASNET::Event::EventMouseWheel* e) 
 		{
-			
 		}
 
 		void ASNET::Page::Page::OnMouseUp(void * sender, ASNET::Event::EventMouseClick * e)
@@ -34,7 +37,7 @@ namespace ASNET {
 		{
 		}
 
-		void ASNET::Page::Page::OnInitalize(void * sender, void * any)
+		void ASNET::Page::Page::OnLoading(void * sender, void * any)
 		{
 		}
 

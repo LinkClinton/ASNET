@@ -30,6 +30,9 @@
     <ClCompile Include="src\Window\Window.EventHander.cpp">
       <Filter>源文件\Window</Filter>
     </ClCompile>
+    <ClCompile Include="src\Window\Window.cpp">
+      <Filter>源文件\Window</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Window\Window.Event.h">

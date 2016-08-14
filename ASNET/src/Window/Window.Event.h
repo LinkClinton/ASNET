@@ -8,19 +8,25 @@
 
 namespace ASNET {
 	namespace Event {
+
+		enum class EventType {
+			EventOther,
+			EventMouseMove,
+			EventMouseClick,
+			EventMouseWheel,
+			EventBoardClick
+		};
+
+
 		//Base Event
 		struct EventBase {
 
 		};
 
-		//Base Mouse Event
-		struct EventMouse :EventBase {
-			int x, y;
-		};
 
 		//MouseMove Event
-		struct EventMouseMove :EventMouse {
-
+		struct EventMouseMove :EventBase {
+			int x, y;
 		};
 
 		//enum of mouse button
@@ -29,24 +35,24 @@ namespace ASNET {
 		};
 
 		//MouseClick Event
-		struct EventMouseClick :EventMouse {
+		struct EventMouseClick :EventBase {
+			int x, y;
+			bool IsDown;
 			MouseButton button;
 		};
 
 		//MouseWheel Event
-		struct EventMouseWheel :EventMouse {
+		struct EventMouseWheel :EventBase {
+			int x, y;
 			int offest; //the mouse wheel move + is up,- is down
 		};
 
 		
 
-		//BoardEvent
-		struct EventBoard :EventBase {
-			Keycode keycode;
-		};
 
 		//BoardClick Event
-		struct EventBoardClick :EventBoard {
+		struct EventBoardClick :EventBase {
+			Keycode keycode;
 			bool IsDown;
 		};
 
@@ -57,10 +63,9 @@ namespace ASNET {
 		};
 
 		typedef std::function<void(void*, EventBase*)>			EventBaseHander;
-		typedef std::function<void(void*, EventMouse*)>			EventMouseHander;
 		typedef std::function<void(void*, EventMouseMove)>		EventMouseMoveHander;
+		typedef std::function<void(void*, EventMouseWheel)>     EventMouseWheelHander;
 		typedef std::function<void(void*, EventMouseClick*)>	EventMouseClickHander;
-		typedef std::function<void(void*, EventBoard*)> 		EventBoardHander;
 		typedef	std::function<void(void*, EventBoardClick*)>	EventBoardClickHander;
 		typedef std::function<void(void*, EventSizeChange*)>	EventSizeChangeHander;
 

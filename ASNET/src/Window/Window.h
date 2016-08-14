@@ -7,38 +7,56 @@
 #include"Window.Event.h"
 #include"Window.Graph.h"
 #include"Window.Page.h"
+
 namespace ASNET {
 	
 	class Window {
 	private:
 		HWND								Hwnd;
+		MSG									Message;
+		HINSTANCE							Hinstance;
+		
+		ASNET::Page::Page*                  UsedPage;
+		std::vector<ASNET::Page::Page*>     Pages;
+	private:
+
+	protected:
 		int									Width;
 		int									Height;
-		HINSTANCE							Hinstance;
+		LPCWSTR								IcoName;
+		LPCWSTR								Title;
+	
 		ASNET::Graph::Graph                 GraphRender;
-		std::vector<ASNET::Page::Page*>     Pages;
 		int									NowPage;
+	private:
+		void CoreGetEventArgs(ASNET::Event::EventType type, 
+			ASNET::Event::EventBase* &e);
+		void CoreComputeEvents(ASNET::Event::EventType type);
 	protected:
 		virtual void OnMouseMove(void* sender, ASNET::Event::EventMouseMove* e);
+		virtual void OnMouseWheel(void* sender, ASNET::Event::EventMouseWheel* e);
 		virtual void OnMouseUp(void* sender, ASNET::Event::EventMouseClick* e);
 		virtual void OnMouseDown(void* sender, ASNET::Event::EventMouseClick* e);
 		virtual void OnKeyDown(void* sender, ASNET::Event::EventBoardClick* e);
 		virtual void OnKeyUp(void* sender, ASNET::Event::EventBoardClick* e);
 		virtual void OnSizeChanged(void* sender, ASNET::Event::EventSizeChange* e);
-		virtual void Initalize(); //Load the Window
+		virtual void OnLoading(); //Load the Window
 	protected:
-		ASNET::Event::EventMouseMoveHander		MouseMoveHander;
-		ASNET::Event::EventMouseClickHander		MouseButtonUpHander;
-		ASNET::Event::EventMouseClickHander		MouseButtonDownHander;
-		ASNET::Event::EventBoardClickHander		BoardUpHander;
-		ASNET::Event::EventBoardClickHander		BoardDownHander;
-		ASNET::Event::EventSizeChangeHander		SizeChangeHander;
+		ASNET::Event::EventMouseMoveHanders			MouseMoveHander;
+		ASNET::Event::EventMouseWheelHanders		MouseWheelHander;
+		ASNET::Event::EventMouseClickHanders		MouseButtonUpHander;
+		ASNET::Event::EventMouseClickHanders		MouseButtonDownHander;
+		ASNET::Event::EventBoardClickHanders		BoardUpHander;
+		ASNET::Event::EventBoardClickHanders		BoardDownHander;
+		ASNET::Event::EventSizeChangeHanders		SizeChangeHander;
 	public:
 		void AddPage(ASNET::Page::Page* page);
 
 		void NextPage();
 
 		void ShowPage(ASNET::Page::Page* page);
+
+		void ShowPage(int index);
 
 		void Run();
 
