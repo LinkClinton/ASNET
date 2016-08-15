@@ -81,6 +81,8 @@ namespace ASNET {
 				(IUnknown**)(&g_writefactory)
 			);
 
+			
+
 			RECT rc;
 			GetClientRect(hwnd, &rc);
 			UINT width = rc.right - rc.left;
@@ -161,19 +163,47 @@ namespace ASNET {
 			IDXGISurface* Surface;
 			g_swapchain->GetBuffer(0, IID_PPV_ARGS(&Surface));
 
-
 			FLOAT dpiX;
 			FLOAT dpiY;
 			g_factory->GetDesktopDpi(&dpiX, &dpiY);
 
-			D2D1_RENDER_TARGET_PROPERTIES Props =
-				D2D1::RenderTargetProperties(
-					D2D1_RENDER_TARGET_TYPE_DEFAULT,
-					D2D1::PixelFormat(DXGI_FORMAT_R8G8B8A8_UNORM, D2D1_ALPHA_MODE_PREMULTIPLIED),
-					dpiX,
-					dpiY);
+			g_factory->CreateDevice(DXGIDevice, &g_device2d);
 
-			g_factory->CreateDxgiSurfaceRenderTarget(Surface, &Props, &g_rendertarget);
+			g_device2d->CreateDeviceContext(D2D1_DEVICE_CONTEXT_OPTIONS_NONE, &g_devicecontext2d);
+
+			D2D1_BITMAP_PROPERTIES1 bitmapProperties =
+				D2D1::BitmapProperties1(
+					D2D1_BITMAP_OPTIONS_TARGET | D2D1_BITMAP_OPTIONS_CANNOT_DRAW,
+					D2D1::PixelFormat(DXGI_FORMAT_UNKNOWN, D2D1_ALPHA_MODE_PREMULTIPLIED),
+					dpiX,
+					dpiY
+				);
+
+			ID2D1Bitmap1* TargetBitmap;
+
+
+			g_devicecontext2d->CreateBitmapFromDxgiSurface(Surface,
+				&bitmapProperties, &TargetBitmap);
+
+			g_devicecontext2d->SetTarget(TargetBitmap);
+
+			DXGIDevice->Release();
+
+			
+		}
+
+		Graph::~Graph()
+		{
+			release(g_factory);
+			release(g_imagefactory);
+			release(g_writefactory);
+			release(g_device2d);
+			release(g_device3d);
+			release(g_devicecontext2d);
+			release(g_devicecontext3d);
+			release(g_rendertargetview);
+			release(g_depthstencilview);
+			release(g_swapchain);
 		}
 
 		void ASNET::Graph::Graph::Clear(ASNET::Graph::Color color){
@@ -269,6 +299,8 @@ namespace ASNET {
 
 			g_writefactory->CreateTextLayout(word, (UINT32)wcslen(word), font->textformat, (FLOAT)(rect.right - rect.left),
 				(FLOAT)(rect.bottom - rect.top), &Layout);
+
+
 
 			g_devicecontext2d->DrawTextLayout(D2D1::Point2F(rect.left, rect.top), Layout, Brush);
 

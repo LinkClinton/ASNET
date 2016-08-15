@@ -19,18 +19,18 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Window.cpp" />
-    <ClCompile Include="src\Window.EventHander.cpp" />
-    <ClCompile Include="src\Window.Graph.cpp" />
-    <ClCompile Include="src\Window.Page.cpp" />
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="src\Window.Event.h" />
     <ClInclude Include="src\Window.EventHander.h" />
     <ClInclude Include="src\Window.Graph.h" />
     <ClInclude Include="src\Window.h" />
     <ClInclude Include="src\Window.Keycode.h" />
     <ClInclude Include="src\Window.Page.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\Window.cpp" />
+    <ClCompile Include="src\Window.EventHander.cpp" />
+    <ClCompile Include="src\Window.Graph.cpp" />
+    <ClCompile Include="src\Window.Page.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{CAB55DFD-6B79-4990-BD6D-5879FE6E14E7}</ProjectGuid>
@@ -109,6 +109,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>d3d11.lib;d2d1.lib;dwrite.lib;windowscodecs.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <Lib />
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>

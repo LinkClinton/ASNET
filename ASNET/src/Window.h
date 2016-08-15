@@ -53,16 +53,22 @@ namespace ASNET {
 		Window();
 		void AddPage(ASNET::Page::Page* page);
 
-		void NextPage();
-
-		void ShowPage(ASNET::Page::Page* page);
+		void DeletePage(int index);
 
 		void ShowPage(int index);
+
+		void NextPage();
+
+		auto NowUsedPage()->ASNET::Page::Page*;
+
+		auto NowPageNum()->int;
 
 		void Run();
 
 		void Show();
 
 		void Hide();
+
+		void Release();
 	};
 }

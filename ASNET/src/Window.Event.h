@@ -6,7 +6,9 @@
 #include"Window.Keycode.h"
 
 
+
 namespace ASNET {
+	class Window;
 	namespace Event {
 
 		enum class EventType :int {
@@ -62,12 +64,15 @@ namespace ASNET {
 			int now_width, now_height;
 		};
 
+		
+
 		typedef std::function<void(void*, EventBase*)>			EventBaseHander;
 		typedef std::function<void(void*, EventMouseMove*)>		EventMouseMoveHander;
-		typedef std::function<void(void*, EventMouseWheel*)>    EventMouseWheelHander;
+		typedef std::function<void(void*, EventMouseWheel*)>	EventMouseWheelHander;
 		typedef std::function<void(void*, EventMouseClick*)>	EventMouseClickHander;
 		typedef	std::function<void(void*, EventBoardClick*)>	EventBoardClickHander;
 		typedef std::function<void(void*, EventSizeChange*)>	EventSizeChangeHander;
 
+		
 	}
 }

@@ -22,41 +22,41 @@ namespace ASNET {
 		class EventHander {
 		public:
 			friend ASNET::Event::EventBaseHanders operator +=(
-				ASNET::Event::EventBaseHanders handers,
+				ASNET::Event::EventBaseHanders &handers,
 				ASNET::Event::EventBaseHander hander
 				);
 		
 			friend ASNET::Event::EventGraphDrawHanders operator +=(
-				ASNET::Event::EventGraphDrawHanders handers,
+				ASNET::Event::EventGraphDrawHanders &handers,
 				ASNET::Graph::EventGraphDrawHander hander
 				);
 
 			friend ASNET::Event::EventMouseMoveHanders operator +=(
-				ASNET::Event::EventMouseMoveHanders handers,
+				ASNET::Event::EventMouseMoveHanders &handers,
 				ASNET::Event::EventMouseMoveHander hander
 				);
 
 			friend ASNET::Event::EventMouseWheelHanders operator +=(
-				ASNET::Event::EventMouseWheelHanders handers,
+				ASNET::Event::EventMouseWheelHanders &handers,
 				ASNET::Event::EventMouseWheelHander hander
 				);
 
 			friend ASNET::Event::EventMouseClickHanders operator +=(
-				ASNET::Event::EventMouseClickHanders handers,
+				ASNET::Event::EventMouseClickHanders &handers,
 				ASNET::Event::EventMouseClickHander hander
 				);
 
 			friend ASNET::Event::EventBoardClickHanders operator +=(
-				ASNET::Event::EventBoardClickHanders handers,
+				ASNET::Event::EventBoardClickHanders &handers,
 				ASNET::Event::EventBoardClickHander hander
 				);
 
 			friend ASNET::Event::EventSizeChangeHanders operator +=(
-				ASNET::Event::EventSizeChangeHanders handers,
+				ASNET::Event::EventSizeChangeHanders &handers,
 				ASNET::Event::EventSizeChangeHander hander
 				);
 		
-			
+			static auto GetSenderMessage(void* sender)->ASNET::Window*;
 
 			
 		};

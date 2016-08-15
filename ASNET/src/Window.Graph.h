@@ -11,6 +11,7 @@
 
 
 namespace ASNET {
+	//class Window;
 	namespace Graph {
 
 		typedef D2D_RECT_F		 Rect;
@@ -56,7 +57,6 @@ namespace ASNET {
 			//Direct2D
 			ID2D1Factory1*			g_factory;
 			ID2D1Device*            g_device2d;
-			ID2D1RenderTarget*		g_rendertarget;
 			ID2D1DeviceContext*     g_devicecontext2d;
 
 			//Direct3D11
@@ -71,38 +71,40 @@ namespace ASNET {
 
 			//IWIC
 			IWICImagingFactory*     g_imagefactory;
+			friend class Window;
 		public:
 			Graph(HWND hwnd, bool IsWindowed = true);
+			~Graph();
+			virtual void Clear(ASNET::Graph::Color color = ASNET::Graph::Color::White);
 
-			void Clear(ASNET::Graph::Color color = ASNET::Graph::Color::White);
+			virtual void Present();
 
-			void Present();
-
-			void DrawLine(ASNET::Graph::Point P1,
+			virtual void DrawLine(ASNET::Graph::Point P1,
 				ASNET::Graph::Point P2, ASNET::Graph::Color color, float width = 1.0f);
 
-			void DrawRectangle(ASNET::Graph::Rect rect,
+			virtual void DrawRectangle(ASNET::Graph::Rect rect,
 				ASNET::Graph::Color color, float width = 1.0f, bool IsFill = false,
 				ASNET::Graph::Color FillColor = ASNET::Graph::Color::White);
 
-			void DrawImage(ASNET::Graph::Image* image,
+			virtual void DrawImage(ASNET::Graph::Image* image,
 				ASNET::Graph::Rect rect);
 
-			void DrawWord(ASNET::Graph::Word word,
+			virtual void DrawWord(ASNET::Graph::Word word,
 				ASNET::Graph::Rect rect, ASNET::Graph::Font* font,
 				ASNET::Graph::Color color = ASNET::Graph::Color::Black,
 				ASNET::Graph::TextAlign horizontal = ASNET::Graph::TextAlign::Left,
 				ASNET::Graph::TextAlign vertical = ASNET::Graph::TextAlign::Top);
 			
-			void LoadImage(ASNET::Graph::Word filename,
+			virtual void LoadImage(ASNET::Graph::Word filename,
 				ASNET::Graph::Image* image);
 
-			void LoadFont(ASNET::Graph::Font* font,
+			virtual void LoadFont(ASNET::Graph::Font* font,
 				ASNET::Graph::Word fontname, float fontsize);
 
 
 
 		};
+	
 
 		typedef std::function<void(void*, ASNET::Graph::Graph*)> EventGraphDrawHander;
 		

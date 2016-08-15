@@ -138,6 +138,8 @@ namespace ASNET {
 		case ASNET::Event::EventType::EventMouseMove: {
 			ASNET::Event::EventMouseMove* e = (ASNET::Event::EventMouseMove*)BaseEvent;
 			OnMouseMove(this, e);
+			ASNET::Event::DoEventHanders(
+				MouseMoveHander, this, e);
 			if (UsedPage)
 				UsedPage->OnMouseMove(this, e),
 				ASNET::Event::DoEventHanders(
@@ -148,6 +150,8 @@ namespace ASNET {
 			ASNET::Event::EventMouseClick* e = (ASNET::Event::EventMouseClick*)BaseEvent;
 			if (e->IsDown) {
 				OnMouseDown(this, e);
+				ASNET::Event::DoEventHanders(
+					MouseButtonDownHander, this, e);
 				if (UsedPage)
 					UsedPage->OnMouseDown(this, e),
 					ASNET::Event::DoEventHanders(
@@ -155,6 +159,8 @@ namespace ASNET {
 			}
 			else {
 				OnMouseUp(this, e);
+				ASNET::Event::DoEventHanders(
+					MouseButtonUpHander, this, e);
 				if (UsedPage)
 					UsedPage->OnMouseUp(this, e),
 				ASNET::Event::DoEventHanders(
@@ -166,6 +172,7 @@ namespace ASNET {
 		case ASNET::Event::EventType::EventMouseWheel: {
 			ASNET::Event::EventMouseWheel* e = (ASNET::Event::EventMouseWheel*)BaseEvent;
 			OnMouseWheel(this, e);
+			ASNET::Event::DoEventHanders(MouseWheelHander, this, e);
 			if (UsedPage)
 				UsedPage->OnMouseWheel(this, e),
 				ASNET::Event::DoEventHanders(
@@ -177,6 +184,7 @@ namespace ASNET {
 			ASNET::Event::EventBoardClick* e = (ASNET::Event::EventBoardClick*)BaseEvent;
 			if (e->IsDown) {
 				OnKeyDown(this, e);
+				ASNET::Event::DoEventHanders(BoardDownHander, this, e);
 				if (UsedPage)
 					UsedPage->OnKeyDown(this, e),
 					ASNET::Event::DoEventHanders(
@@ -185,6 +193,7 @@ namespace ASNET {
 			}
 			else {
 				OnKeyUp(this, e);
+				ASNET::Event::DoEventHanders(BoardUpHander, this, e);
 				if (UsedPage)
 					UsedPage->OnKeyUp(this, e),
 					ASNET::Event::DoEventHanders(
@@ -253,20 +262,32 @@ namespace ASNET {
 		Pages.push_back(page);
 	}
 
+	void Window::DeletePage(int index)
+	{
+		Pages.erase(Pages.begin() + index);
+	}
+
 	void ASNET::Window::NextPage(){
 		NowPage++;
 		UsedPage = Pages[NowPage];
 		UsedPage->OnLoading(this, NULL);
-	}
-
-	void ASNET::Window::ShowPage(ASNET::Page::Page * page){
-		UsedPage = page;
-		UsedPage->OnLoading(this, NULL);
+		UsedPage->graph = GraphRender;
 	}
 
 	void Window::ShowPage(int index){
 		UsedPage = Pages[index];
 		UsedPage->OnLoading(this, NULL);
+		UsedPage->graph = GraphRender;
+	}
+
+	auto Window::NowUsedPage() -> ASNET::Page::Page *
+	{
+		return UsedPage;
+	}
+
+	auto Window::NowPageNum() -> int
+	{
+		return Pages.size();
 	}
 
 	void ASNET::Window::Run(){
@@ -279,9 +300,6 @@ namespace ASNET {
 			if (PeekMessage(&Message, NULL, NULL, NULL, PM_REMOVE)) {
 				TranslateMessage(&Message);
 				DispatchMessage(&Message);
-#ifdef DEBUG
-			//	std::cout << Message.message << std::endl;
-#endif // DEBUG
 				CoreComputeEvents(Message.message);
 			}
 			if (UsedPage) {
@@ -300,6 +318,16 @@ namespace ASNET {
 	void ASNET::Window::Hide()
 	{
 		ShowWindow(Hwnd, SW_HIDE); 
+	}
+
+	void Window::Release()
+	{
+		int size = Pages.size();
+		for (int i = 0; i < size; i++)
+			if (Pages[i])
+				delete Pages[i];
+		Pages.clear();
+		delete GraphRender;
 	}
 
 }
