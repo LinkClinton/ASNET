@@ -21,39 +21,36 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Window\Window.Graph.cpp">
+    <ClCompile Include="src\Window.cpp">
       <Filter>源文件\Window</Filter>
     </ClCompile>
-    <ClCompile Include="src\Window\Window.Page.cpp">
+    <ClCompile Include="src\Window.EventHander.cpp">
       <Filter>源文件\Window</Filter>
     </ClCompile>
-    <ClCompile Include="src\Window\Window.EventHander.cpp">
+    <ClCompile Include="src\Window.Graph.cpp">
       <Filter>源文件\Window</Filter>
     </ClCompile>
-    <ClCompile Include="src\Window\Window.cpp">
+    <ClCompile Include="src\Window.Page.cpp">
       <Filter>源文件\Window</Filter>
-    </ClCompile>
-    <ClCompile Include="test.cpp">
-      <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\Window\Window.Event.h">
+    <ClInclude Include="src\Window.Page.h">
       <Filter>头文件\Window</Filter>
     </ClInclude>
-    <ClInclude Include="src\Window\Window.Graph.h">
+    <ClInclude Include="src\Window.Keycode.h">
       <Filter>头文件\Window</Filter>
     </ClInclude>
-    <ClInclude Include="src\Window\Window.h">
+    <ClInclude Include="src\Window.h">
       <Filter>头文件\Window</Filter>
     </ClInclude>
-    <ClInclude Include="src\Window\Window.Keycode.h">
+    <ClInclude Include="src\Window.Graph.h">
       <Filter>头文件\Window</Filter>
     </ClInclude>
-    <ClInclude Include="src\Window\Window.Page.h">
+    <ClInclude Include="src\Window.EventHander.h">
       <Filter>头文件\Window</Filter>
     </ClInclude>
-    <ClInclude Include="src\Window\Window.EventHander.h">
+    <ClInclude Include="src\Window.Event.h">
       <Filter>头文件\Window</Filter>
     </ClInclude>
   </ItemGroup>

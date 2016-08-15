@@ -256,17 +256,21 @@ namespace ASNET {
 	void ASNET::Window::NextPage(){
 		NowPage++;
 		UsedPage = Pages[NowPage];
+		UsedPage->OnLoading(this, NULL);
 	}
 
 	void ASNET::Window::ShowPage(ASNET::Page::Page * page){
 		UsedPage = page;
+		UsedPage->OnLoading(this, NULL);
 	}
 
 	void Window::ShowPage(int index){
 		UsedPage = Pages[index];
+		UsedPage->OnLoading(this, NULL);
 	}
 
 	void ASNET::Window::Run(){
+		OnLoading();
 		Hwnd = CreateWindows(Width, Height, IcoName, Title);
 		GraphRender = new ASNET::Graph::Graph(Hwnd);
 		Message = { 0 };
