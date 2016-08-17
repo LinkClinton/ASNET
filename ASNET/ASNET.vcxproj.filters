@@ -19,12 +19,12 @@
     <Filter Include="源文件\Window">
       <UniqueIdentifier>{a79b847c-9b5e-4a74-853d-d61d6b1b547d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="头文件\Control">
+      <UniqueIdentifier>{e55ee7f6-da26-47da-b7c5-fd211babf1c6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Window.Event.h">
-      <Filter>头文件\Window</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Window.EventHander.h">
       <Filter>头文件\Window</Filter>
     </ClInclude>
     <ClInclude Include="src\Window.Graph.h">
@@ -39,19 +39,31 @@
     <ClInclude Include="src\Window.Page.h">
       <Filter>头文件\Window</Filter>
     </ClInclude>
+    <ClInclude Include="src\Window.Control.h">
+      <Filter>头文件\Control</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Window.Graph.Direct3D.h">
+      <Filter>头文件\Window</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Window.EventHandler.h">
+      <Filter>头文件\Window</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Window.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Window.EventHander.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Window.Graph.cpp">
-      <Filter>源文件</Filter>
+      <Filter>源文件\Window</Filter>
     </ClCompile>
     <ClCompile Include="src\Window.Page.cpp">
-      <Filter>源文件</Filter>
+      <Filter>源文件\Window</Filter>
     </ClCompile>
+    <ClCompile Include="src\Window.Graph.cpp">
+      <Filter>源文件\Window</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Window.EventHandler.cpp">
+      <Filter>源文件\Window</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
 </Project>

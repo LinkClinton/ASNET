@@ -57,7 +57,7 @@ namespace ASNET {
 
 	
 
-		ASNET::Graph::Graph::Graph(HWND hwnd, bool IsWindowed){
+		void Graph::Initalize(HWND hwnd, bool IsWindowed){
 			CoInitialize(NULL);
 			CoCreateInstance(
 				CLSID_WICImagingFactory,
@@ -81,7 +81,7 @@ namespace ASNET {
 				(IUnknown**)(&g_writefactory)
 			);
 
-			
+
 
 			RECT rc;
 			GetClientRect(hwnd, &rc);
@@ -188,8 +188,10 @@ namespace ASNET {
 			g_devicecontext2d->SetTarget(TargetBitmap);
 
 			DXGIDevice->Release();
+		}
 
-			
+		ASNET::Graph::Graph::Graph(HWND hwnd, bool IsWindowed){
+			Initalize(hwnd, IsWindowed);
 		}
 
 		Graph::~Graph()

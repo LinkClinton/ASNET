@@ -72,6 +72,7 @@ namespace ASNET {
 			//IWIC
 			IWICImagingFactory*     g_imagefactory;
 			friend class Window;
+			void Initalize(HWND hwnd, bool IsWindowed);
 		public:
 			Graph(HWND hwnd, bool IsWindowed = true);
 			~Graph();
@@ -106,7 +107,7 @@ namespace ASNET {
 		};
 	
 
-		typedef std::function<void(void*, ASNET::Graph::Graph*)> EventGraphDrawHander;
+		typedef std::function<void(void*, ASNET::Graph::Graph*)> EventGraphDrawHandler;
 		
 
 	}

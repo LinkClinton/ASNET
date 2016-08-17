@@ -40,7 +40,7 @@ ASNET::Sample::WindowSample::WindowSample()
 	IcoName = NULL;
 
 	//把自己写好的事件函数加载进去
-	MouseWheelHander += ASNET::Sample::WindowSample::MyMouseWheel;
+	MouseWheelHandler += ASNET::Sample::WindowSample::MyMouseWheel;
 	
 }
 
@@ -48,7 +48,7 @@ void ASNET::Sample::PageSample::OnLoading(void * sender, void * any)
 {
 	//sender 同样是Window的指针，这里我们可以通过这段代码获取现在的Page
 	ASNET::Sample::PageSample* Page = (ASNET::Sample::PageSample*)
-		ASNET::Event::EventHander::GetSenderMessage(sender)->NowUsedPage();
+		ASNET::Event::EventHandler::GetSenderMessage(sender)->NowUsedPage();
 	std::cout << "Page Loading" << std::endl;
 
 }

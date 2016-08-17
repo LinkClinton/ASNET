@@ -1,7 +1,7 @@
 #pragma once
 #include"Window.Event.h"
 #include"Window.Graph.h"
-#include"Window.EventHander.h"
+#include"Window.EventHandler.h"
 
 #include<vector>
 
@@ -24,14 +24,14 @@ namespace ASNET {
 			virtual void OnDraw(void* sender, ASNET::Graph::Graph* render); 
 			virtual void OnLoading(void* sender, void* any);
 		protected:
-			ASNET::Event::EventMouseMoveHanders			MouseMoveHander;
-			ASNET::Event::EventMouseWheelHanders		MouseWheelHander;
-			ASNET::Event::EventMouseClickHanders		MouseButtonUpHander;
-			ASNET::Event::EventMouseClickHanders		MouseButtonDownHander;
-			ASNET::Event::EventBoardClickHanders		BoardUpHander;
-			ASNET::Event::EventBoardClickHanders		BoardDownHander;
-			ASNET::Event::EventSizeChangeHanders		SizeChangeHander;
-			ASNET::Event::EventGraphDrawHanders			GraphDrawHander;
+			ASNET::Event::EventMouseMoveHandlers		MouseMoveHandler;
+			ASNET::Event::EventMouseWheelHandlers		MouseWheelHandler;
+			ASNET::Event::EventMouseClickHandlers		MouseButtonUpHandler;
+			ASNET::Event::EventMouseClickHandlers		MouseButtonDownHandler;
+			ASNET::Event::EventBoardClickHandlers		BoardUpHandler;
+			ASNET::Event::EventBoardClickHandlers		BoardDownHandler;
+			ASNET::Event::EventSizeChangeHandlers		SizeChangeHandler;
+			ASNET::Event::EventGraphDrawHandlers		GraphDrawHandler;
 			
 		public:
 			Page();

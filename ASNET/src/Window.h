@@ -42,13 +42,13 @@ namespace ASNET {
 		virtual void OnSizeChanged(void* sender, ASNET::Event::EventSizeChange* e);
 		virtual void OnLoading(); //Load the Window
 	protected:
-		ASNET::Event::EventMouseMoveHanders			MouseMoveHander;
-		ASNET::Event::EventMouseWheelHanders		MouseWheelHander;
-		ASNET::Event::EventMouseClickHanders		MouseButtonUpHander;
-		ASNET::Event::EventMouseClickHanders		MouseButtonDownHander;
-		ASNET::Event::EventBoardClickHanders		BoardUpHander;
-		ASNET::Event::EventBoardClickHanders		BoardDownHander;
-		ASNET::Event::EventSizeChangeHanders		SizeChangeHander;
+		ASNET::Event::EventMouseMoveHandlers		MouseMoveHandler;
+		ASNET::Event::EventMouseWheelHandlers		MouseWheelHandler;
+		ASNET::Event::EventMouseClickHandlers		MouseButtonUpHandler;
+		ASNET::Event::EventMouseClickHandlers		MouseButtonDownHandler;
+		ASNET::Event::EventBoardClickHandlers		BoardUpHandler;
+		ASNET::Event::EventBoardClickHandlers		BoardDownHandler;
+		ASNET::Event::EventSizeChangeHandlers		SizeChangeHandler;
 	public:
 		Window();
 		void AddPage(ASNET::Page::Page* page);
