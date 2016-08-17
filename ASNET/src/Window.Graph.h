@@ -74,6 +74,7 @@ namespace ASNET {
 			friend class Window;
 			void Initalize(HWND hwnd, bool IsWindowed);
 		public:
+			Graph();
 			Graph(HWND hwnd, bool IsWindowed = true);
 			~Graph();
 			virtual void Clear(ASNET::Graph::Color color = ASNET::Graph::Color::White);

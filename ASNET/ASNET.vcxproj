@@ -33,6 +33,7 @@
     <ClCompile Include="src\Window.cpp" />
     <ClCompile Include="src\Window.EventHandler.cpp" />
     <ClCompile Include="src\Window.Graph.cpp" />
+    <ClCompile Include="src\Window.Graph.Direct3D.cpp" />
     <ClCompile Include="src\Window.Page.cpp" />
   </ItemGroup>
   <ItemGroup>

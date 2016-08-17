@@ -62,6 +62,9 @@
     <ClCompile Include="src\Window.EventHandler.cpp">
       <Filter>源文件\Window</Filter>
     </ClCompile>
+    <ClCompile Include="src\Window.Graph.Direct3D.cpp">
+      <Filter>源文件\Window</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

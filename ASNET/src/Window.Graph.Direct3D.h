@@ -9,10 +9,14 @@
 #include<DirectXMath.h>
 
 
-//这是个坑，目前没有啥好思路想架构
+//这是个坑，目前没有啥好思路想架构,所以版本差别可能会很大
 namespace ASNET {
 	namespace Graph {
-		namespace Direct3D {
+		namespace Direct3D {			
+			typedef ID3D11Device		GraphDevice;
+			typedef ID3D11DeviceContext GraphContext;
+			
+			class GraphDirect3D;
 
 			struct Vertex {
 				float x, y, z;
@@ -27,49 +31,63 @@ namespace ASNET {
 
 			class Buffer {
 			private:
-				ID3D11Buffer* VertexBuffer;
-				ID3D11Buffer* IndexBuffer;
-				UINT VertexCount;
-				UINT IndexCount;
-				friend class GraphDirect3D;
-				friend class Shader;
+				GraphDirect3D* ParentGraph;
+
+				ID3D11Buffer*  VertexBuffer;
+				ID3D11Buffer*  IndexBuffer;
+				UINT		   VertexCount;
+				UINT		   IndexCount;
+				friend class   GraphDirect3D;
+				friend class   Shader;
 			public:
-				Buffer(UINT vertices_count,
-					UINT indices_count = 0);
+				Buffer();
 				~Buffer();
+
+				void reset(ASNET::Graph::Direct3D::Vertex* vertices, UINT vertices_count,
+					ASNET::Graph::Direct3D::Index*  indices = NULL, UINT indices_count = 0);
 			};
 
 
 			class ShaderDataBuffer {
 			private:
-				ID3D11Buffer* DataBuffer;
+				GraphDirect3D* ParentGraph;
+
+				ID3D11Buffer*  DataBuffer;
 				void* Data;
 				friend class GraphDirect3D;
 				friend class Shader;
 			public:
-				ShaderDataBuffer(void* data); //sizeof(data) MUST BE the multiples  of 16
+				ShaderDataBuffer();
 				~ShaderDataBuffer();
 
 				void UpDateBuffer();
+
+				void reset(void* data); //sizeof(data) MUST BE the multiples  of 16
 			};
 
 			class Texture {
 			private:
+				GraphDirect3D*            ParentGraph;
+
 				ID3D11ShaderResourceView* Tex;
+				ASNET::Graph::Word        FileName;
 				friend class GraphDirect3D;
 				friend class Shader;
 			public:
-				Texture(ASNET::Graph::Word filename);
+				Texture();
 				~Texture();
+
+				void reset(ASNET::Graph::Word filename);
+				
 			};
 
-			typedef ID3D11Device		GraphDevice;
-			typedef ID3D11DeviceContext GraphContext;
+		
 
 			class Shader {
 			private:
 				GraphDevice*	    ParentDevice;
 				GraphContext*       ParentContext;
+				GraphDirect3D*		ParentGraph;
 
 				ID3D11VertexShader* VertexShader;
 				ID3D11PixelShader*  PixelShader;
@@ -82,6 +100,9 @@ namespace ASNET {
 				Shader(ASNET::Graph::Word VertexShaderFileName,
 					ASNET::Graph::Word PixelShaderFileName);
 				~Shader();
+
+				void reset(ASNET::Graph::Word VertexShaderFileName,
+					ASNET::Graph::Word PixelShaderFileName);
 
 				void SendBufferToShader(UINT buffer_id, 
 					ASNET::Graph::Direct3D::ShaderDataBuffer* buffer);
@@ -112,19 +133,20 @@ namespace ASNET {
 
 			class GraphDirect3D:public ASNET::Graph::Graph {
 			protected:
-				ID3D11InputLayout*			g_inputlayout;
-				ID3D11RasterizerState*		g_rasterizerstate;
+				void SetShader(ASNET::Graph::Direct3D::Shader* shader);
+
+				friend class ShaderDataBuffer;
+				friend class Texture;
+				friend class Shader;
+				friend class Buffer;
 			public:
 				GraphDirect3D(HWND hwnd, ASNET::Graph::Direct3D::Shader*
-					Shader = NULL, bool IsWindowed = true);
+					shader = NULL, bool IsWindowed = true);
 				~GraphDirect3D();
-
 
 				void SetCullMode(ASNET::Graph::Direct3D::CullMode cullmode);
 
 				void SetFillMode(ASNET::Graph::Direct3D::FillMode fillmode);
-
-				void ResetShader(ASNET::Graph::Direct3D::Shader* shader);
 
 				void LoadTexture(ASNET::Graph::Direct3D::Texture* texture,
 					ASNET::Graph::Word filename);
@@ -141,6 +163,13 @@ namespace ASNET {
 					ASNET::Graph::Direct3D::PrimitiveType::Triangle);
 
 
+				//if shader is not null, you can't used it 
+				//you should use the SendBufferToShader 
+				void SetViewMatrix(DirectX::XMMATRIX* view);
+
+				void SetProjMatrix(DirectX::XMMATRIX* proj);
+
+				void SetWorldMatrix(DirectX::XMMATRIX* world);
 			};
 		}
 	}

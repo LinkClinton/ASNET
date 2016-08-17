@@ -189,6 +189,10 @@ namespace ASNET {
 
 			DXGIDevice->Release();
 		}
+		//do not use this
+		Graph::Graph(){
+					
+		}
 
 		ASNET::Graph::Graph::Graph(HWND hwnd, bool IsWindowed){
 			Initalize(hwnd, IsWindowed);
