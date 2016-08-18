@@ -241,12 +241,18 @@ namespace ASNET {
 	{
 	}
 
+	void Window::Initalize(){
+		Hwnd = CreateWindows(Width, Height, IcoName, Title);
+		OnLoading();
+		GraphRender = new ASNET::Graph::Graph(Hwnd);
+	}
+
 
 
 
 
 	ASNET::Window::Window(){
-		Hwnd = NULL;
+		Hwnd = Hwnd;
 		Message = { 0 };
 		Hinstance = NULL;
 		UsedPage = NULL;
@@ -291,9 +297,6 @@ namespace ASNET {
 	}
 
 	void ASNET::Window::Run(){
-		Hwnd = CreateWindows(Width, Height, IcoName, Title);
-		OnLoading();
-		GraphRender = new ASNET::Graph::Graph(Hwnd);
 		Message = { 0 };
 		Message.hwnd = Hwnd;
 		while (Message.message != WM_QUIT) {

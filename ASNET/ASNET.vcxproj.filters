@@ -36,9 +36,6 @@
     <ClInclude Include="src\Window.Page.h">
       <Filter>头文件\Window</Filter>
     </ClInclude>
-    <ClInclude Include="src\Window.Graph.Direct3D.h">
-      <Filter>头文件\Window</Filter>
-    </ClInclude>
     <ClInclude Include="src\Window.EventHandler.h">
       <Filter>头文件\Window</Filter>
     </ClInclude>
@@ -54,9 +51,6 @@
       <Filter>源文件\Window</Filter>
     </ClCompile>
     <ClCompile Include="src\Window.EventHandler.cpp">
-      <Filter>源文件\Window</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Window.Graph.Direct3D.cpp">
       <Filter>源文件\Window</Filter>
     </ClCompile>
   </ItemGroup>

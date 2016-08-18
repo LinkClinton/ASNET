@@ -21,7 +21,6 @@
   <ItemGroup>
     <ClInclude Include="src\Window.Event.h" />
     <ClInclude Include="src\Window.EventHandler.h" />
-    <ClInclude Include="src\Window.Graph.Direct3D.h" />
     <ClInclude Include="src\Window.Graph.h" />
     <ClInclude Include="src\Window.h" />
     <ClInclude Include="src\Window.Keycode.h" />
@@ -31,7 +30,6 @@
     <ClCompile Include="src\Window.cpp" />
     <ClCompile Include="src\Window.EventHandler.cpp" />
     <ClCompile Include="src\Window.Graph.cpp" />
-    <ClCompile Include="src\Window.Graph.Direct3D.cpp" />
     <ClCompile Include="src\Window.Page.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

@@ -41,6 +41,8 @@ namespace ASNET {
 		virtual void OnKeyUp(void* sender, ASNET::Event::EventBoardClick* e);
 		virtual void OnSizeChanged(void* sender, ASNET::Event::EventSizeChange* e);
 		virtual void OnLoading(); //Load the Window,after window create
+
+		void		 Initalize();//use it before use any function
 	protected:
 		ASNET::Event::EventMouseMoveHandlers		MouseMoveHandler;
 		ASNET::Event::EventMouseWheelHandlers		MouseWheelHandler;
