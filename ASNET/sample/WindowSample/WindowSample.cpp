@@ -7,6 +7,10 @@ int main() {
 	MyWindow.Run();
 }
 
+void ASNET::Sample::WindowSample::OnLoading(){
+	
+}
+
 void ASNET::Sample::WindowSample::OnMouseMove(void * sender, ASNET::Event::EventMouseMove * e)
 {
 	//鼠标移动的时候的代码
@@ -38,7 +42,7 @@ ASNET::Sample::WindowSample::WindowSample()
 	Height = 600;
 	Title = L"ASNET.WindowSample";
 	IcoName = NULL;
-
+	
 	//把自己写好的事件函数加载进去
 	MouseWheelHandler += ASNET::Sample::WindowSample::MyMouseWheel;
 	
@@ -64,12 +68,14 @@ void ASNET::Sample::PageSample::OnDraw(void * sender, ASNET::Graph::Graph * rend
 		Window->MousePosX + 10.0f, Window->MousePosY + 10.0f), ASNET::Graph::Color::LightSalmon);
 	//输出文本
 	ASNET::Graph::Font font;
-	render->LoadFont(&font, L"Consolas", 20);
-	render->DrawWord(L"Hello,World", D2D1::RectF(0, 0, (float)Window->Width, (float)Window->Height), &font,
+	graph->LoadFont(&font, L"Consolas", 20);
+	graph->DrawWord(L"Hello,World", D2D1::RectF(0, 0, (float)Window->Width, (float)Window->Height), &font,
 		ASNET::Graph::Color::Black, ASNET::Graph::TextAlign::Center,
 		ASNET::Graph::TextAlign::Center);
+	
 	//刷新
 	render->Present();
+	
 }
 
 ASNET::Sample::PageSample::PageSample()

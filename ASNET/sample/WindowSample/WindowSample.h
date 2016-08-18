@@ -3,15 +3,18 @@
 namespace ASNET {
 	namespace Sample {
 
+		
 
 		//继承原本的窗口类
 		class WindowSample :public ASNET::Window {
 		private:
-			int MousePosX;
-			int MousePosY;
+			int MousePosX; //鼠标位置
+			int MousePosY; //鼠标位置
 
+		
 			friend class PageSample; //让这个类可以访问其私有成员
 		protected:
+			void OnLoading()override;
 			//虚函数自己重新写，这个是关于鼠标移动的,这个就是在鼠标移动的时候会被运行
 			//sender 通常情况下是发送消息的窗口的指针，另外一个参数就是其数据消息
 			void OnMouseMove(void* sender, ASNET::Event::EventMouseMove* e)override;

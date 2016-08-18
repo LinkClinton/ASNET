@@ -11,7 +11,7 @@
 namespace ASNET {
 	
 	class Window {
-	private:
+	protected:
 		HWND								Hwnd;
 		MSG									Message;
 		HINSTANCE							Hinstance;
@@ -40,7 +40,7 @@ namespace ASNET {
 		virtual void OnKeyDown(void* sender, ASNET::Event::EventBoardClick* e);
 		virtual void OnKeyUp(void* sender, ASNET::Event::EventBoardClick* e);
 		virtual void OnSizeChanged(void* sender, ASNET::Event::EventSizeChange* e);
-		virtual void OnLoading(); //Load the Window
+		virtual void OnLoading(); //Load the Window,after window create
 	protected:
 		ASNET::Event::EventMouseMoveHandlers		MouseMoveHandler;
 		ASNET::Event::EventMouseWheelHandlers		MouseWheelHandler;

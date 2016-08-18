@@ -16,6 +16,9 @@ namespace ASNET {
 			typedef ID3D11Device		GraphDevice;
 			typedef ID3D11DeviceContext GraphContext;
 			
+			
+
+
 			class GraphDirect3D;
 
 			struct Vertex {
@@ -25,6 +28,8 @@ namespace ASNET {
 				float nx, ny, nz;
 				Vertex(float _x, float _y, float _z,
 					float _u, float _v);
+				void Normal(float _nx, float _ny, float _nz);
+				void Color(float _r, float _g, float _b, float _a);
 			}; 
 
 			typedef UINT Index;
@@ -37,14 +42,15 @@ namespace ASNET {
 				ID3D11Buffer*  IndexBuffer;
 				UINT		   VertexCount;
 				UINT		   IndexCount;
+				void*          GeometricPrimitive;
 				friend class   GraphDirect3D;
 				friend class   Shader;
 			public:
 				Buffer();
 				~Buffer();
 
-				void reset(ASNET::Graph::Direct3D::Vertex* vertices, UINT vertices_count,
-					ASNET::Graph::Direct3D::Index*  indices = NULL, UINT indices_count = 0);
+				void reset(std::vector<ASNET::Graph::Direct3D::Vertex> vertices,
+					std::vector<ASNET::Graph::Direct3D::Index>  indices = std::vector<Index>());
 			};
 
 
@@ -69,7 +75,8 @@ namespace ASNET {
 			private:
 				GraphDirect3D*            ParentGraph;
 
-				ID3D11ShaderResourceView* Tex;
+				ID3D11Resource*           Tex;
+				ID3D11ShaderResourceView* TexView;
 				ASNET::Graph::Word        FileName;
 				friend class GraphDirect3D;
 				friend class Shader;
@@ -95,14 +102,20 @@ namespace ASNET {
 				ID3DBlob*           PixelShaderBlob;
 				ASNET::Graph::Word  VertexShaderName;
 				ASNET::Graph::Word  PixelShaderName;
+				char*				VertexShaderFunctionName;
+				char*				PixelShaderFunctionName;
 				friend class GraphDirect3D;
 			public:
 				Shader(ASNET::Graph::Word VertexShaderFileName,
-					ASNET::Graph::Word PixelShaderFileName);
+					ASNET::Graph::Word PixelShaderFileName,
+					char* VertexFunctionName = "main",
+					char* PixeFunctionName = "main");
 				~Shader();
 
 				void reset(ASNET::Graph::Word VertexShaderFileName,
-					ASNET::Graph::Word PixelShaderFileName);
+					ASNET::Graph::Word PixelShaderFileName,
+					char* VertexFunctionName = "main",
+					char* PixeFunctionName = "main");
 
 				void SendBufferToShader(UINT buffer_id, 
 					ASNET::Graph::Direct3D::ShaderDataBuffer* buffer);
@@ -133,7 +146,16 @@ namespace ASNET {
 
 			class GraphDirect3D:public ASNET::Graph::Graph {
 			protected:
+				ASNET::Graph::Direct3D::Shader* UsedShader;
+			protected:
+				ID3D11RasterizerState*			RasterizerState;
+			protected:
+				
+
+				void CompileShader(ASNET::Graph::Direct3D::Shader* shader);
 				void SetShader(ASNET::Graph::Direct3D::Shader* shader);
+				
+				void Direct3DInitalize();
 
 				friend class ShaderDataBuffer;
 				friend class Texture;
@@ -141,35 +163,29 @@ namespace ASNET {
 				friend class Buffer;
 			public:
 				GraphDirect3D(HWND hwnd, ASNET::Graph::Direct3D::Shader*
-					shader = NULL, bool IsWindowed = true);
+					shader, bool IsWindowed = true);
 				~GraphDirect3D();
 
 				void SetCullMode(ASNET::Graph::Direct3D::CullMode cullmode);
 
 				void SetFillMode(ASNET::Graph::Direct3D::FillMode fillmode);
 
-				void LoadTexture(ASNET::Graph::Direct3D::Texture* texture,
+				void LoadTexture(ASNET::Graph::Direct3D::Texture* &texture,
 					ASNET::Graph::Word filename);
 
-				void LoadBuffer(ASNET::Graph::Direct3D::Buffer* buffer,
-					ASNET::Graph::Direct3D::Vertex* vertices, UINT vertices_count,
-					ASNET::Graph::Direct3D::Index*  indices = NULL, UINT indices_count = 0);
+				void LoadBuffer(ASNET::Graph::Direct3D::Buffer* &buffer,
+					std::vector<ASNET::Graph::Direct3D::Vertex> vertices,
+					std::vector<ASNET::Graph::Direct3D::Index>  indices = std::vector<Index>());
 
 				void LoadShaderDataBuffer(void* data,
-					ASNET::Graph::Direct3D::ShaderDataBuffer* buffer);
+					ASNET::Graph::Direct3D::ShaderDataBuffer* &buffer);
 
 				void DrawBuffer(ASNET::Graph::Direct3D::Buffer* buffer,
 					ASNET::Graph::Direct3D::PrimitiveType Type =
 					ASNET::Graph::Direct3D::PrimitiveType::Triangle);
 
 
-				//if shader is not null, you can't used it 
-				//you should use the SendBufferToShader 
-				void SetViewMatrix(DirectX::XMMATRIX* view);
-
-				void SetProjMatrix(DirectX::XMMATRIX* proj);
-
-				void SetWorldMatrix(DirectX::XMMATRIX* world);
+				
 			};
 		}
 	}

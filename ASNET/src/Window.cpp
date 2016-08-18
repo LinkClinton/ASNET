@@ -291,8 +291,8 @@ namespace ASNET {
 	}
 
 	void ASNET::Window::Run(){
-		OnLoading();
 		Hwnd = CreateWindows(Width, Height, IcoName, Title);
+		OnLoading();
 		GraphRender = new ASNET::Graph::Graph(Hwnd);
 		Message = { 0 };
 		Message.hwnd = Hwnd;
@@ -303,6 +303,7 @@ namespace ASNET {
 				CoreComputeEvents(Message.message);
 			}
 			if (UsedPage) {
+				UsedPage->graph = GraphRender;
 				UsedPage->OnDraw(this, GraphRender);
 				ASNET::Event::DoEventHandlers(
 					UsedPage->GraphDrawHandler, this, GraphRender);
