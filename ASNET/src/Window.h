@@ -26,7 +26,7 @@ namespace ASNET {
 		LPCWSTR								IcoName;
 		LPCWSTR								Title;
 	
-		ASNET::Graph::Graph*                GraphRender;
+		ASNET::Graph::Graph*                GraphRender;//this render for ui
 		int									NowPage;
 	private:
 		ASNET::Event::EventType CoreGetEventArgs(

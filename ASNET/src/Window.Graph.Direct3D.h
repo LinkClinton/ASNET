@@ -5,11 +5,19 @@
 #include<vector>
 
 //d3d11
-#include<d3dcompiler.h>
 #include<DirectXMath.h>
 
+//d3dx11
 
 //这是个坑，目前没有啥好思路想架构,所以版本差别可能会很大
+/*
+自己挖了大坑，现在不知道怎么填了，这个类目前作为一个拓展类
+可以在Window和Page里面声明，但是需要废除原本类里面的Graph类
+这个类可以认为是Graph类的强大版本
+Graph类有的这个类都有，其创建代码将放入Window::OnLoading中就好了
+因为需要窗口的句柄，所以要窗口创建成功后才可以放入
+同时放弃添加固定管道的想法，等以后可能会添加
+*/
 namespace ASNET {
 	namespace Graph {
 		namespace Direct3D {			
@@ -42,7 +50,6 @@ namespace ASNET {
 				ID3D11Buffer*  IndexBuffer;
 				UINT		   VertexCount;
 				UINT		   IndexCount;
-				void*          GeometricPrimitive;
 				friend class   GraphDirect3D;
 				friend class   Shader;
 			public:
@@ -68,7 +75,7 @@ namespace ASNET {
 
 				void UpDateBuffer();
 
-				void reset(void* data); //sizeof(data) MUST BE the multiples  of 16
+				void reset(void* data,UINT datasize); //sizeof(data) MUST BE the multiples  of 16
 			};
 
 			class Texture {
@@ -148,11 +155,13 @@ namespace ASNET {
 			protected:
 				ASNET::Graph::Direct3D::Shader* UsedShader;
 			protected:
+				ID3D11InputLayout*              InputLayout;
 				ID3D11RasterizerState*			RasterizerState;
 			protected:
 				
 
 				void CompileShader(ASNET::Graph::Direct3D::Shader* shader);
+				void UpDateInputLayout(Shader* shader);
 				void SetShader(ASNET::Graph::Direct3D::Shader* shader);
 				
 				void Direct3DInitalize();
@@ -177,7 +186,7 @@ namespace ASNET {
 					std::vector<ASNET::Graph::Direct3D::Vertex> vertices,
 					std::vector<ASNET::Graph::Direct3D::Index>  indices = std::vector<Index>());
 
-				void LoadShaderDataBuffer(void* data,
+				void LoadShaderDataBuffer(void* data,UINT datasize,
 					ASNET::Graph::Direct3D::ShaderDataBuffer* &buffer);
 
 				void DrawBuffer(ASNET::Graph::Direct3D::Buffer* buffer,
