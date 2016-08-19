@@ -43,6 +43,7 @@ namespace ASNET {
 		virtual void OnLoading(); //Load the Window,after window create
 
 		void		 Initalize();//use it before use any function
+		void         InitalizeGraphUI(); //use it before the GraphRender 
 	protected:
 		ASNET::Event::EventMouseMoveHandlers		MouseMoveHandler;
 		ASNET::Event::EventMouseWheelHandlers		MouseWheelHandler;

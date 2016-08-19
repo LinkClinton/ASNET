@@ -244,6 +244,10 @@ namespace ASNET {
 	void Window::Initalize(){
 		Hwnd = CreateWindows(Width, Height, IcoName, Title);
 		OnLoading();
+		
+	}
+
+	void Window::InitalizeGraphUI(){
 		GraphRender = new ASNET::Graph::Graph(Hwnd);
 	}
 
