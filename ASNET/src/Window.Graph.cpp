@@ -93,26 +93,31 @@ namespace ASNET {
 
 			UINT MSAA4xQuality(0);
 			g_device3d->CheckMultisampleQualityLevels(DXGI_FORMAT_R8G8B8A8_UNORM, 4, &MSAA4xQuality);
-			DXGI_SWAP_CHAIN_DESC sd;
-			ZeroMemory(&sd, sizeof(sd));
-			sd.BufferCount = 1;
-			sd.BufferDesc.Width = width;
-			sd.BufferDesc.Height = height;
-			sd.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-			sd.BufferDesc.RefreshRate.Numerator = 60;
-			sd.BufferDesc.RefreshRate.Denominator = 1;
-			sd.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
-			sd.OutputWindow = hwnd;
-			sd.SampleDesc.Count = 1;
-			sd.SampleDesc.Quality = 0;
-			sd.Windowed = TRUE;
+
+			DXGI_SWAP_CHAIN_DESC Swap = { 0 };
+			Swap.BufferDesc.Width = width;
+			Swap.BufferDesc.Height = height;
+			Swap.BufferDesc.RefreshRate.Denominator = 1;
+			Swap.BufferDesc.RefreshRate.Numerator = 60;
+			Swap.BufferDesc.Scaling = DXGI_MODE_SCALING_UNSPECIFIED;
+			Swap.BufferDesc.ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED;
+			Swap.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+			Swap.BufferCount = 1;
+			Swap.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
+			Swap.Flags = 0;
+			Swap.OutputWindow = hwnd;
+			Swap.SampleDesc.Count = 4;
+			Swap.SampleDesc.Quality = MSAA4xQuality - 1;
+			Swap.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
+			Swap.Windowed = IsWindowed;
+
 			IDXGIDevice *DXGIDevice(NULL);
 			g_device3d->QueryInterface(__uuidof(IDXGIDevice), reinterpret_cast<void**>(&DXGIDevice));
 			IDXGIAdapter *DXGIAdapter(NULL);
 			DXGIDevice->GetParent(__uuidof(IDXGIAdapter), reinterpret_cast<void**>(&DXGIAdapter));
 			IDXGIFactory *DXGIFactory(NULL);
 			DXGIAdapter->GetParent(__uuidof(IDXGIFactory), reinterpret_cast<void**>(&DXGIFactory));
-			DXGIFactory->CreateSwapChain(g_device3d, &sd, &g_swapchain);
+			DXGIFactory->CreateSwapChain(g_device3d, &Swap, &g_swapchain);
 
 			DXGIFactory->Release();
 			DXGIAdapter->Release();
@@ -121,36 +126,29 @@ namespace ASNET {
 			g_swapchain->GetBuffer(0, __uuidof(ID3D11Texture2D), reinterpret_cast<void**>(&BackBuffer));
 			g_device3d->CreateRenderTargetView(BackBuffer, NULL, &g_rendertargetview);
 
-			BackBuffer->Release();
+		
 
-
-			D3D11_TEXTURE2D_DESC descDepth;
-			ZeroMemory(&descDepth, sizeof(descDepth));
-			descDepth.Width = width;
-			descDepth.Height = height;
-			descDepth.MipLevels = 1;
-			descDepth.ArraySize = 1;
-			descDepth.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
-			descDepth.SampleDesc.Count = 1;
-			descDepth.SampleDesc.Quality = 0;
-			descDepth.Usage = D3D11_USAGE_DEFAULT;
-			descDepth.BindFlags = D3D11_BIND_DEPTH_STENCIL;
-			descDepth.CPUAccessFlags = 0;
-			descDepth.MiscFlags = 0;
+			D3D11_TEXTURE2D_DESC Desc = { 0 };
+			Desc.Width = width;
+			Desc.Height = height;
+			Desc.MipLevels = 1;
+			Desc.ArraySize = 1;
+			Desc.BindFlags = D3D11_BIND_DEPTH_STENCIL;
+			Desc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
+			Desc.MiscFlags = 0;
+			Desc.SampleDesc.Count = 4;
+			Desc.SampleDesc.Quality = MSAA4xQuality - 1;
+			Desc.Usage = D3D11_USAGE_DEFAULT;
+			Desc.CPUAccessFlags = 0;
 			ID3D11Texture2D *DepthStencilBuffer(NULL);
 
 
-			g_device3d->CreateTexture2D(&descDepth, NULL, &DepthStencilBuffer);
-			D3D11_DEPTH_STENCIL_VIEW_DESC descDSV;
-			ZeroMemory(&descDSV, sizeof(descDSV));
-			descDSV.Format = descDepth.Format;
-			descDSV.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
-			descDSV.Texture2D.MipSlice = 0;
+			g_device3d->CreateTexture2D(&Desc, NULL, &DepthStencilBuffer);
+			
 
-			g_device3d->CreateDepthStencilView(DepthStencilBuffer, &descDSV, &g_depthstencilview);
+			g_device3d->CreateDepthStencilView(DepthStencilBuffer, NULL, &g_depthstencilview);
 			g_devicecontext3d->OMSetRenderTargets(1, &g_rendertargetview, g_depthstencilview);
 
-			DepthStencilBuffer->Release();
 
 			D3D11_VIEWPORT ViewPort = { 0 };
 			ViewPort.Width = (FLOAT)(width);
@@ -191,6 +189,9 @@ namespace ASNET {
 			g_devicecontext2d->SetTarget(TargetBitmap);
 
 			DXGIDevice->Release();
+			BackBuffer->Release();
+
+			DepthStencilBuffer->Release();
 		}
 		//do not use this
 		Graph::Graph(){

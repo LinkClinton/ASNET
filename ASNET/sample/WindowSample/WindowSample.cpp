@@ -45,7 +45,7 @@ ASNET::Sample::WindowSample::WindowSample()
 	
 	//把自己写好的事件函数加载进去
 	MouseWheelHandler += ASNET::Sample::WindowSample::MyMouseWheel;
-	
+	Initalize();
 }
 
 void ASNET::Sample::PageSample::OnLoading(void * sender, void * any)
