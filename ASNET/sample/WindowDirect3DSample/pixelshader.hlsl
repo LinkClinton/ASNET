@@ -16,15 +16,8 @@ SamplerState samTex
 };
 
 float4 main(PixelIn In) :SV :SV_TARGET{
-	return In.Color;
 	float4 TexColor;
-if (IsUsedTex == true) {
 	TexColor = Tex.Sample(samTex, In.tex);
 	clip(TexColor.a - 0.1f);
 	return TexColor*In.Color;
-}
-else {
-	return In.Color;
-}
-
 }

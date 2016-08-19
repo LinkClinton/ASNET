@@ -23,6 +23,7 @@ namespace ASNET {
 			ASNET::Graph::Direct3D::ShaderDataBuffer* Direct3DProj;
 			ASNET::Graph::Direct3D::ShaderDataBuffer* Direct3DView;
 			ASNET::Graph::Direct3D::ShaderDataBuffer* Direct3DWorld;
+			ASNET::Graph::Direct3D::Texture*		  Direct3DTexture;
 			
 			ASNET::Graph::Direct3D::Buffer*			  Direct3DCubeBuffer;
 			

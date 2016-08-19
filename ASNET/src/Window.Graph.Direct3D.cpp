@@ -374,7 +374,7 @@ void ASNET::Graph::Direct3D::GraphDirect3D::LoadBuffer(
 	g_device3d->CreateBuffer(&vbDesc, &vData, &buffer->VertexBuffer);
 	if (!indices.empty()) {
 		D3D11_BUFFER_DESC ibDesc = { 0 };
-		ibDesc.ByteWidth = (UINT)(sizeof(Index) * indices.size());
+		ibDesc.ByteWidth = (UINT)sizeof(Index) * indices.size();
 		ibDesc.BindFlags = D3D11_BIND_INDEX_BUFFER;
 		ibDesc.Usage = D3D11_USAGE_DEFAULT;
 
@@ -417,6 +417,6 @@ void ASNET::Graph::Direct3D::GraphDirect3D::DrawBuffer(
 		g_devicecontext3d->IASetIndexBuffer(buffer->IndexBuffer, DXGI_FORMAT_R32_UINT, 0);
 	g_devicecontext3d->IASetPrimitiveTopology((D3D11_PRIMITIVE_TOPOLOGY)Type);
 	if (buffer->IndexBuffer)
-		g_devicecontext3d->DrawIndexed(buffer->VertexCount, 0, 0);
+		g_devicecontext3d->DrawIndexed(buffer->IndexCount, 0, 0);
 	else g_devicecontext3d->Draw(buffer->VertexCount, 0);
 }

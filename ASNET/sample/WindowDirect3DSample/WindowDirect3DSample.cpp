@@ -66,7 +66,8 @@ void ASNET::Sample::Direct3DMainPage::CreateCubeVertex(
 	vertex.push_back(ASNET::Graph::Direct3D::Vertex(HXSize, -HYSize, -HZSize, 1.0f, 0.0f));
 	vertex.push_back(ASNET::Graph::Direct3D::Vertex(HXSize, -HYSize, HZSize, 1.0f, 1.0f));
 
-	
+	for (int i = 0; i <= 23; i++)
+		vertex[i].Color(1, 1, 1, 1);
 
 	UINT Index[36] =
 	{
@@ -95,6 +96,8 @@ void ASNET::Sample::Direct3DMainPage::OnLoading(void * sender, void * any){
 	Direct3DRender->LoadShaderDataBuffer(
 		&proj, sizeof(DirectX::XMMATRIX), Direct3DProj);
 
+	Direct3DRender->LoadTexture(Direct3DTexture, L"Texture.png");
+
 	Direct3DProj->UpDateBuffer();
 	Direct3DView->UpDateBuffer();
 	Direct3DWorld->UpDateBuffer();
@@ -103,18 +106,22 @@ void ASNET::Sample::Direct3DMainPage::OnLoading(void * sender, void * any){
 	Direct3DShader->SendBufferToVertexShader(2, Direct3DView);
 	Direct3DShader->SendBufferToVertexShader(1, Direct3DWorld);
 
+	Direct3DShader->SendTextureToShader(0, Direct3DTexture);
+
 	std::vector<ASNET::Graph::Direct3D::Vertex> vertex;
 	std::vector<ASNET::Graph::Direct3D::Index>  index;
 
 	CreateCubeVertex(vertex, index);
 
 	Direct3DRender->LoadBuffer(Direct3DCubeBuffer, vertex, index);
+
+
 }
 
 void ASNET::Sample::Direct3DMainPage::OnDraw(void * sender, ASNET::Graph::Graph * render){
-	Direct3DRender->Clear();
+	Direct3DRender->Clear(D2D1::ColorF::Black);
 
-	world = world*DirectX::XMMatrixRotationZ(0.02f);
+	world = world*DirectX::XMMatrixRotationZ(0.002f);
 
 	Direct3DProj->UpDateBuffer();
 	Direct3DView->UpDateBuffer();
@@ -122,8 +129,8 @@ void ASNET::Sample::Direct3DMainPage::OnDraw(void * sender, ASNET::Graph::Graph 
 
 	//Direct3DRender->SetFillMode(ASNET::Graph::Direct3D::FillMode::FillWireFrame);
 
-	Direct3DShader->SendBufferToVertexShader(0, Direct3DProj);
-	Direct3DShader->SendBufferToVertexShader(2, Direct3DView);
+	//Direct3DShader->SendBufferToVertexShader(0, Direct3DProj);
+	//Direct3DShader->SendBufferToVertexShader(2, Direct3DView);
 	Direct3DShader->SendBufferToVertexShader(1, Direct3DWorld);
 
 	Direct3DRender->DrawBuffer(Direct3DCubeBuffer);
