@@ -19,20 +19,20 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\Window.Event.h" />
-    <ClInclude Include="src\Window.EventHandler.h" />
-    <ClInclude Include="src\Window.Graph.Direct3D.h" />
-    <ClInclude Include="src\Window.Graph.h" />
-    <ClInclude Include="src\Window.h" />
-    <ClInclude Include="src\Window.Keycode.h" />
-    <ClInclude Include="src\Window.Page.h" />
+    <ClInclude Include="src\ASNET.Direct3D.Model.h" />
+    <ClInclude Include="src\ASNET.Window.Event.h" />
+    <ClInclude Include="src\ASNET.Graph.Direct3D.h" />
+    <ClInclude Include="src\ASNET.Graph.h" />
+    <ClInclude Include="src\ASNET.Window.h" />
+    <ClInclude Include="src\ASNET.Window.Keycode.h" />
+    <ClInclude Include="src\ASNET.Window.Page.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Window.cpp" />
-    <ClCompile Include="src\Window.EventHandler.cpp" />
-    <ClCompile Include="src\Window.Graph.cpp" />
-    <ClCompile Include="src\Window.Graph.Direct3D.cpp" />
-    <ClCompile Include="src\Window.Page.cpp" />
+    <ClCompile Include="src\ASNET.Window.cpp" />
+    <ClCompile Include="src\ASNET.Window.Event.cpp" />
+    <ClCompile Include="src\ASNET.Graph.cpp" />
+    <ClCompile Include="src\ASNET.Graph.Direct3D.cpp" />
+    <ClCompile Include="src\ASNET.Window.Page.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{CAB55DFD-6B79-4990-BD6D-5879FE6E14E7}</ProjectGuid>

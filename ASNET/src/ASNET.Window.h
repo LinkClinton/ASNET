@@ -2,11 +2,11 @@
 #include<vector>
 #include<Windows.h>
 
+#include"ASNET.Graph.h"
 
-#include"Window.Keycode.h"
-#include"Window.Event.h"
-#include"Window.Graph.h"
-#include"Window.Page.h"
+#include"ASNET.Window.Keycode.h"
+#include"ASNET.Window.Event.h"
+#include"ASNET.Window.Page.h"
 
 namespace ASNET {
 	

@@ -19,45 +19,57 @@
     <Filter Include="源文件\Window">
       <UniqueIdentifier>{a79b847c-9b5e-4a74-853d-d61d6b1b547d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="头文件\Graph">
+      <UniqueIdentifier>{a591e672-b473-4081-ad4c-1979654a79f9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\Graph">
+      <UniqueIdentifier>{08f2e440-c155-437b-8b53-306e7653be97}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\Extend">
+      <UniqueIdentifier>{1f9c6a67-1320-485b-933b-b3033dfc6cb3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\Extend\Direct3D">
+      <UniqueIdentifier>{3902446e-80ea-4d92-b1f5-a5c7de0052b5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\Window.Event.h">
+    <ClInclude Include="src\ASNET.Window.Event.h">
       <Filter>头文件\Window</Filter>
     </ClInclude>
-    <ClInclude Include="src\Window.Graph.h">
+    <ClInclude Include="src\ASNET.Window.h">
       <Filter>头文件\Window</Filter>
     </ClInclude>
-    <ClInclude Include="src\Window.h">
+    <ClInclude Include="src\ASNET.Window.Keycode.h">
       <Filter>头文件\Window</Filter>
     </ClInclude>
-    <ClInclude Include="src\Window.Keycode.h">
+    <ClInclude Include="src\ASNET.Window.Page.h">
       <Filter>头文件\Window</Filter>
     </ClInclude>
-    <ClInclude Include="src\Window.Page.h">
-      <Filter>头文件\Window</Filter>
+    <ClInclude Include="src\ASNET.Graph.h">
+      <Filter>头文件\Graph</Filter>
     </ClInclude>
-    <ClInclude Include="src\Window.EventHandler.h">
-      <Filter>头文件\Window</Filter>
+    <ClInclude Include="src\ASNET.Graph.Direct3D.h">
+      <Filter>头文件\Graph</Filter>
     </ClInclude>
-    <ClInclude Include="src\Window.Graph.Direct3D.h">
-      <Filter>头文件\Window</Filter>
+    <ClInclude Include="src\ASNET.Direct3D.Model.h">
+      <Filter>头文件\Extend\Direct3D</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Window.cpp">
+    <ClCompile Include="src\ASNET.Window.cpp">
       <Filter>源文件\Window</Filter>
     </ClCompile>
-    <ClCompile Include="src\Window.Page.cpp">
+    <ClCompile Include="src\ASNET.Window.Page.cpp">
       <Filter>源文件\Window</Filter>
     </ClCompile>
-    <ClCompile Include="src\Window.Graph.cpp">
+    <ClCompile Include="src\ASNET.Window.Event.cpp">
       <Filter>源文件\Window</Filter>
     </ClCompile>
-    <ClCompile Include="src\Window.EventHandler.cpp">
-      <Filter>源文件\Window</Filter>
+    <ClCompile Include="src\ASNET.Graph.cpp">
+      <Filter>源文件\Graph</Filter>
     </ClCompile>
-    <ClCompile Include="src\Window.Graph.Direct3D.cpp">
-      <Filter>源文件\Window</Filter>
+    <ClCompile Include="src\ASNET.Graph.Direct3D.cpp">
+      <Filter>源文件\Graph</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

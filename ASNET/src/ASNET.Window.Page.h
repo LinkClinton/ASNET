@@ -1,7 +1,7 @@
 #pragma once
-#include"Window.Event.h"
-#include"Window.Graph.h"
-#include"Window.EventHandler.h"
+#include"ASNET.Window.Event.h"
+#include"ASNET.Graph.h"
+
 
 #include<vector>
 

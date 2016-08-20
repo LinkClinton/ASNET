@@ -1,5 +1,5 @@
 #pragma once
-#include<Window.h>
+#include<ASNET.Window.h>
 namespace ASNET {
 	namespace Sample {
 
