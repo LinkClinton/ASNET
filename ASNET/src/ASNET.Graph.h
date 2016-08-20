@@ -114,4 +114,3 @@ namespace ASNET {
 	}
 }
 
-#include"ASNET.Graph.Direct3D.h"

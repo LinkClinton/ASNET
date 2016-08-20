@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\ASNET.Direct3D.Model.h" />
+    <ClInclude Include="src\ASNET.Direct3D.Model.PMD.h" />
     <ClInclude Include="src\ASNET.Window.Event.h" />
     <ClInclude Include="src\ASNET.Graph.Direct3D.h" />
     <ClInclude Include="src\ASNET.Graph.h" />
@@ -28,6 +29,8 @@
     <ClInclude Include="src\ASNET.Window.Page.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\ASNET.Direct3D.Model.cpp" />
+    <ClCompile Include="src\ASNET.Direct3D.Model.PMD.cpp" />
     <ClCompile Include="src\ASNET.Window.cpp" />
     <ClCompile Include="src\ASNET.Window.Event.cpp" />
     <ClCompile Include="src\ASNET.Graph.cpp" />
@@ -87,6 +90,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
+    <IncludePath>C:\Project\ASNET\ASNET\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>

@@ -31,6 +31,12 @@
     <Filter Include="头文件\Extend\Direct3D">
       <UniqueIdentifier>{3902446e-80ea-4d92-b1f5-a5c7de0052b5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="源文件\Extend">
+      <UniqueIdentifier>{b6e20dc4-c33b-4405-90c2-0888ac4bdadb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\Extend\Direct3D">
+      <UniqueIdentifier>{e1e66938-d310-47ca-89ad-28f4c5aaccbd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\ASNET.Window.Event.h">
@@ -54,6 +60,9 @@
     <ClInclude Include="src\ASNET.Direct3D.Model.h">
       <Filter>头文件\Extend\Direct3D</Filter>
     </ClInclude>
+    <ClInclude Include="src\ASNET.Direct3D.Model.PMD.h">
+      <Filter>头文件\Extend\Direct3D</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\ASNET.Window.cpp">
@@ -70,6 +79,12 @@
     </ClCompile>
     <ClCompile Include="src\ASNET.Graph.Direct3D.cpp">
       <Filter>源文件\Graph</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ASNET.Direct3D.Model.cpp">
+      <Filter>源文件\Extend\Direct3D</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ASNET.Direct3D.Model.PMD.cpp">
+      <Filter>源文件\Extend\Direct3D</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -33,6 +33,7 @@ namespace ASNET {
 				float r, g, b, a;
 				float u, v;
 				float nx, ny, nz;
+				Vertex();
 				Vertex(float _x, float _y, float _z,
 					float _u, float _v);
 				void Normal(float _nx, float _ny, float _nz);
@@ -165,6 +166,7 @@ namespace ASNET {
 
 				void Direct3DInitalize();
 
+				friend class Direct3DModelLoader;
 				friend class ShaderDataBuffer;
 				friend class Texture;
 				friend class Shader;

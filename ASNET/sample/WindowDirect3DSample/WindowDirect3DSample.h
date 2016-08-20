@@ -1,4 +1,5 @@
 #include<ASNET.Window.h>
+#include<ASNET.Graph.Direct3D.h>
 #include<DirectXMath.h>
 
 namespace ASNET {

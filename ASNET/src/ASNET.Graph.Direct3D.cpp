@@ -11,7 +11,22 @@ void release(T &Interface) {
 	Interface = nullptr;
 }
 
-ASNET::Graph::Direct3D::Vertex::Vertex(float _x, float _y, float _z, 
+ASNET::Graph::Direct3D::Vertex::Vertex(){
+	x = 0;
+	y = 0;
+	z = 0;
+	u = 0;
+	v = 0;
+	r = 0;
+	g = 0;
+	b = 0;
+	a = 1;
+	nx = 0;
+	ny = 0;
+	nz = 0;
+}
+
+ASNET::Graph::Direct3D::Vertex::Vertex(float _x, float _y, float _z,
 	float _u, float _v){
 	x = _x;
 	y = _y;
