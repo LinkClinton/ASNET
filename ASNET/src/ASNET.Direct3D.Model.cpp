@@ -1,5 +1,6 @@
 #include "ASNET.Direct3D.Model.h"
 
+
 #include<fstream>
 
 
@@ -97,32 +98,14 @@ void ASNET::Graph::Direct3D::Direct3DModelLoader::LoadPMDModel(
 	
 	graph->LoadBuffer(model->Buffer, model->vertices, model->indices);
 
-	wchar_t TextureFile[200];
-
-	for (UINT i = 0; i < model->ModelParts[0].TextureName.size(); i++)
-		TextureFile[i] = model->ModelParts[0].TextureName[i];
-	TextureFile[model->ModelParts[0].TextureName.size()] = 0;
-
-	graph->LoadTexture(model->ModelParts[0].Texture, TextureFile);
+	graph->LoadTexture(model->ModelParts[0].Texture, &model->ModelParts[0].TextureName[0]);
 	for (UINT i = 1; i < model->ModelPartsNum; i++) {
-		bool IsSame = true;
-		int len2 = model->ModelParts[i].TextureName.size();
-		int len1 = model->ModelParts[i - 1].TextureName.size();
-		if (len1 < len2) std::swap(len1, len2);
-		for (int j = 0; j < len2; j++)
-			if (len1 != len2 || model->ModelParts[i].TextureName[j] !=
-				model->ModelParts[i - 1].TextureName[j]) {
-				IsSame = false;
-				break;
-			}
-		if (IsSame) model->ModelParts[i].Texture = model->ModelParts[i - 1].Texture;
-		else {
-			for (UINT j = 0; j < model->ModelParts[i].TextureName.size(); j++)
-				TextureFile[j] = model->ModelParts[i].TextureName[j];
-			TextureFile[model->ModelParts[i].TextureName.size()] = 0;
-			graph->LoadTexture(model->ModelParts[i].Texture, TextureFile);
-		}
 
+		if (model->Textures.find(model->ModelParts[i].TextureName) != model->Textures.end())
+			model->ModelParts[i].Texture = model->Textures[model->ModelParts[i].TextureName];
+		else graph->LoadTexture(model->ModelParts[i].Texture, &model->ModelParts[i].TextureName[0]),
+			model->Textures.insert(std::pair<std::wstring, ASNET::Graph::Direct3D::Texture*>(
+				model->ModelParts[i].TextureName, model->ModelParts[i].Texture));
 	}
 			
 	

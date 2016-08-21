@@ -10,6 +10,7 @@
 #include<fstream>
 #include<cstring>
 #include<memory>
+#include<map>
 
 namespace ASNET {
 	namespace Graph {
@@ -45,9 +46,8 @@ namespace ASNET {
 				float Alphadif;
 				float Spemat;
 				
-				std::vector<wchar_t> TextureName;
+				std::wstring	   TextureName;
 
-				wchar_t SpaName[100];
 
 				UINT StartFace;
 				UINT EffectCount;
@@ -80,8 +80,10 @@ namespace ASNET {
 				std::vector<ASNET::Graph::Direct3D::Index>			indices;
 				std::vector<ASNET::Graph::Direct3D::PMDModelPart>	ModelParts;
 
-				
-				std::vector<wchar_t> FilePath;
+				std::map<std::wstring,
+					ASNET::Graph::Direct3D::Texture*>				Textures;
+
+				std::wstring										FilePath;
 				friend class Direct3DModelLoader;
 			public:
 				static float PMDFloatRead(std::ifstream* file);
@@ -92,8 +94,10 @@ namespace ASNET {
 			public:
 				~PMDModel();
 				void Draw(int texture_id = 0);// the id of texture in shader,最好别用,基本上代码是完全限制住了，且没有好的着色器代码对应
+			
 				void PrepareDraw(); //DrawPart之前的准备,把绘制过程分解可以使之能够对着色器的支持更加好
 				void DrawPart(int index); //绘制模型部分
+				
 				auto ModelPatsNum()->int;
 				void Release();
 			};

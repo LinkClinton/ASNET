@@ -106,7 +106,7 @@ ASNET::Graph::Direct3D::PMDModelPart::PMDModelPart(){
 	Spemat = 0;
 
 	TextureName.clear();
-	memset(SpaName, 0, sizeof(SpaName));
+
 
 	StartFace = 0;
 	EffectCount = 0;
@@ -124,7 +124,7 @@ ASNET::Graph::Direct3D::PMDModelPart::~PMDModelPart(){
 	Spemat = 0;
 
 	TextureName.clear();
-	memset(SpaName, 0, sizeof(SpaName));
+	
 
 	StartFace = 0;
 	EffectCount = 0;
