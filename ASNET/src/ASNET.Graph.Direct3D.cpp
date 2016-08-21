@@ -177,6 +177,7 @@ void ASNET::Graph::Direct3D::Texture::reset(
 ASNET::Graph::Direct3D::Shader::Shader(
 	ASNET::Graph::Word VertexShaderFileName, 
 	ASNET::Graph::Word PixelShaderFileName, 
+	bool IsCompiled,
 	char * VertexFunctionName, 
 	char * PixelFunctionName){
 	ParentGraph = nullptr;
@@ -192,7 +193,10 @@ ASNET::Graph::Direct3D::Shader::Shader(
 
 	VertexShaderFunctionName = VertexFunctionName;
 	PixelShaderFunctionName = PixelFunctionName;
+
+	IsCompile = false;
 }
+
 
 ASNET::Graph::Direct3D::Shader::~Shader(){
 	ParentGraph = nullptr;

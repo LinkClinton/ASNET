@@ -31,8 +31,6 @@ namespace ASNET {
 
 			ASNET::Graph::Direct3D::PMDModel*         Direct3DPMDModel;
 			
-			void CreateCubeVertex(std::vector<ASNET::Graph::Direct3D::Vertex> &vertex,
-				std::vector<ASNET::Graph::Direct3D::Index>& index);
 			friend class Direct3DWindow;
 		protected:
 			void OnLoading(void* sender, void* any)override;

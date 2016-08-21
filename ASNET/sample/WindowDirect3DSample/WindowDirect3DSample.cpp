@@ -30,60 +30,6 @@ ASNET::Sample::Direct3DWindow::~Direct3DWindow(){
 	delete shader;
 }
 
-void ASNET::Sample::Direct3DMainPage::CreateCubeVertex(
-	std::vector<ASNET::Graph::Direct3D::Vertex>& vertex, 
-	std::vector<ASNET::Graph::Direct3D::Index>& index){
-	float HXSize = 3.f;
-	float HYSize = 3.f;
-	float HZSize = 3.f;
-	vertex.push_back(ASNET::Graph::Direct3D::Vertex(-HXSize, -HYSize, -HZSize, 0.0f, 1.0f));
-	vertex.push_back(ASNET::Graph::Direct3D::Vertex(-HXSize, HYSize, -HZSize, 0.0f, 0.0f));
-	vertex.push_back(ASNET::Graph::Direct3D::Vertex(HXSize, HYSize, -HZSize, 1.0f, 0.0f));
-	vertex.push_back(ASNET::Graph::Direct3D::Vertex(HXSize, -HYSize, -HZSize, 1.0f, 1.0f));
-
-	vertex.push_back(ASNET::Graph::Direct3D::Vertex(-HXSize, -HYSize, HZSize, 0.0f, 1.0f));
-	vertex.push_back(ASNET::Graph::Direct3D::Vertex(-HXSize, HYSize, HZSize, 0.0f, 0.0f));
-	vertex.push_back(ASNET::Graph::Direct3D::Vertex(-HXSize, HYSize, -HZSize, 1.0f, 0.0f));
-	vertex.push_back(ASNET::Graph::Direct3D::Vertex(-HXSize, -HYSize, -HZSize, 1.0f, 1.0f));
-
-	vertex.push_back(ASNET::Graph::Direct3D::Vertex(HXSize, -HYSize, HZSize, 0.0f, 1.0f));
-	vertex.push_back(ASNET::Graph::Direct3D::Vertex(HXSize, HYSize, HZSize, 0.0f, 0.0f));
-	vertex.push_back(ASNET::Graph::Direct3D::Vertex(-HXSize, HYSize, HZSize, 1.0f, 0.0f));
-	vertex.push_back(ASNET::Graph::Direct3D::Vertex(-HXSize, -HYSize, HZSize, 1.0f, 1.0f));
-
-
-	vertex.push_back(ASNET::Graph::Direct3D::Vertex(HXSize, -HYSize, -HZSize, 0.0f, 1.0f));
-	vertex.push_back(ASNET::Graph::Direct3D::Vertex(HXSize, HYSize, -HZSize, 0.0f, 0.0f));
-	vertex.push_back(ASNET::Graph::Direct3D::Vertex(HXSize, HYSize, HZSize, 1.0f, 0.0f));
-	vertex.push_back(ASNET::Graph::Direct3D::Vertex(HXSize, -HYSize, HZSize, 1.0f, 1.0f));
-
-	vertex.push_back(ASNET::Graph::Direct3D::Vertex(-HXSize, HYSize, -HZSize, 0.0f, 1.0f));
-	vertex.push_back(ASNET::Graph::Direct3D::Vertex(-HXSize, HYSize, HZSize, 0.0f, 0.0f));
-	vertex.push_back(ASNET::Graph::Direct3D::Vertex(HXSize, HYSize, HZSize, 1.0f, 0.0f));
-	vertex.push_back(ASNET::Graph::Direct3D::Vertex(HXSize, HYSize, -HZSize, 1.0f, 1.0f));
-
-	vertex.push_back(ASNET::Graph::Direct3D::Vertex(-HXSize, -HYSize, HZSize, 0.0f, 1.0f));
-	vertex.push_back(ASNET::Graph::Direct3D::Vertex(-HXSize, -HYSize, -HZSize, 0.0f, 0.0f));
-	vertex.push_back(ASNET::Graph::Direct3D::Vertex(HXSize, -HYSize, -HZSize, 1.0f, 0.0f));
-	vertex.push_back(ASNET::Graph::Direct3D::Vertex(HXSize, -HYSize, HZSize, 1.0f, 1.0f));
-
-	for (int i = 0; i <= 23; i++)
-		vertex[i].Color(1, 1, 1, 1);
-
-	UINT Index[36] =
-	{
-		0,1,2, 0,2,3,
-		4,5,6, 4,6,7,
-		8,9,10, 8,10,11,
-		12,13,14, 12,14,15,
-		16,17,18, 16,18,19,
-		20,21,22, 20,22,23
-	};
-
-	for (int i = 0; i <= 35; i++)
-		index.push_back(Index[i]);
-		
-}
 
 void ASNET::Sample::Direct3DMainPage::OnLoading(void * sender, void * any){
 	ASNET::Sample::Direct3DWindow* Window = (ASNET::Sample::Direct3DWindow*)sender;

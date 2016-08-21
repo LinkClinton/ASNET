@@ -109,10 +109,12 @@ namespace ASNET {
 				ASNET::Graph::Word  PixelShaderName;
 				char*				VertexShaderFunctionName;
 				char*				PixelShaderFunctionName;
+				bool                IsCompile;
 				friend class GraphDirect3D;
 			public:
 				Shader(ASNET::Graph::Word VertexShaderFileName,
 					ASNET::Graph::Word PixelShaderFileName,
+					bool IsCompiled = false,
 					char* VertexFunctionName = "main",
 					char* PixelFunctionName = "main");
 				~Shader();

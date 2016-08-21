@@ -25,11 +25,13 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="pixelshader.hlsl">
-      <Filter>资源文件</Filter>
-    </None>
     <None Include="vertexshader.hlsl">
       <Filter>资源文件</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="pixelshader.hlsl">
+      <Filter>资源文件</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>
