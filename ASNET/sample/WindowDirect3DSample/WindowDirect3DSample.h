@@ -1,5 +1,6 @@
 #include<ASNET.Window.h>
 #include<ASNET.Graph.Direct3D.h>
+#include<ASNET.Direct3D.Model.h>
 #include<DirectXMath.h>
 
 namespace ASNET {
@@ -27,6 +28,8 @@ namespace ASNET {
 			ASNET::Graph::Direct3D::Texture*		  Direct3DTexture;
 			
 			ASNET::Graph::Direct3D::Buffer*			  Direct3DCubeBuffer;
+
+			ASNET::Graph::Direct3D::PMDModel*         Direct3DPMDModel;
 			
 			void CreateCubeVertex(std::vector<ASNET::Graph::Direct3D::Vertex> &vertex,
 				std::vector<ASNET::Graph::Direct3D::Index>& index);

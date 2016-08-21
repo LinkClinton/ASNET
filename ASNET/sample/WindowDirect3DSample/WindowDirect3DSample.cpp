@@ -1,8 +1,9 @@
 #include"WindowDirect3DSample.h"
 ASNET::Sample::Direct3DWindow MyWinodw;
 DirectX::XMMATRIX world = DirectX::XMMatrixIdentity();
-DirectX::XMMATRIX view = DirectX::XMMatrixTranspose(DirectX::XMMatrixLookAtLH(DirectX::XMVectorSet(0, 10, 1, 1),
-	DirectX::XMVectorSet(0, 0, 0, 1), DirectX::XMVectorSet(0, 1, 0, 1)));
+DirectX::XMMATRIX view = DirectX::XMMatrixTranspose(DirectX::XMMatrixLookAtLH(DirectX::XMVectorSet(0, 10, -15, 1),
+	DirectX::XMVectorSet(0, 10, 0, 1),
+	DirectX::XMVectorSet(0, 1, 0, 1)));
 DirectX::XMMATRIX proj = DirectX::XMMatrixTranspose(DirectX::XMMatrixPerspectiveFovLH(DirectX::XM_PI*0.55f,
 	800.f / 600.f, 1.0f, 1000.f));
 int main() {
@@ -96,7 +97,9 @@ void ASNET::Sample::Direct3DMainPage::OnLoading(void * sender, void * any){
 	Direct3DRender->LoadShaderDataBuffer(
 		&proj, sizeof(DirectX::XMMATRIX), Direct3DProj);
 
-	Direct3DRender->LoadTexture(Direct3DTexture, L"Texture.png");
+	//Direct3DRender->LoadTexture(Direct3DTexture, L"Texture.png");
+
+	Direct3DRender->SetCullMode(ASNET::Graph::Direct3D::CullMode::CullBack);
 
 	Direct3DProj->UpDateBuffer();
 	Direct3DView->UpDateBuffer();
@@ -106,34 +109,41 @@ void ASNET::Sample::Direct3DMainPage::OnLoading(void * sender, void * any){
 	Direct3DShader->SendBufferToVertexShader(2, Direct3DView);
 	Direct3DShader->SendBufferToVertexShader(1, Direct3DWorld);
 
-	Direct3DShader->SendTextureToShader(0, Direct3DTexture);
+//	Direct3DShader->SendTextureToShader(0, Direct3DTexture);
 
-	std::vector<ASNET::Graph::Direct3D::Vertex> vertex;
-	std::vector<ASNET::Graph::Direct3D::Index>  index;
+	//std::vector<ASNET::Graph::Direct3D::Vertex> vertex;
+	//std::vector<ASNET::Graph::Direct3D::Index>  index;
 
-	CreateCubeVertex(vertex, index);
+	//CreateCubeVertex(vertex, index);
 
-	Direct3DRender->LoadBuffer(Direct3DCubeBuffer, vertex, index);
+	//Direct3DRender->LoadBuffer(Direct3DCubeBuffer, vertex, index);
 
-
+	ASNET::Graph::Direct3D::Direct3DModelLoader::LoadPMDModel(Direct3DRender, L"model/remu.pmd", Direct3DPMDModel);
+	
 }
 
 void ASNET::Sample::Direct3DMainPage::OnDraw(void * sender, ASNET::Graph::Graph * render){
 	Direct3DRender->Clear(D2D1::ColorF::Black);
 
-	world = world*DirectX::XMMatrixRotationZ(0.002f);
+	//world = world*DirectX::XMMatrixRotationZ(0.002f);
 
 	Direct3DProj->UpDateBuffer();
 	Direct3DView->UpDateBuffer();
 	Direct3DWorld->UpDateBuffer();
 
+
+	
 	//Direct3DRender->SetFillMode(ASNET::Graph::Direct3D::FillMode::FillWireFrame);
 
 	//Direct3DShader->SendBufferToVertexShader(0, Direct3DProj);
 	//Direct3DShader->SendBufferToVertexShader(2, Direct3DView);
 	Direct3DShader->SendBufferToVertexShader(1, Direct3DWorld);
+	
+	//Direct3DRender->SetFillMode(ASNET::Graph::Direct3D::FillMode::FillWireFrame);
 
-	Direct3DRender->DrawBuffer(Direct3DCubeBuffer);
+	Direct3DPMDModel->Draw();
+
+	//Direct3DRender->DrawBuffer(Direct3DCubeBuffer);
 
 	Direct3DRender->Present();
 }

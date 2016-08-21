@@ -84,7 +84,7 @@
       <Filter>源文件\Extend\Direct3D</Filter>
     </ClCompile>
     <ClCompile Include="src\ASNET.Direct3D.Model.PMD.cpp">
-      <Filter>源文件\Extend\Direct3D</Filter>
+      <Filter>源文件\Graph</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
