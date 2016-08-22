@@ -23,7 +23,9 @@ void ASNET::Graph::Direct3D::Direct3DModelLoader::LoadPMDModel(
 	
 	//过滤283个字节
 	ASNET::Graph::Direct3D::PMDModel::PMDRuleOut(&in_file, 283);
+
 	
+
 	//读取顶点个数
 	model->VertexNum = PMDModel::PMDDwordRead(&in_file);
 	//读取顶点数据

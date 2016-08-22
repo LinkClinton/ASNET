@@ -3,6 +3,8 @@
 #include<ASNET.Direct3D.Model.h>
 #include<DirectXMath.h>
 
+#include<iostream>
+
 namespace ASNET {
 	namespace Sample {
 
@@ -31,10 +33,23 @@ namespace ASNET {
 
 			ASNET::Graph::Direct3D::PMDModel*         Direct3DPMDModel;
 			
+
+			int										  LastMousePosx;
+			int										  LastMousePosy;
+
+			bool									  IsMouseDown;
+
+			float									  ModelAngleY = 0.0f;
+			float                                     ModelAngleX = 0.0f;
+			const float								  pixelangle = 0.005;
 			friend class Direct3DWindow;
 		protected:
 			void OnLoading(void* sender, void* any)override;
 			void OnDraw(void* sender, ASNET::Graph::Graph* render)override;
+			void OnMouseUp(void* sender, ASNET::Event::EventMouseClick* e)override;
+			void OnMouseMove(void* sender, ASNET::Event::EventMouseMove* e)override;
+			void OnMouseDown(void* sender, ASNET::Event::EventMouseClick* e)override;
+			void OnMouseWheel(void* sender, ASNET::Event::EventMouseWheel* e)override;
 		public:
 			
 		};

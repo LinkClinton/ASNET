@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\ASNET.Direct3D.Effect.h" />
     <ClInclude Include="src\ASNET.Direct3D.Model.h" />
     <ClInclude Include="src\ASNET.Direct3D.Model.PMD.h" />
     <ClInclude Include="src\ASNET.Window.Event.h" />

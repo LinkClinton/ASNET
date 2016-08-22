@@ -1,8 +1,8 @@
 #include"WindowDirect3DSample.h"
 ASNET::Sample::Direct3DWindow MyWinodw;
 DirectX::XMMATRIX world = DirectX::XMMatrixIdentity();
-DirectX::XMMATRIX view = DirectX::XMMatrixTranspose(DirectX::XMMatrixLookAtLH(DirectX::XMVectorSet(0, 10, -15, 1),
-	DirectX::XMVectorSet(0, 10, 0, 1),
+DirectX::XMMATRIX view = DirectX::XMMatrixTranspose(DirectX::XMMatrixLookAtLH(DirectX::XMVectorSet(0, 0, -15, 1),
+	DirectX::XMVectorSet(0, 0, 0, 1),
 	DirectX::XMVectorSet(0, 1, 0, 1)));
 DirectX::XMMATRIX proj = DirectX::XMMatrixTranspose(DirectX::XMMatrixPerspectiveFovLH(DirectX::XM_PI*0.55f,
 	800.f / 600.f, 1.0f, 1000.f));
@@ -71,13 +71,23 @@ void ASNET::Sample::Direct3DMainPage::OnLoading(void * sender, void * any){
 void ASNET::Sample::Direct3DMainPage::OnDraw(void * sender, ASNET::Graph::Graph * render){
 	Direct3DRender->Clear(D2D1::ColorF::Black);
 
-	//world = world*DirectX::XMMatrixRotationZ(0.002f);
+	world = DirectX::XMMatrixIdentity();
+
+	
+	world = world*DirectX::XMMatrixRotationY(ModelAngleY);
+
+	world = world*DirectX::XMMatrixRotationX(ModelAngleX);
+
+	world = world*DirectX::XMMatrixTranspose(DirectX::XMMatrixTranslation(0, -10, 0));
+
+	Direct3DRender->SetCullMode(ASNET::Graph::Direct3D::CullMode::CullNone);
+
 
 	Direct3DProj->UpDateBuffer();
 	Direct3DView->UpDateBuffer();
 	Direct3DWorld->UpDateBuffer();
 
-
+	
 	
 	//Direct3DRender->SetFillMode(ASNET::Graph::Direct3D::FillMode::FillWireFrame);
 
@@ -93,3 +103,29 @@ void ASNET::Sample::Direct3DMainPage::OnDraw(void * sender, ASNET::Graph::Graph 
 
 	Direct3DRender->Present();
 }
+
+void ASNET::Sample::Direct3DMainPage::OnMouseUp(void * sender, ASNET::Event::EventMouseClick * e){
+	if (e->button == ASNET::Event::MouseButton::Left) 
+		IsMouseDown = false;
+	
+}
+
+void ASNET::Sample::Direct3DMainPage::OnMouseMove(void * sender, ASNET::Event::EventMouseMove * e){
+	if (IsMouseDown) {
+		int offestx = e->x - LastMousePosx;
+		int offesty = e->y - LastMousePosy;
+		ModelAngleX += offesty*pixelangle;
+		ModelAngleY += offestx*pixelangle;
+	}
+	LastMousePosx = e->x;
+	LastMousePosy = e->y;
+}
+
+void ASNET::Sample::Direct3DMainPage::OnMouseDown(void * sender, ASNET::Event::EventMouseClick * e){
+	if (e->button == ASNET::Event::MouseButton::Left)
+		IsMouseDown = true;
+}
+
+void ASNET::Sample::Direct3DMainPage::OnMouseWheel(void * sender, ASNET::Event::EventMouseWheel * e){
+}
+

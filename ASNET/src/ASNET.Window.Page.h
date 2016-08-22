@@ -8,6 +8,7 @@
 namespace ASNET {
 	class Window;
 	namespace Page {
+
 		class Page {
 		private:
 			friend class Window;

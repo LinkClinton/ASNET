@@ -80,9 +80,12 @@ namespace ASNET {
 				std::vector<ASNET::Graph::Direct3D::Index>			indices;
 				std::vector<ASNET::Graph::Direct3D::PMDModelPart>	ModelParts;
 
+				
+
 				std::map<std::wstring,
 					ASNET::Graph::Direct3D::Texture*>				Textures;
 
+			
 				std::wstring										FilePath;
 				friend class Direct3DModelLoader;
 			public:
