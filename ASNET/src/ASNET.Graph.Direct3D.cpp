@@ -57,8 +57,8 @@ void ASNET::Graph::Direct3D::Vertex::Color(
 	a = _a;
 }
 
-ASNET::Graph::Direct3D::Buffer::Buffer(){
-	ParentGraph = nullptr;
+ASNET::Graph::Direct3D::Buffer::Buffer(ASNET::Graph::Direct3D::GraphDirect3D* Graph){
+	ParentGraph = Graph;
 
 	release(VertexBuffer);
 	release(IndexBuffer);
@@ -112,8 +112,8 @@ void ASNET::Graph::Direct3D::Buffer::reset(
 	}
 }
 
-ASNET::Graph::Direct3D::ShaderDataBuffer::ShaderDataBuffer(){
-	ParentGraph = nullptr;
+ASNET::Graph::Direct3D::ShaderDataBuffer::ShaderDataBuffer(ASNET::Graph::Direct3D::GraphDirect3D* Graph){
+	ParentGraph = Graph;
 
 	release(DataBuffer);
 
@@ -148,8 +148,8 @@ void ASNET::Graph::Direct3D::ShaderDataBuffer::reset(void * data, UINT datasize)
 	UpDateBuffer();
 }
 
-ASNET::Graph::Direct3D::Texture::Texture(){
-	ParentGraph = nullptr;
+ASNET::Graph::Direct3D::Texture::Texture(ASNET::Graph::Direct3D::GraphDirect3D* Graph){
+	ParentGraph = Graph;
 
 	release(TexView);
 
@@ -363,7 +363,7 @@ void ASNET::Graph::Direct3D::GraphDirect3D::SetFillMode(
 void ASNET::Graph::Direct3D::GraphDirect3D::LoadTexture(
 	ASNET::Graph::Direct3D::Texture *& texture, ASNET::Graph::Word filename){
 	if (texture) return;
-	texture = new ASNET::Graph::Direct3D::Texture();
+	texture = new ASNET::Graph::Direct3D::Texture(this);
 	texture->FileName = filename;
 	texture->ParentGraph = this;
 
@@ -375,7 +375,7 @@ void ASNET::Graph::Direct3D::GraphDirect3D::LoadBuffer(
 	ASNET::Graph::Direct3D::Buffer *& buffer, std::vector<ASNET::Graph::Direct3D::Vertex> vertices, 
 	std::vector<ASNET::Graph::Direct3D::Index> indices){
 	if (buffer) return;
-	buffer = new ASNET::Graph::Direct3D::Buffer();
+	buffer = new ASNET::Graph::Direct3D::Buffer(this);
 
 	buffer->VertexCount = vertices.size();
 	buffer->IndexCount = indices.size();
@@ -412,7 +412,7 @@ void ASNET::Graph::Direct3D::GraphDirect3D::LoadShaderDataBuffer(
 	void * data, UINT datasize,
 	ASNET::Graph::Direct3D::ShaderDataBuffer *& buffer){
 	if (buffer) return;
-	buffer = new ASNET::Graph::Direct3D::ShaderDataBuffer();
+	buffer = new ASNET::Graph::Direct3D::ShaderDataBuffer(this);
 	buffer->Data = data;
 	buffer->ParentGraph = this;
 

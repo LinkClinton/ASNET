@@ -41,7 +41,7 @@ namespace ASNET {
 
 			float									  ModelAngleY = 0.0f;
 			float                                     ModelAngleX = 0.0f;
-			const float								  pixelangle = 0.005;
+			const float								  pixelangle = 0.005f;
 			friend class Direct3DWindow;
 		protected:
 			void OnLoading(void* sender, void* any)override;

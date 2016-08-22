@@ -91,7 +91,8 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>C:\Project\ASNET\ASNET\include;$(IncludePath)</IncludePath>
+    <IncludePath>C:\Project\ASNET\ASNET\include;$(SolutionDir)ASNET\src;$(SolutionDir)ASNET\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)ASNET\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>

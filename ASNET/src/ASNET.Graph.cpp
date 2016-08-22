@@ -1,6 +1,6 @@
 #include"ASNET.Graph.h"
 
-#include<wincodec.h>
+
 #include<dxgi.h>
 
 
@@ -13,13 +13,14 @@ namespace ASNET {
 	namespace Graph {
 
 		template<typename T>
-		void release(T Interface) {
+		void release(T &Interface) {
 			if (Interface)
 				Interface->Release();
 			Interface = NULL;
 		}
 
-		ASNET::Graph::Font::Font(){
+		ASNET::Graph::Font::Font(ASNET::Graph::Graph* Graph){
+			ParentGraph = Graph;
 			textformat = NULL;
 		}
 
@@ -33,11 +34,22 @@ namespace ASNET {
 			return textformat->GetFontSize();
 		}
 
+		void Font::reset(ASNET::Graph::Word fontname, float fontsize){
+			release(textformat);
+
+			ParentGraph->g_writefactory->CreateTextFormat(fontname, NULL,
+				DWRITE_FONT_WEIGHT_NORMAL,
+				DWRITE_FONT_STYLE_NORMAL,
+				DWRITE_FONT_STRETCH_NORMAL,
+				fontsize, L"zh-cn", &textformat);
+		}
 
 
 
 
-		ASNET::Graph::Image::Image(){
+
+		ASNET::Graph::Image::Image(ASNET::Graph::Graph* Graph){
+			ParentGraph = Graph;
 			bitmap = NULL;
 		}
 
@@ -53,6 +65,57 @@ namespace ASNET {
 
 		auto ASNET::Graph::Image::GetHieght() -> float{
 			return	bitmap->GetSize().height;
+		}
+
+		void Image::reset(ASNET::Graph::Word filename){
+			release(bitmap);
+
+			IWICBitmapDecoder *pDecoder = NULL;
+			IWICBitmapFrameDecode *pSource = NULL;
+			IWICStream *pStream = NULL;
+			IWICFormatConverter *pConverter = NULL;
+			HRESULT hr = ParentGraph->g_imagefactory->CreateDecoderFromFilename(
+				filename,
+				NULL,
+				GENERIC_READ,
+				WICDecodeMetadataCacheOnLoad,
+				&pDecoder
+			);
+			if (SUCCEEDED(hr))
+			{
+				hr = pDecoder->GetFrame(0, &pSource);
+			}
+			else MessageBox(NULL, TEXT("Failed in frame"), TEXT("Error"), 0);
+			if (SUCCEEDED(hr))
+			{
+				// (DXGI_FORMAT_B8G8R8A8_UNORM + D2D1_ALPHA_MODE_PREMULTIPLIED).
+				hr = ParentGraph->g_imagefactory->CreateFormatConverter(&pConverter);
+			}
+			else MessageBox(NULL, TEXT("Failed in Converter"), TEXT("Error"), 0);
+			if (SUCCEEDED(hr))
+			{
+				hr = pConverter->Initialize(
+					pSource,
+					GUID_WICPixelFormat32bppPBGRA,
+					WICBitmapDitherTypeNone,
+					NULL,
+					0.f,
+					WICBitmapPaletteTypeMedianCut
+				);
+			}
+			else MessageBox(NULL, TEXT("Failed n Initialize"), TEXT("Error"), 0);
+			if (SUCCEEDED(hr))
+			{
+				hr = ParentGraph->g_devicecontext2d->CreateBitmapFromWicBitmap(
+					pConverter,
+					NULL,
+					&bitmap
+				);
+			}
+			release(pDecoder);
+			release(pSource);
+			release(pStream);
+			release(pConverter);
 		}
 
 
@@ -168,7 +231,16 @@ namespace ASNET {
 			FLOAT dpiY;
 			g_factory->GetDesktopDpi(&dpiX, &dpiY);
 
-			g_factory->CreateDevice(DXGIDevice, &g_device2d);
+			//d2d1
+			g_factory->CreateDxgiSurfaceRenderTarget(Surface, D2D1::RenderTargetProperties(
+				D2D1_RENDER_TARGET_TYPE::D2D1_RENDER_TARGET_TYPE_DEFAULT,
+				D2D1::PixelFormat(DXGI_FORMAT_UNKNOWN, D2D1_ALPHA_MODE_PREMULTIPLIED),
+				dpiX,
+				dpiY
+			), &g_devicecontext2d);
+
+			//d2d1_1
+			/*g_factory->CreateDevice(DXGIDevice, &g_device2d);
 
 			g_device2d->CreateDeviceContext(D2D1_DEVICE_CONTEXT_OPTIONS_NONE, &g_devicecontext2d);
 
@@ -187,7 +259,7 @@ namespace ASNET {
 				&bitmapProperties, &TargetBitmap);
 
 			g_devicecontext2d->SetTarget(TargetBitmap);
-
+			*/
 			DXGIDevice->Release();
 			BackBuffer->Release();
 
@@ -207,7 +279,8 @@ namespace ASNET {
 			release(g_factory);
 			release(g_imagefactory);
 			release(g_writefactory);
-			release(g_device2d);
+			//d2d1_1
+			//release(g_device2d);
 			release(g_device3d);
 			release(g_devicecontext2d);
 			release(g_devicecontext3d);
@@ -321,7 +394,9 @@ namespace ASNET {
 		}
 
 		void ASNET::Graph::Graph::LoadImage(ASNET::Graph::Word filename,
-			ASNET::Graph::Image * image){
+			ASNET::Graph::Image * &image){
+			if (image) return;
+			image = new ASNET::Graph::Image(this);
 			IWICBitmapDecoder *pDecoder = NULL;
 			IWICBitmapFrameDecode *pSource = NULL;
 			IWICStream *pStream = NULL;
@@ -364,11 +439,17 @@ namespace ASNET {
 					&image->bitmap
 				);
 			}
+			release(pDecoder);
+			release(pSource);
+			release(pStream);
+			release(pConverter);
 		}
 
-		void Graph::LoadFont(ASNET::Graph::Font * font, 
+		void Graph::LoadFont(ASNET::Graph::Font * &font, 
 			ASNET::Graph::Word fontname, float fontsize){
-			release(font->textformat);
+			if (font) return; 
+
+			font = new ASNET::Graph::Font(this);
 			g_writefactory->CreateTextFormat(fontname, NULL,
 				DWRITE_FONT_WEIGHT_NORMAL,
 				DWRITE_FONT_STYLE_NORMAL,

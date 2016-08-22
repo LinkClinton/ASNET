@@ -1,5 +1,6 @@
 #include"WindowSample.h"
 #include<iostream>
+
 ASNET::Sample::WindowSample MyWindow;
 int main() {
 	MyWindow.AddPage(new ASNET::Sample::PageSample());
@@ -68,12 +69,15 @@ void ASNET::Sample::PageSample::OnDraw(void * sender, ASNET::Graph::Graph * rend
 	render->DrawRectangle(D2D1::RectF(Window->MousePosX - 10.0f, Window->MousePosY - 10.0f,
 		Window->MousePosX + 10.0f, Window->MousePosY + 10.0f), ASNET::Graph::Color::LightSalmon);
 	//输出文本
-	ASNET::Graph::Font font;
-	graph->LoadFont(&font, L"Consolas", 20);
-	graph->DrawWord(L"Hello,World", D2D1::RectF(0, 0, (float)Window->Width, (float)Window->Height), &font,
+	ASNET::Graph::Font* font = nullptr;
+
+	graph->LoadFont(font, L"Consolas", 20);
+	graph->DrawWord(L"Hello,World", D2D1::RectF(0, 0, (float)Window->Width, (float)Window->Height), font,
 		ASNET::Graph::Color::Black, ASNET::Graph::TextAlign::Center,
 		ASNET::Graph::TextAlign::Center);
 	
+	delete font;
+
 	//刷新
 	render->Present();
 	

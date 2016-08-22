@@ -17,6 +17,8 @@
 Graph类有的这个类都有，其创建代码将放入Window::OnLoading中就好了
 因为需要窗口的句柄，所以要窗口创建成功后才可以放入
 同时放弃添加固定管道的想法，等以后可能会添加
+所有类型都要求在使用的时候用指针，然后在Load代码里面会对其进行new
+因此不要总是new，在不用的时候可以delete
 */
 namespace ASNET {
 	namespace Graph {
@@ -54,7 +56,7 @@ namespace ASNET {
 				friend class   GraphDirect3D;
 				friend class   Shader;
 			public:
-				Buffer();
+				Buffer(ASNET::Graph::Direct3D::GraphDirect3D* Graph);
 				~Buffer();
 
 				void reset(std::vector<ASNET::Graph::Direct3D::Vertex> vertices,
@@ -71,7 +73,7 @@ namespace ASNET {
 				friend class GraphDirect3D;
 				friend class Shader;
 			public:
-				ShaderDataBuffer();
+				ShaderDataBuffer(ASNET::Graph::Direct3D::GraphDirect3D* Graph);
 				~ShaderDataBuffer();
 
 				void UpDateBuffer();//need add a value
@@ -88,7 +90,7 @@ namespace ASNET {
 				friend class GraphDirect3D;
 				friend class Shader;
 			public:
-				Texture();
+				Texture(ASNET::Graph::Direct3D::GraphDirect3D* Graph);
 				~Texture();
 
 				void reset(ASNET::Graph::Word filename);

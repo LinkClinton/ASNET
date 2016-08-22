@@ -2,10 +2,10 @@
 #include<vector>
 #include<functional>
 
-#include<d2d1_1.h>
-#include<dwrite.h>
+#include<d2d1.h>
 #include<d3d11.h>
-
+#include<dwrite.h>
+#include<wincodec.h>
 
 #undef LoadImage
 
@@ -13,33 +13,43 @@
 namespace ASNET {
 	//class Window;
 	namespace Graph {
+		class Graph;
+
 
 		typedef D2D_RECT_F		 Rect;
 		typedef D2D1::ColorF     Color;
 		typedef D2D_POINT_2F     Point;
 		typedef wchar_t*         Word;
 
-		struct Font {
+		class Font {
 		private:
-			IDWriteTextFormat* textformat;
+			ASNET::Graph::Graph* ParentGraph;
+
+			IDWriteTextFormat*	 textformat;
 			friend class Graph;
 		public:
-			Font();
+			Font(ASNET::Graph::Graph* Graph);
 			~Font();
 			auto FontSize()->float;
+
+			void reset(ASNET::Graph::Word fontname, float fontsize);
 		};
 
 
 
-		struct Image {
+		class Image {
 		private:
+			ASNET::Graph::Graph* ParentGraph;
+
 			ID2D1Bitmap* bitmap;
 			friend class Graph;
 		public:
-			Image();
+			Image(ASNET::Graph::Graph* Graph);
 			~Image();
 			auto GetWidth()->float;
 			auto GetHieght()->float;
+
+			void reset(ASNET::Graph::Word filename);
 		};
 
 		enum class TextAlign {
@@ -55,9 +65,13 @@ namespace ASNET {
 			bool					g_windowed;
 		protected:
 			//Direct2D
-			ID2D1Factory1*			g_factory;
-			ID2D1Device*            g_device2d;
-			ID2D1DeviceContext*     g_devicecontext2d;
+			ID2D1Factory*			g_factory;
+
+			ID2D1RenderTarget*      g_devicecontext2d;
+
+			//d2d1_1
+			//ID2D1Device*            g_device2d;
+			//ID2D1DeviceContext*     g_devicecontext2d;
 
 			//Direct3D11
 			ID3D11Device*			g_device3d;
@@ -72,6 +86,8 @@ namespace ASNET {
 			//IWIC
 			IWICImagingFactory*     g_imagefactory;
 			friend class Window;
+			friend class Image;
+			friend class Font;
 			void Initalize(HWND hwnd, bool IsWindowed);
 		public:
 			Graph();
@@ -98,9 +114,9 @@ namespace ASNET {
 				ASNET::Graph::TextAlign vertical = ASNET::Graph::TextAlign::Top);
 			
 			virtual void LoadImage(ASNET::Graph::Word filename,
-				ASNET::Graph::Image* image);
+				ASNET::Graph::Image* &image);
 
-			virtual void LoadFont(ASNET::Graph::Font* font,
+			virtual void LoadFont(ASNET::Graph::Font* &font,
 				ASNET::Graph::Word fontname, float fontsize);
 
 
