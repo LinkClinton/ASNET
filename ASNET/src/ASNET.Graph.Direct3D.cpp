@@ -248,6 +248,7 @@ void ASNET::Graph::Direct3D::Shader::SendBufferToPixelShader(
 
 void ASNET::Graph::Direct3D::Shader::SendTextureToShader(
 	UINT texture_id, ASNET::Graph::Direct3D::Texture * texture){
+	
 	ParentGraph->g_devicecontext3d->PSSetShaderResources(texture_id,
 		1, &texture->TexView);
 	

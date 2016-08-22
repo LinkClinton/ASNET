@@ -10,15 +10,14 @@ cbuffer IsUsedTex:register(b0) {
 }
 Texture2D Tex : register(s0);
 SamplerState samTex
-{
+{	
 	Filter = MIN_MAG_MIP_LINEAR;
-
-	//Filter = MIN_POINT_MAG_LINEAR_MIP_POINT;
 };
 
-float4 main(PixelIn In) :SV:SV_TARGET{
+float4 main(PixelIn In) :SV_TARGET{
+	//return float4(1,0,0,1);
 	float4 TexColor;
-TexColor = Tex.Sample(samTex, In.tex);
+	TexColor = Tex.Sample(samTex, In.tex);
 //clip(TexColor.a - 0.1f);
-return TexColor;
+	return TexColor	;
 }
