@@ -28,10 +28,8 @@
     <None Include="vertexshader.hlsl">
       <Filter>资源文件</Filter>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <FxCompile Include="pixelshader.hlsl">
+    <None Include="pixelshader.hlsl">
       <Filter>资源文件</Filter>
-    </FxCompile>
+    </None>
   </ItemGroup>
 </Project>

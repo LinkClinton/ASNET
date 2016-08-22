@@ -57,7 +57,9 @@ namespace ASNET {
 			};
 
 			class BasicEffect {
-				
+			private:
+
+			public:
 			};
 
 
