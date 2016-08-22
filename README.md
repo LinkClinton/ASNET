@@ -1,5 +1,3 @@
-# ASNET
-AS .NET Only for fun
+##ASNET
 
-
-do not clont it
+do not clone this branch
