@@ -168,6 +168,7 @@ namespace ASNET {
 			protected:
 				ID3D11InputLayout*              InputLayout;
 				ID3D11RasterizerState*			RasterizerState;
+				friend class BasicEffect;
 			protected:
 
 
@@ -186,7 +187,7 @@ namespace ASNET {
 				friend class Buffer;
 			public:
 				GraphDirect3D(HWND hwnd, ASNET::Graph::Direct3D::Shader*
-					shader, bool IsWindowed = true);
+					shader = nullptr, bool IsWindowed = true);
 				~GraphDirect3D();
 
 				void SetCullMode(ASNET::Graph::Direct3D::CullMode cullmode);

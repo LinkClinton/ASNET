@@ -11,7 +11,10 @@
 namespace ASNET {
 	namespace Graph {
 		namespace Direct3D {
-			
+
+			static const int MaxLights = 16;
+
+
 			//Dir Light 
 			struct DirLight {
 				DirectX::XMFLOAT4 ambient;
@@ -21,7 +24,7 @@ namespace ASNET {
 				DirectX::XMFLOAT3 dir;
 				
 				float			  unsed;
-				typedef std::vector<DirLight> Collections;
+				typedef DirLight Collections[MaxLights];
 			};
 
 			struct PointLight {
@@ -35,7 +38,7 @@ namespace ASNET {
 				DirectX::XMFLOAT3 att;
 
 				float			  unused;
-				typedef std::vector<PointLight> Collections;
+				typedef PointLight Collections[MaxLights];
 			};
 
 			struct SpotLight {
@@ -51,7 +54,7 @@ namespace ASNET {
 
 				DirectX::XMFLOAT3 att;
 				float		      theta;
-				typedef SpotLight Collections[10];
+				typedef SpotLight Collections[MaxLights];
 			};
 
 			struct Material {
@@ -61,22 +64,84 @@ namespace ASNET {
 				typedef std::vector<Material> Collections;
 			};
 
+			
+			enum class Enable {
+				DirLight,
+				SpotLight,
+				PointLight,
+				Texture
+			};
+
+			enum class UnEnable {
+				DirLight,
+				SpotLight,
+				PointLight,
+				Texture
+			};
+
+
 			class BasicEffect {
 			private:
-				bool EnableDirLight;
-				bool EnableSpotLight;
-				bool EnablePointLight;
-				bool EnableTexture;
+				struct StateEnable {
+					bool EnableDirLight;
+					bool EnableSpotLight;
+					bool EnablePointLight;
+					bool EnableTexture;
 
-				static const int MaxLights = 10;
+					DirectX::XMFLOAT3 unused0;
+					StateEnable();
+				};
+
+				struct StateLights {
+					bool DirLightsState[MaxLights];
+					bool SpotLihtsState[MaxLights];
+					bool PointLightsState[MaxLights];
+					StateLights();
+				};
+
+			private:
+				StateEnable					EffectState;
+				StateLights					LightsState;
+				Direct3D::ShaderDataBuffer* EffectStateBuffer;
+				Direct3D::ShaderDataBuffer* LightsStateBuffer;
+
+				Direct3D::Shader*			EffectShader;
+				Direct3D::GraphDirect3D*    ParentGraph;
 			private:
 				Direct3D::DirLight::Collections			DirLights;
 				Direct3D::SpotLight::Collections		SpotLights;
 				Direct3D::PointLight::Collections		PointLights;
 
-				Direct3D::ShaderDataBuffer*				DirLightBuffer;
+				Direct3D::ShaderDataBuffer*				DirLightsBuffer;
+				Direct3D::ShaderDataBuffer*             SpotLightsBuffer;
+				Direct3D::ShaderDataBuffer*             PointLightsBuffer;
+
+			
 			public:
 				BasicEffect(ASNET::Graph::Direct3D::GraphDirect3D* graph);
+				~BasicEffect();
+				void Enable(ASNET::Graph::Direct3D::Enable thing);
+
+				void UnEnable(ASNET::Graph::Direct3D::UnEnable thing);
+
+				void DirLightOn(int which, 
+					ASNET::Graph::Direct3D::DirLight dirlight);
+
+				void DirLightOff(int which);
+
+				void SpotLightOn(int which,
+					ASNET::Graph::Direct3D::SpotLight spotlight);
+
+				void SpotLightOff(int which);
+
+				void PointLightOn(int which,
+					ASNET::Graph::Direct3D::PointLight pointlight);
+
+				void PointLightOff(int which);
+
+				void SetTexture(ASNET::Graph::Direct3D::Texture* texture);
+
+				
 			};
 
 

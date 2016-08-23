@@ -386,7 +386,8 @@ ASNET::Graph::Direct3D::GraphDirect3D::GraphDirect3D(
 	HWND hwnd, ASNET::Graph::Direct3D::Shader * shader, 
 	bool IsWindowed){
 	Initalize(hwnd, IsWindowed);
-	SetShader(shader);
+	if (!shader)
+		SetShader(shader);
 	Direct3DInitalize();
 	
 }

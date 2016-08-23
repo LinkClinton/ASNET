@@ -30,6 +30,7 @@
     <ClInclude Include="src\ASNET.Window.Page.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\ASNET.Direct3D.Effect.cpp" />
     <ClCompile Include="src\ASNET.Direct3D.Model.cpp" />
     <ClCompile Include="src\ASNET.Direct3D.Model.PMD.cpp" />
     <ClCompile Include="src\ASNET.Window.cpp" />
