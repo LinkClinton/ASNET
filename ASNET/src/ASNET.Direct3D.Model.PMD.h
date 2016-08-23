@@ -5,6 +5,7 @@
 
 //ASNET
 #include"ASNET.Graph.Direct3D.h"
+#include"ASNET.Direct3D.Effect.h"
 
 //std
 #include<fstream>
@@ -54,6 +55,7 @@ namespace ASNET {
 				UINT TextureID;
 
 				ASNET::Graph::Direct3D::Texture* Texture;
+				operator ASNET::Graph::Direct3D::Material();
 				PMDModelPart();
 				~PMDModelPart();
 			};

@@ -6,6 +6,7 @@
 
 //d3d11
 #include<DirectXMath.h>
+//#include<d3dcompiler.h>
 
 //d3dx11
 
@@ -112,6 +113,10 @@ namespace ASNET {
 				char*				VertexShaderFunctionName;
 				char*				PixelShaderFunctionName;
 				bool                IsCompile;
+
+				std::vector<byte>   VertexShaderCode;
+				std::vector<byte>   PixelShaderCode;
+				friend class BasicEffect;
 				friend class GraphDirect3D;
 			public:
 				Shader(ASNET::Graph::Word VertexShaderFileName,
@@ -123,6 +128,7 @@ namespace ASNET {
 
 				void reset(ASNET::Graph::Word VertexShaderFileName,
 					ASNET::Graph::Word PixelShaderFileName,
+					bool IsCompiled = false,
 					char* VertexFunctionName = "main",
 					char* PixelFunctionName = "main");
 
@@ -166,6 +172,7 @@ namespace ASNET {
 
 
 				void CompileShader(ASNET::Graph::Direct3D::Shader* shader);
+				void LoadShader(ASNET::Graph::Direct3D::Shader* shader);
 				void UpDateInputLayout(Shader* shader);
 				void SetShader(ASNET::Graph::Direct3D::Shader* shader);
 

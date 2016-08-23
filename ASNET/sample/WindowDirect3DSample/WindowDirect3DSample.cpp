@@ -20,8 +20,8 @@ ASNET::Sample::Direct3DWindow::Direct3DWindow(){
 	IcoName = nullptr;
 
 	Initalize();
-	shader = new ASNET::Graph::Direct3D::Shader(L"vertexshader.hlsl",
-		L"pixelshader.hlsl");
+	shader = new ASNET::Graph::Direct3D::Shader(L"vertexshader.cso",
+		L"pixelshader.cso", true);
 	graph =	new ASNET::Graph::Direct3D::GraphDirect3D(Hwnd, shader);
 }
 
