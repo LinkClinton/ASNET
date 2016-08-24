@@ -1,6 +1,7 @@
 #include<ASNET.Window.h>
 #include<ASNET.Graph.Direct3D.h>
 #include<ASNET.Direct3D.Model.h>
+#include<ASNET.Direct3D.Effect.h>
 #include<DirectXMath.h>
 
 #include<iostream>
@@ -33,7 +34,8 @@ namespace ASNET {
 
 			ASNET::Graph::Direct3D::PMDModel*         Direct3DPMDModel;
 			
-
+			ASNET::Graph::Direct3D::DirLight		  Direct3DirLight;
+			ASNET::Graph::Direct3D::BasicEffect*      Direct3DEffect;
 			int										  LastMousePosx;
 			int										  LastMousePosy;
 

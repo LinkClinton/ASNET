@@ -40,14 +40,18 @@
     <ClCompile Include="src\ASNET.Window.Page.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="src\ASNET.Effect.Pixel.hlsl">
+    <FxCompile Include="src\ASNET.Effect.Pixel.hlsl">
       <FileType>Document</FileType>
-    </None>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">5.0</ShaderModel>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="src\ASNET.Effect.Vertex.hlsl">
+    <FxCompile Include="src\ASNET.Effect.Vertex.hlsl">
       <FileType>Document</FileType>
-    </None>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">5.0</ShaderModel>
+    </FxCompile>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{CAB55DFD-6B79-4990-BD6D-5879FE6E14E7}</ProjectGuid>

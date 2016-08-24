@@ -136,8 +136,9 @@ ASNET::Graph::Direct3D::ShaderDataBuffer::operator ID3D11Buffer*(){
 }
 
 void ASNET::Graph::Direct3D::ShaderDataBuffer::UpDateBuffer(){
-	ParentGraph->g_devicecontext3d->UpdateSubresource(DataBuffer, 0, nullptr,
-		Data, 0, 0);
+	if (Data)
+		ParentGraph->g_devicecontext3d->UpdateSubresource(DataBuffer, 0, nullptr,
+			Data, 0, 0);
 }
 
 void ASNET::Graph::Direct3D::ShaderDataBuffer::reset(void * data, UINT datasize){

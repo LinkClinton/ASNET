@@ -25,10 +25,14 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="pixelshader.hlsl">
+    <None Include="pixelshader.hlsl" />
+    <None Include="vertexshader.hlsl" />
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="ASNET.Effect.Pixel.hlsl">
       <Filter>资源文件</Filter>
     </FxCompile>
-    <FxCompile Include="vertexshader.hlsl">
+    <FxCompile Include="ASNET.Effect.Vertex.hlsl">
       <Filter>资源文件</Filter>
     </FxCompile>
   </ItemGroup>

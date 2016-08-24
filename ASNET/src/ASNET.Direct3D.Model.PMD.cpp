@@ -66,6 +66,23 @@ void ASNET::Graph::Direct3D::PMDModel::Draw(int texture_id){
 	
 }
 
+void ASNET::Graph::Direct3D::PMDModel::Draw(
+	ASNET::Graph::Direct3D::BasicEffect * effect){
+	ParentGraph->g_devicecontext3d->IASetInputLayout(ParentGraph->InputLayout);
+	UINT stride = sizeof(Vertex);
+	UINT offset = 0;
+	ParentGraph->g_devicecontext3d->IASetVertexBuffers(0, 1, &Buffer->VertexBuffer, &stride, &offset);
+	ParentGraph->g_devicecontext3d->IASetIndexBuffer(Buffer->IndexBuffer, DXGI_FORMAT_R32_UINT, 0);
+	ParentGraph->g_devicecontext3d->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	effect->EffectBegin();
+	for (UINT i = 0; i < ModelPartsNum; i++) {
+		effect->SetTexture(ModelParts[i].Texture);
+		effect->SetMaterial(ModelParts[i]);
+		DrawPart(i);
+	}
+	effect->EffectEnd();
+}
+
 void ASNET::Graph::Direct3D::PMDModel::PrepareDraw(){
 	ParentGraph->g_devicecontext3d->IASetInputLayout(ParentGraph->InputLayout);
 	UINT stride = sizeof(Vertex);
