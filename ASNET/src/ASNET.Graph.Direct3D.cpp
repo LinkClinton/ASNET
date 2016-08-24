@@ -513,3 +513,21 @@ void ASNET::Graph::Direct3D::GraphDirect3D::DrawBuffer(
 		g_devicecontext3d->DrawIndexed(buffer->IndexCount, 0, 0);
 	else g_devicecontext3d->Draw(buffer->VertexCount, 0);
 }
+
+void ASNET::Graph::Direct3D::GraphDirect3D::DrawBuffer(
+	ASNET::Graph::Direct3D::Buffer * buffer, 
+	ASNET::Graph::Direct3D::BasicEffect * effect,
+	ASNET::Graph::Direct3D::PrimitiveType Type){
+	g_devicecontext3d->IASetInputLayout(InputLayout);
+	UINT stride = sizeof(Vertex);
+	UINT offset = 0;
+	g_devicecontext3d->IASetVertexBuffers(0, 1, &buffer->VertexBuffer, &stride, &offset);
+	if (buffer->IndexBuffer)
+		g_devicecontext3d->IASetIndexBuffer(buffer->IndexBuffer, DXGI_FORMAT_R32_UINT, 0);
+	g_devicecontext3d->IASetPrimitiveTopology((D3D11_PRIMITIVE_TOPOLOGY)Type);
+	effect->EffectBegin();
+	if (buffer->IndexBuffer)
+		g_devicecontext3d->DrawIndexed(buffer->IndexCount, 0, 0);
+	else g_devicecontext3d->Draw(buffer->VertexCount, 0);
+	effect->EffectEnd();
+}

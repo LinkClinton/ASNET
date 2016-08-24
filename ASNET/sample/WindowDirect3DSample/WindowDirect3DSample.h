@@ -34,7 +34,8 @@ namespace ASNET {
 
 			ASNET::Graph::Direct3D::PMDModel*         Direct3DPMDModel;
 			
-			ASNET::Graph::Direct3D::DirLight		  Direct3DirLight;
+			ASNET::Graph::Direct3D::DirLight		  Direct3DDirLight;
+			ASNET::Graph::Direct3D::PointLight        Direct3DPointLight;
 			ASNET::Graph::Direct3D::BasicEffect*      Direct3DEffect;
 			int										  LastMousePosx;
 			int										  LastMousePosy;

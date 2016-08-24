@@ -67,15 +67,18 @@ void ASNET::Sample::Direct3DMainPage::OnLoading(void * sender, void * any){
 
 	//Direct3DRender->LoadBuffer(Direct3DCubeBuffer, vertex, index);
 
-	Direct3DirLight.ambient = { 0.1f,0.1f,0.1f,0.1f };
-	Direct3DirLight.dir = { 0,0,15 };
-	Direct3DirLight.diffuse = { 0.04f,0.04f,0.04f,0.04f };
+	Direct3DDirLight.ambient = { 0.2f,0.2f,0.2f,0.2f };
+	Direct3DDirLight.dir = { 0,0,15 };
+	Direct3DDirLight.diffuse = { 0.05f,0.05f,0.05f,0.05f };
 	
+	
+
 
 	Direct3DEffect->Enable(ASNET::Graph::Direct3D::Enable::Texture);
 	Direct3DEffect->Enable(ASNET::Graph::Direct3D::Enable::DirLight);
 
-	Direct3DEffect->DirLightOn(0, Direct3DirLight);
+	Direct3DEffect->DirLightOn(0, Direct3DDirLight);
+	Direct3DEffect->PointLightOn(0, Direct3DPointLight);
 
 
 	ASNET::Graph::Direct3D::Direct3DModelLoader::LoadPMDModel(Direct3DRender, L"model/remu.pmd", Direct3DPMDModel);

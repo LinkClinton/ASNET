@@ -1,6 +1,6 @@
 #pragma once
 #include"ASNET.Graph.h"
-
+#include"ASNET.Direct3D.Effect.h"
 //std
 #include<vector>
 
@@ -213,7 +213,11 @@ namespace ASNET {
 					ASNET::Graph::Direct3D::PrimitiveType Type =
 					ASNET::Graph::Direct3D::PrimitiveType::Triangle);
 
-
+				void DrawBuffer(ASNET::Graph::Direct3D::Buffer* buffer,
+					ASNET::Graph::Direct3D::BasicEffect* effect,
+					ASNET::Graph::Direct3D::PrimitiveType Type =
+					ASNET::Graph::Direct3D::PrimitiveType::Triangle);
+				
 
 			};
 		}

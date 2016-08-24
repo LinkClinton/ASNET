@@ -1,8 +1,8 @@
 #include "ASNET.Direct3D.Effect.h"
 
-const ASNET::Graph::Word VertexShaderName = L"ASNET.Effect.Vertex.hlsl";
-const ASNET::Graph::Word PixelShaderName = L"ASNET.Effect.Pixel.hlsl";
-const bool ShaderIsCompiled = false;
+const ASNET::Graph::Word VertexShaderName = L"ASNET.Effect.Vertex.cso";
+const ASNET::Graph::Word PixelShaderName = L"ASNET.Effect.Pixel.cso";
+const bool ShaderIsCompiled = true;
 
 const int EffectBufferID = 0;
 const int LightsBufferID = 1;
