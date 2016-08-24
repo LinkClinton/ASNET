@@ -6,6 +6,7 @@
 
 //d3d11
 #include<DirectXMath.h>
+//#include<d3dcompiler.h>
 
 //d3dx11
 
@@ -71,10 +72,13 @@ namespace ASNET {
 				ID3D11Buffer*  DataBuffer;
 				void* Data;
 				friend class GraphDirect3D;
+				friend class BasicEffect;
 				friend class Shader;
 			public:
 				ShaderDataBuffer(ASNET::Graph::Direct3D::GraphDirect3D* Graph);
 				~ShaderDataBuffer();
+
+				operator ID3D11Buffer*();
 
 				void UpDateBuffer();//need add a value
 
@@ -92,6 +96,8 @@ namespace ASNET {
 			public:
 				Texture(ASNET::Graph::Direct3D::GraphDirect3D* Graph);
 				~Texture();
+
+				operator ID3D11ShaderResourceView*();
 
 				void reset(ASNET::Graph::Word filename);
 
@@ -112,6 +118,10 @@ namespace ASNET {
 				char*				VertexShaderFunctionName;
 				char*				PixelShaderFunctionName;
 				bool                IsCompile;
+
+				std::vector<byte>   VertexShaderCode;
+				std::vector<byte>   PixelShaderCode;
+				friend class BasicEffect;
 				friend class GraphDirect3D;
 			public:
 				Shader(ASNET::Graph::Word VertexShaderFileName,
@@ -123,6 +133,7 @@ namespace ASNET {
 
 				void reset(ASNET::Graph::Word VertexShaderFileName,
 					ASNET::Graph::Word PixelShaderFileName,
+					bool IsCompiled = false,
 					char* VertexFunctionName = "main",
 					char* PixelFunctionName = "main");
 
@@ -162,10 +173,12 @@ namespace ASNET {
 			protected:
 				ID3D11InputLayout*              InputLayout;
 				ID3D11RasterizerState*			RasterizerState;
+				friend class BasicEffect;
 			protected:
 
 
 				void CompileShader(ASNET::Graph::Direct3D::Shader* shader);
+				void LoadShader(ASNET::Graph::Direct3D::Shader* shader);
 				void UpDateInputLayout(Shader* shader);
 				void SetShader(ASNET::Graph::Direct3D::Shader* shader);
 
@@ -179,7 +192,7 @@ namespace ASNET {
 				friend class Buffer;
 			public:
 				GraphDirect3D(HWND hwnd, ASNET::Graph::Direct3D::Shader*
-					shader, bool IsWindowed = true);
+					shader = nullptr, bool IsWindowed = true);
 				~GraphDirect3D();
 
 				void SetCullMode(ASNET::Graph::Direct3D::CullMode cullmode);

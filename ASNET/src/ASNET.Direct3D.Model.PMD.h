@@ -5,6 +5,7 @@
 
 //ASNET
 #include"ASNET.Graph.Direct3D.h"
+#include"ASNET.Direct3D.Effect.h"
 
 //std
 #include<fstream>
@@ -54,6 +55,7 @@ namespace ASNET {
 				UINT TextureID;
 
 				ASNET::Graph::Direct3D::Texture* Texture;
+				operator ASNET::Graph::Direct3D::Material();
 				PMDModelPart();
 				~PMDModelPart();
 			};
@@ -97,7 +99,7 @@ namespace ASNET {
 			public:
 				~PMDModel();
 				void Draw(int texture_id = 0);// the id of texture in shader,最好别用,基本上代码是完全限制住了，且没有好的着色器代码对应
-			
+					
 				void PrepareDraw(); //DrawPart之前的准备,把绘制过程分解可以使之能够对着色器的支持更加好
 				void DrawPart(int index); //绘制模型部分
 				

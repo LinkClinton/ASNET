@@ -41,6 +41,7 @@ void ASNET::Graph::Direct3D::Direct3DModelLoader::LoadPMDModel(
 
 		vertex.u = PMDModel::PMDFloatRead(&in_file);
 		vertex.v = PMDModel::PMDFloatRead(&in_file);
+		
 		//vertex.v = abs(1.0f - vertex.v);
 		//¹ýÂË6×Ö½Ú
 		PMDModel::PMDRuleOut(&in_file, 6);
@@ -74,6 +75,8 @@ void ASNET::Graph::Direct3D::Direct3DModelLoader::LoadPMDModel(
 		ModelPart.Ambient.y = PMDModel::PMDFloatRead(&in_file);
 		ModelPart.Ambient.z = PMDModel::PMDFloatRead(&in_file);
 
+
+		//2
 		PMDModel::PMDRuleOut(&in_file, 2);
 
 		ModelPart.EffectCount = PMDModel::PMDDwordRead(&in_file);
@@ -83,11 +86,11 @@ void ASNET::Graph::Direct3D::Direct3DModelLoader::LoadPMDModel(
 
 		char TexName[20];
 		memset(TexName, 0, sizeof(TexName));
-		for (int i = 0; i < 20; i++)
-			in_file.get(TexName[i]);
-		for (int i = 0; i < 20; i++)
-			if (TexName[i] == 0) break;
-			else ModelPart.TextureName.push_back(TexName[i]);
+		for (int j = 0; j < 20; j++)
+			in_file.get(TexName[j]);
+		for (int j = 0; j < 20; j++)
+			if (TexName[j] == 0 || TexName[j]=='*') break;
+			else ModelPart.TextureName.push_back(TexName[j]);
 
 		ModelPart.StartFace = NowStartFace;
 		NowStartFace += ModelPart.EffectCount;
@@ -101,6 +104,8 @@ void ASNET::Graph::Direct3D::Direct3DModelLoader::LoadPMDModel(
 	graph->LoadBuffer(model->Buffer, model->vertices, model->indices);
 
 	graph->LoadTexture(model->ModelParts[0].Texture, &model->ModelParts[0].TextureName[0]);
+	model->Textures.insert(std::pair<std::wstring, ASNET::Graph::Direct3D::Texture*>(
+		model->ModelParts[0].TextureName, model->ModelParts[0].Texture));
 	for (UINT i = 1; i < model->ModelPartsNum; i++) {
 
 		if (model->Textures.find(model->ModelParts[i].TextureName) != model->Textures.end())
@@ -109,6 +114,6 @@ void ASNET::Graph::Direct3D::Direct3DModelLoader::LoadPMDModel(
 			model->Textures.insert(std::pair<std::wstring, ASNET::Graph::Direct3D::Texture*>(
 				model->ModelParts[i].TextureName, model->ModelParts[i].Texture));
 	}
-			
+	
 	
 }

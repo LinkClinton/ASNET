@@ -89,5 +89,16 @@
     <ClCompile Include="src\ASNET.Direct3D.Model.PMD.cpp">
       <Filter>源文件\Extend\Direct3D</Filter>
     </ClCompile>
+    <ClCompile Include="src\ASNET.Direct3D.Effect.cpp">
+      <Filter>源文件\Extend\Direct3D</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="src\ASNET.Effect.Pixel.hlsl">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="src\ASNET.Effect.Vertex.hlsl">
+      <Filter>资源文件</Filter>
+    </None>
   </ItemGroup>
 </Project>

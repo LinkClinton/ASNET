@@ -97,6 +97,14 @@ void ASNET::Graph::Direct3D::PMDModel::Release(){
 	
 }
 
+ASNET::Graph::Direct3D::PMDModelPart::operator ASNET::Graph::Direct3D::Material(){
+	ASNET::Graph::Direct3D::Material material;
+	material.ambient = Ambient;
+	material.diffuse = Diffuse;
+	material.specular = Specular;
+	return material;
+}
+
 ASNET::Graph::Direct3D::PMDModelPart::PMDModelPart(){
 	Ambient = { 0,0,0,0 };
 	Diffuse = { 0,0,0,0 };

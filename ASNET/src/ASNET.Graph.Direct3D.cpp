@@ -3,6 +3,9 @@
 #include"D3DX11.h"
 
 #pragma comment(lib,"d3dx11.lib")
+//#pragma comment(lib,"D3DCompiler.lib")
+
+#include<fstream>
 
 template<typename T>
 void release(T &Interface) {
@@ -128,6 +131,10 @@ ASNET::Graph::Direct3D::ShaderDataBuffer::~ShaderDataBuffer(){
 	Data = nullptr;
 }
 
+ASNET::Graph::Direct3D::ShaderDataBuffer::operator ID3D11Buffer*(){
+	return DataBuffer;
+}
+
 void ASNET::Graph::Direct3D::ShaderDataBuffer::UpDateBuffer(){
 	ParentGraph->g_devicecontext3d->UpdateSubresource(DataBuffer, 0, nullptr,
 		Data, 0, 0);
@@ -164,12 +171,17 @@ ASNET::Graph::Direct3D::Texture::~Texture(){
 	FileName = nullptr;
 }
 
+ASNET::Graph::Direct3D::Texture::operator ID3D11ShaderResourceView*(){
+	return TexView;
+}
+
 void ASNET::Graph::Direct3D::Texture::reset(
 	ASNET::Graph::Word filename){
 	release(TexView);
 
 	FileName = filename;
 
+	//need get it out 
 	D3DX11CreateShaderResourceViewFromFile(ParentGraph->g_device3d,
 		FileName, 0, 0, &TexView, 0);
 }
@@ -194,7 +206,10 @@ ASNET::Graph::Direct3D::Shader::Shader(
 	VertexShaderFunctionName = VertexFunctionName;
 	PixelShaderFunctionName = PixelFunctionName;
 
-	IsCompile = false;
+	VertexShaderCode.clear();
+	PixelShaderCode.clear();
+
+	IsCompile = IsCompiled;
 }
 
 
@@ -212,11 +227,15 @@ ASNET::Graph::Direct3D::Shader::~Shader(){
 
 	VertexShaderFunctionName = nullptr;
 	PixelShaderFunctionName = nullptr;
+
+	VertexShaderCode.clear();
+	PixelShaderCode.clear();
 }
 
 void ASNET::Graph::Direct3D::Shader::reset(
 	ASNET::Graph::Word VertexShaderFileName, 
 	ASNET::Graph::Word PixelShaderFileName, 
+	bool IsCompiled,
 	char * VertexFunctionName, 
 	char * PixelFunctionName){
 	release(VertexShader);
@@ -225,13 +244,19 @@ void ASNET::Graph::Direct3D::Shader::reset(
 	release(VertexShaderBlob);
 	release(PixelShaderBlob);
 
+	IsCompile = IsCompiled;
+
 	VertexShaderName = VertexShaderFileName;
 	PixelShaderName = PixelShaderFileName;
 
 	VertexShaderFunctionName = VertexFunctionName;
 	PixelShaderFunctionName = PixelFunctionName;
 
+	VertexShaderCode.clear();
+	PixelShaderCode.clear();
+
 	ParentGraph->SetShader(this);
+
 }
 
 void ASNET::Graph::Direct3D::Shader::SendBufferToVertexShader(
@@ -248,6 +273,7 @@ void ASNET::Graph::Direct3D::Shader::SendBufferToPixelShader(
 
 void ASNET::Graph::Direct3D::Shader::SendTextureToShader(
 	UINT texture_id, ASNET::Graph::Direct3D::Texture * texture){
+	
 	ParentGraph->g_devicecontext3d->PSSetShaderResources(texture_id,
 		1, &texture->TexView);
 	
@@ -275,6 +301,40 @@ void ASNET::Graph::Direct3D::GraphDirect3D::CompileShader(
 		shader->PixelShaderBlob->GetBufferSize(), nullptr, &shader->PixelShader);
 }
 
+void ASNET::Graph::Direct3D::GraphDirect3D::LoadShader(
+	ASNET::Graph::Direct3D::Shader * shader){
+	std::ifstream vertexfile;
+	std::ifstream pixelfile;
+
+	vertexfile.open(shader->VertexShaderName, std::ios::binary);
+	byte code = 0;
+	while (!vertexfile.eof()) {
+		code = vertexfile.get();
+		shader->VertexShaderCode.push_back(code);
+	}
+	vertexfile.close();
+	
+	shader->VertexShaderCode.pop_back();
+
+	g_device3d->CreateVertexShader(&shader->VertexShaderCode[0],
+		shader->VertexShaderCode.size(), nullptr, &shader->VertexShader);
+	
+	pixelfile.open(shader->PixelShaderName, std::ios::binary);
+	code = 0;
+	while (!pixelfile.eof()) {
+		code = pixelfile.get();
+		shader->PixelShaderCode.push_back(code);
+	}
+	pixelfile.close();
+
+	shader->PixelShaderCode.pop_back();
+
+	g_device3d->CreatePixelShader(&shader->PixelShaderCode[0],
+		shader->PixelShaderCode.size(), nullptr, &shader->PixelShader);
+	
+
+}
+
 void ASNET::Graph::Direct3D::GraphDirect3D::UpDateInputLayout(Shader * shader){
 	release(InputLayout);
 
@@ -285,15 +345,26 @@ void ASNET::Graph::Direct3D::GraphDirect3D::UpDateInputLayout(Shader * shader){
 	InputDesc[2] = { "TEXCOORD",0,DXGI_FORMAT_R32G32_FLOAT,   0,28,D3D11_INPUT_PER_VERTEX_DATA,0 };
 	InputDesc[3] = { "NORMAL",  0,DXGI_FORMAT_R32G32B32_FLOAT,0,36,D3D11_INPUT_PER_VERTEX_DATA,0 };
 	
-	g_device3d->CreateInputLayout(InputDesc, 4,
-		shader->VertexShaderBlob->GetBufferPointer(), 
-		shader->VertexShaderBlob->GetBufferSize(),
-		&InputLayout);
+
+	if (!shader->IsCompile)
+		g_device3d->CreateInputLayout(InputDesc, 4,
+			shader->VertexShaderBlob->GetBufferPointer(),
+			shader->VertexShaderBlob->GetBufferSize(),
+			&InputLayout);
+	else
+		g_device3d->CreateInputLayout(InputDesc, 4,
+			&shader->VertexShaderCode[0],
+			shader->VertexShaderCode.size(),
+			&InputLayout);
 }
 
 void ASNET::Graph::Direct3D::GraphDirect3D::SetShader(
 	ASNET::Graph::Direct3D::Shader * shader){
-	CompileShader(shader);
+	if (!shader->IsCompile)
+		CompileShader(shader);
+	else
+		LoadShader(shader);
+
 	g_devicecontext3d->VSSetShader(shader->VertexShader, 0, 0);
 	g_devicecontext3d->PSSetShader(shader->PixelShader, 0, 0);
 
@@ -324,7 +395,8 @@ ASNET::Graph::Direct3D::GraphDirect3D::GraphDirect3D(
 	HWND hwnd, ASNET::Graph::Direct3D::Shader * shader, 
 	bool IsWindowed){
 	Initalize(hwnd, IsWindowed);
-	SetShader(shader);
+	if (shader)
+		SetShader(shader);
 	Direct3DInitalize();
 	
 }
