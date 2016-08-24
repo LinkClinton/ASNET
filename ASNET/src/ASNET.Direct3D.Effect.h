@@ -107,6 +107,7 @@ namespace ASNET {
 
 				Direct3D::Shader*			EffectShader;
 				Direct3D::GraphDirect3D*    ParentGraph;
+				void UpdateBufferToShader();
 			private:
 				Direct3D::DirLight::Collections			DirLights;
 				Direct3D::SpotLight::Collections		SpotLights;
@@ -115,8 +116,14 @@ namespace ASNET {
 				Direct3D::ShaderDataBuffer*				DirLightsBuffer;
 				Direct3D::ShaderDataBuffer*             SpotLightsBuffer;
 				Direct3D::ShaderDataBuffer*             PointLightsBuffer;
-
+			private:
+				Direct3D::ShaderDataBuffer*             ProjMatrixBuffer;
+				Direct3D::ShaderDataBuffer*             ViewMatrixBuffer;
+				Direct3D::ShaderDataBuffer*				WorldMatrixBuffer;
+				Direct3D::ShaderDataBuffer*             NormalMatrixBuffer;
 			
+				static DirectX::XMMATRIX Transpose(DirectX::CXMMATRIX matrix);
+				static DirectX::XMMATRIX InverseTranspose(DirectX::CXMMATRIX matrix);
 			public:
 				BasicEffect(ASNET::Graph::Direct3D::GraphDirect3D* graph);
 				~BasicEffect();
@@ -141,7 +148,15 @@ namespace ASNET {
 
 				void SetTexture(ASNET::Graph::Direct3D::Texture* texture);
 
+				void SetProjMatrix(DirectX::CXMMATRIX matrix);
+
+				void SetViewMatrix(DirectX::CXMMATRIX matrix);
 				
+				void SetWorldMatrix(DirectX::CXMMATRIX matrix);
+				
+				void EffectBegin(); //used the effect in this ,but the old shader can't be used
+
+				void EffectEnd(); //the old shader will be reused
 			};
 
 

@@ -72,10 +72,13 @@ namespace ASNET {
 				ID3D11Buffer*  DataBuffer;
 				void* Data;
 				friend class GraphDirect3D;
+				friend class BasicEffect;
 				friend class Shader;
 			public:
 				ShaderDataBuffer(ASNET::Graph::Direct3D::GraphDirect3D* Graph);
 				~ShaderDataBuffer();
+
+				operator ID3D11Buffer*();
 
 				void UpDateBuffer();//need add a value
 
@@ -93,6 +96,8 @@ namespace ASNET {
 			public:
 				Texture(ASNET::Graph::Direct3D::GraphDirect3D* Graph);
 				~Texture();
+
+				operator ID3D11ShaderResourceView*();
 
 				void reset(ASNET::Graph::Word filename);
 

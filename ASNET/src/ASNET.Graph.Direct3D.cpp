@@ -131,6 +131,10 @@ ASNET::Graph::Direct3D::ShaderDataBuffer::~ShaderDataBuffer(){
 	Data = nullptr;
 }
 
+ASNET::Graph::Direct3D::ShaderDataBuffer::operator ID3D11Buffer*(){
+	return DataBuffer;
+}
+
 void ASNET::Graph::Direct3D::ShaderDataBuffer::UpDateBuffer(){
 	ParentGraph->g_devicecontext3d->UpdateSubresource(DataBuffer, 0, nullptr,
 		Data, 0, 0);
@@ -165,6 +169,10 @@ ASNET::Graph::Direct3D::Texture::~Texture(){
 	release(TexView);
 
 	FileName = nullptr;
+}
+
+ASNET::Graph::Direct3D::Texture::operator ID3D11ShaderResourceView*(){
+	return TexView;
 }
 
 void ASNET::Graph::Direct3D::Texture::reset(
@@ -356,6 +364,7 @@ void ASNET::Graph::Direct3D::GraphDirect3D::SetShader(
 		CompileShader(shader);
 	else
 		LoadShader(shader);
+
 	g_devicecontext3d->VSSetShader(shader->VertexShader, 0, 0);
 	g_devicecontext3d->PSSetShader(shader->PixelShader, 0, 0);
 
@@ -386,7 +395,7 @@ ASNET::Graph::Direct3D::GraphDirect3D::GraphDirect3D(
 	HWND hwnd, ASNET::Graph::Direct3D::Shader * shader, 
 	bool IsWindowed){
 	Initalize(hwnd, IsWindowed);
-	if (!shader)
+	if (shader)
 		SetShader(shader);
 	Direct3DInitalize();
 	
