@@ -80,6 +80,20 @@ ASNET::Graph::Direct3D::Buffer::~Buffer(){
 	IndexCount = 0;
 }
 
+void ASNET::Graph::Direct3D::Buffer::UnLock(
+	ASNET::Graph::Direct3D::Vertex *& vertices){
+	D3D11_MAPPED_SUBRESOURCE MapData;
+	ParentGraph->g_devicecontext3d->Map(VertexBuffer, 0, D3D11_MAP_WRITE_DISCARD,
+		0, &MapData);
+	vertices = reinterpret_cast<ASNET::Graph::Direct3D::Vertex*>(MapData.pData);
+}
+
+void ASNET::Graph::Direct3D::Buffer::Lock(){
+	ParentGraph->g_devicecontext3d->Unmap(VertexBuffer, 0);
+}
+
+
+
 void ASNET::Graph::Direct3D::Buffer::reset(
 	std::vector<ASNET::Graph::Direct3D::Vertex> vertices, 
 	std::vector<ASNET::Graph::Direct3D::Index> indices){
@@ -445,8 +459,9 @@ void ASNET::Graph::Direct3D::GraphDirect3D::LoadTexture(
 }
 
 void ASNET::Graph::Direct3D::GraphDirect3D::LoadBuffer(
-	ASNET::Graph::Direct3D::Buffer *& buffer, std::vector<ASNET::Graph::Direct3D::Vertex> vertices, 
-	std::vector<ASNET::Graph::Direct3D::Index> indices){
+	ASNET::Graph::Direct3D::Buffer *& buffer,
+	std::vector<ASNET::Graph::Direct3D::Vertex> vertices,
+	std::vector<ASNET::Graph::Direct3D::Index> indices, bool CPUAcess) {
 	if (buffer) return;
 	buffer = new ASNET::Graph::Direct3D::Buffer(this);
 
@@ -457,7 +472,12 @@ void ASNET::Graph::Direct3D::GraphDirect3D::LoadBuffer(
 	D3D11_BUFFER_DESC vbDesc = { 0 };
 	vbDesc.ByteWidth = (UINT)vertices.size() * sizeof(Vertex);
 	vbDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-	vbDesc.Usage = D3D11_USAGE_DEFAULT;
+	if (CPUAcess) {
+		vbDesc.Usage = D3D11_USAGE_DYNAMIC;
+		vbDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+	}
+	else
+		vbDesc.Usage = D3D11_USAGE_DEFAULT;
 
 	D3D11_SUBRESOURCE_DATA vData = { 0 };
 	vData.pSysMem = &vertices[0];
@@ -514,20 +534,3 @@ void ASNET::Graph::Direct3D::GraphDirect3D::DrawBuffer(
 	else g_devicecontext3d->Draw(buffer->VertexCount, 0);
 }
 
-void ASNET::Graph::Direct3D::GraphDirect3D::DrawBuffer(
-	ASNET::Graph::Direct3D::Buffer * buffer, 
-	ASNET::Graph::Direct3D::BasicEffect * effect,
-	ASNET::Graph::Direct3D::PrimitiveType Type){
-	g_devicecontext3d->IASetInputLayout(InputLayout);
-	UINT stride = sizeof(Vertex);
-	UINT offset = 0;
-	g_devicecontext3d->IASetVertexBuffers(0, 1, &buffer->VertexBuffer, &stride, &offset);
-	if (buffer->IndexBuffer)
-		g_devicecontext3d->IASetIndexBuffer(buffer->IndexBuffer, DXGI_FORMAT_R32_UINT, 0);
-	g_devicecontext3d->IASetPrimitiveTopology((D3D11_PRIMITIVE_TOPOLOGY)Type);
-	effect->EffectBegin();
-	if (buffer->IndexBuffer)
-		g_devicecontext3d->DrawIndexed(buffer->IndexCount, 0, 0);
-	else g_devicecontext3d->Draw(buffer->VertexCount, 0);
-	effect->EffectEnd();
-}

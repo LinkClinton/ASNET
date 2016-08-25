@@ -290,6 +290,7 @@ namespace ASNET {
 		}
 
 		void ASNET::Graph::Graph::Clear(ASNET::Graph::Color color){
+			g_timer.Start();
 			float rgba[4];
 			rgba[0] = color.r;
 			rgba[1] = color.g;
@@ -303,6 +304,16 @@ namespace ASNET {
 		void ASNET::Graph::Graph::Present() {
 			g_devicecontext2d->EndDraw();
 			g_swapchain->Present(0, 0);
+			g_timer.End();
+			g_render_time = g_timer.GetTime();
+		}
+
+		auto Graph::FPS() -> float{
+			return 1.0f / g_render_time;
+		}
+
+		auto Graph::RenderTime() -> float{
+			return g_render_time;
 		}
 
 		void ASNET::Graph::Graph::DrawLine(ASNET::Graph::Point P1, 

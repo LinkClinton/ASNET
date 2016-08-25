@@ -1,7 +1,7 @@
 #include"WindowDirect3DSample.h"
 ASNET::Sample::Direct3DWindow MyWinodw;
 DirectX::XMMATRIX world = DirectX::XMMatrixIdentity();
-DirectX::XMMATRIX view = DirectX::XMMatrixTranspose(DirectX::XMMatrixLookAtLH(DirectX::XMVectorSet(0, 0, -15, 1),
+DirectX::XMMATRIX view = DirectX::XMMatrixTranspose(DirectX::XMMatrixLookAtLH(DirectX::XMVectorSet(0, 0, -150, 1),
 	DirectX::XMVectorSet(0, 0, 0, 1),
 	DirectX::XMVectorSet(0, 1, 0, 1)));
 DirectX::XMMATRIX proj = DirectX::XMMatrixTranspose(DirectX::XMMatrixPerspectiveFovLH(DirectX::XM_PI*0.55f,
@@ -35,29 +35,18 @@ void ASNET::Sample::Direct3DMainPage::OnLoading(void * sender, void * any){
 	ASNET::Sample::Direct3DWindow* Window = (ASNET::Sample::Direct3DWindow*)sender;
 	Direct3DRender = Window->graph;
 	Direct3DShader = Window->shader;
-
-	/*Direct3DRender->LoadShaderDataBuffer(
-		&world, sizeof(DirectX::XMMATRIX), Direct3DWorld);
-	Direct3DRender->LoadShaderDataBuffer(
-		&view, sizeof(DirectX::XMMATRIX), Direct3DView);
-	Direct3DRender->LoadShaderDataBuffer(
-		&proj, sizeof(DirectX::XMMATRIX), Direct3DProj);
-
-	//Direct3DRender->LoadTexture(Direct3DTexture, L"Texture.png");
-
 	
+	ASNET::Graph::Direct3D::GeometryMaker::MakeGrid(Direct3DMesh, 100, 100, 200, 200);
 
-	Direct3DProj->UpDateBuffer();
-	Direct3DView->UpDateBuffer();
-	Direct3DWorld->UpDateBuffer();
-
-	Direct3DShader->SendBufferToVertexShader(0, Direct3DProj);
-	Direct3DShader->SendBufferToVertexShader(2, Direct3DView);
-	Direct3DShader->SendBufferToVertexShader(1, Direct3DWorld);*/
+	//Direct3DRender->LoadTexture(Direct3DTexture, L"model.te4.png");
+	
+	Direct3DRender->LoadBuffer(Direct3DMesh, Direct3DMesh.vertices, Direct3DMesh.indices, true);
 
 	Direct3DEffect = new ASNET::Graph::Direct3D::BasicEffect(Direct3DRender);
 
 	Direct3DRender->SetCullMode(ASNET::Graph::Direct3D::CullMode::CullNone);
+
+	Direct3DRender->SetFillMode(ASNET::Graph::Direct3D::FillMode::FillWireFrame);
 //	Direct3DShader->SendTextureToShader(0, Direct3DTexture);
 
 	//std::vector<ASNET::Graph::Direct3D::Vertex> vertex;
@@ -72,14 +61,15 @@ void ASNET::Sample::Direct3DMainPage::OnLoading(void * sender, void * any){
 	Direct3DDirLight.diffuse = { 0.05f,0.05f,0.05f,0.05f };
 	
 	
+	
 
-
-	Direct3DEffect->Enable(ASNET::Graph::Direct3D::Enable::Texture);
-	Direct3DEffect->Enable(ASNET::Graph::Direct3D::Enable::DirLight);
+	//Direct3DEffect->Enable(ASNET::Graph::Direct3D::Enable::Texture);
+	//Direct3DEffect->Enable(ASNET::Graph::Direct3D::Enable::DirLight);
 
 	Direct3DEffect->DirLightOn(0, Direct3DDirLight);
 	Direct3DEffect->PointLightOn(0, Direct3DPointLight);
 
+	//Direct3DEffect->SetTexture(Direct3DTexture);
 
 	ASNET::Graph::Direct3D::Direct3DModelLoader::LoadPMDModel(Direct3DRender, L"model/remu.pmd", Direct3DPMDModel);
 	
@@ -101,25 +91,18 @@ void ASNET::Sample::Direct3DMainPage::OnDraw(void * sender, ASNET::Graph::Graph 
 	Direct3DEffect->SetViewMatrix(DirectX::XMVectorSet(0, 0, -15, 1),
 		DirectX::XMVectorSet(0, 0, 0, 1));
 	Direct3DEffect->SetWorldMatrix(world);
-	/*Direct3DProj->UpDateBuffer();
-	Direct3DView->UpDateBuffer();
-	Direct3DWorld->UpDateBuffer();
-	*/
 	
 	
-	//Direct3DRender->SetFillMode(ASNET::Graph::Direct3D::FillMode::FillWireFrame);
-
-	//Direct3DShader->SendBufferToVertexShader(0, Direct3DProj);
-	//Direct3DShader->SendBufferToVertexShader(2, Direct3DView);
-	//Direct3DShader->SendBufferToVertexShader(1, Direct3DWorld);
 	
-	//Direct3DRender->SetFillMode(ASNET::Graph::Direct3D::FillMode::FillWireFrame);
-
 
 	
 
+	Direct3DEffect->EffectBegin();
+	Direct3DRender->DrawBuffer(Direct3DMesh);
+	Direct3DEffect->EffectEnd();
 
-	Direct3DPMDModel->Draw(Direct3DEffect);
+
+	//Direct3DPMDModel->Draw(Direct3DEffect);
 
 	
 
@@ -128,6 +111,7 @@ void ASNET::Sample::Direct3DMainPage::OnDraw(void * sender, ASNET::Graph::Graph 
 	
 
 	Direct3DRender->Present();
+	//std::cout << Direct3DRender->RenderTime() << std::endl;
 }
 
 void ASNET::Sample::Direct3DMainPage::OnMouseUp(void * sender, ASNET::Event::EventMouseClick * e){

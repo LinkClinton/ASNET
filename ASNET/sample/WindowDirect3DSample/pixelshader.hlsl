@@ -15,7 +15,7 @@ SamplerState samTex
 };
 
 float4 main(PixelIn In) :SV_TARGET{
-	//return float4(1,0,0,1);
+	return float4(1,0,0,1);
 	float4 TexColor;
 	TexColor = Tex.Sample(samTex, In.tex);
 //clip(TexColor.a - 0.1f);

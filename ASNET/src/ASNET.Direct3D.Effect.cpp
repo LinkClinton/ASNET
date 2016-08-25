@@ -20,6 +20,7 @@ const int NormalMatrixBufferID = 3;
 
 
 void ASNET::Graph::Direct3D::BasicEffect::UpdateBufferToShader(){
+
 	EffectShader->SendBufferToVertexShader(ProjMatrixBufferID, ProjMatrixBuffer);
 	EffectShader->SendBufferToVertexShader(ViewMatrixBufferID, ViewMatrixBuffer);
 	EffectShader->SendBufferToVertexShader(WorldMatrixBufferID, WorldMatrixBuffer);
@@ -255,11 +256,16 @@ void ASNET::Graph::Direct3D::BasicEffect::EffectBegin(){
 	ParentGraph->g_devicecontext3d->VSSetShader(EffectShader->VertexShader, 0, 0);
 	ParentGraph->g_devicecontext3d->PSSetShader(EffectShader->PixelShader, 0, 0);
 
+	ParentGraph->UpDateInputLayout(EffectShader);
+
 	UpdateBufferToShader();
 }
 
 void ASNET::Graph::Direct3D::BasicEffect::EffectEnd(){
 	EffectIsBegin = false;
+
+	ParentGraph->UpDateInputLayout(ParentGraph->UsedShader);
+
 	ParentGraph->g_devicecontext3d->VSSetShader(ParentGraph->UsedShader->VertexShader, 0, 0);
 	ParentGraph->g_devicecontext3d->PSSetShader(ParentGraph->UsedShader->PixelShader, 0, 0);
 }

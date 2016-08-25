@@ -237,18 +237,29 @@ float4 main(PixelIn In): SV_TARGET{
 			}
 	}
 	if (EffectState.EnableTexture) {
-		float4 litColor = A + D + S;
-		litColor.a = material.diffuse.a;
-		float4 texColor = Tex.Sample(samTex, In.tex);
-		float4 FinaColor = texColor*(A + D) + S;
-		FinaColor.a = texColor.a*material.diffuse.a;
+		if (EffectState.EnablePointLight || EffectState.EnablePointLight || EffectState.EnableSpotLight) {
+			float4 litColor = A + D + S;
+			litColor.a = material.diffuse.a;
+			float4 texColor = Tex.Sample(samTex, In.tex);
+			float4 FinaColor = texColor*(A + D) + S;
+			FinaColor.a = texColor.a*material.diffuse.a;
 
-		return FinaColor;
+			return FinaColor;
+		}
+		else {
+			return Tex.Sample(samTex, In.tex);
+		}
+		
 	}
 	else {
-		float4 litColor = A + D + S;
-		litColor.a = material.diffuse.a;
-		return litColor;
+		if (EffectState.EnablePointLight || EffectState.EnablePointLight || EffectState.EnableSpotLight) {
+			float4 litColor = A + D + S;
+			litColor.a = material.diffuse.a;
+			return litColor;
+		}
+		else {
+			return In.Color;
+		}
 	}
 	
 }

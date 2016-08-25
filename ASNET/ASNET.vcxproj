@@ -19,7 +19,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\ASNET.Control.Timer.h" />
     <ClInclude Include="src\ASNET.Direct3D.Effect.h" />
+    <ClInclude Include="src\ASNET.Direct3D.Geometry.h" />
     <ClInclude Include="src\ASNET.Direct3D.Model.h" />
     <ClInclude Include="src\ASNET.Direct3D.Model.PMD.h" />
     <ClInclude Include="src\ASNET.Window.Event.h" />
@@ -30,7 +32,9 @@
     <ClInclude Include="src\ASNET.Window.Page.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\ASNET.Control.Timer.cpp" />
     <ClCompile Include="src\ASNET.Direct3D.Effect.cpp" />
+    <ClCompile Include="src\ASNET.Direct3D.Geometry.cpp" />
     <ClCompile Include="src\ASNET.Direct3D.Model.cpp" />
     <ClCompile Include="src\ASNET.Direct3D.Model.PMD.cpp" />
     <ClCompile Include="src\ASNET.Window.cpp" />
@@ -69,6 +73,7 @@
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v140</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
+    <CLRSupport>false</CLRSupport>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>

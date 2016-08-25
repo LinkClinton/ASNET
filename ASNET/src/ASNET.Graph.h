@@ -7,6 +7,8 @@
 #include<dwrite.h>
 #include<wincodec.h>
 
+#include"ASNET.Control.Timer.h"
+
 #undef LoadImage
 
 
@@ -89,13 +91,20 @@ namespace ASNET {
 			friend class Image;
 			friend class Font;
 			void Initalize(HWND hwnd, bool IsWindowed);
+		protected:
+			ASNET::Control::Timer   g_timer;
+			float					g_render_time;
 		public:
 			Graph();
 			Graph(HWND hwnd, bool IsWindowed = true);
 			~Graph();
-			virtual void Clear(ASNET::Graph::Color color = ASNET::Graph::Color::White);
+			void Clear(ASNET::Graph::Color color = ASNET::Graph::Color::White);
 
-			virtual void Present();
+			void Present();
+
+			auto FPS()->float;
+
+			auto RenderTime()->float;
 
 			virtual void DrawLine(ASNET::Graph::Point P1,
 				ASNET::Graph::Point P2, ASNET::Graph::Color color, float width = 1.0f);

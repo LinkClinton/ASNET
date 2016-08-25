@@ -1,6 +1,6 @@
 #pragma once
 #include"ASNET.Graph.h"
-#include"ASNET.Direct3D.Effect.h"
+
 //std
 #include<vector>
 
@@ -60,9 +60,16 @@ namespace ASNET {
 				Buffer(ASNET::Graph::Direct3D::GraphDirect3D* Graph);
 				~Buffer();
 
+				void UnLock(ASNET::Graph::Direct3D::Vertex* &vertices);
+				//only the cpu can access 
+				void Lock();
+
+
 				void reset(std::vector<ASNET::Graph::Direct3D::Vertex> vertices,
 					std::vector<ASNET::Graph::Direct3D::Index>  indices = std::vector<Index>());
 			};
+
+			
 
 
 			class ShaderDataBuffer {
@@ -204,7 +211,10 @@ namespace ASNET {
 
 				void LoadBuffer(ASNET::Graph::Direct3D::Buffer* &buffer,
 					std::vector<ASNET::Graph::Direct3D::Vertex> vertices,
-					std::vector<ASNET::Graph::Direct3D::Index>  indices = std::vector<Index>());
+					std::vector<ASNET::Graph::Direct3D::Index>  indices = std::vector<Index>(),
+					bool CPUAcess = false); //only for vertex buffer
+
+			
 
 				void LoadShaderDataBuffer(void* data, UINT datasize,
 					ASNET::Graph::Direct3D::ShaderDataBuffer* &buffer);
@@ -213,10 +223,7 @@ namespace ASNET {
 					ASNET::Graph::Direct3D::PrimitiveType Type =
 					ASNET::Graph::Direct3D::PrimitiveType::Triangle);
 
-				void DrawBuffer(ASNET::Graph::Direct3D::Buffer* buffer,
-					ASNET::Graph::Direct3D::BasicEffect* effect,
-					ASNET::Graph::Direct3D::PrimitiveType Type =
-					ASNET::Graph::Direct3D::PrimitiveType::Triangle);
+			
 				
 
 			};
