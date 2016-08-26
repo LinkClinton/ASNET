@@ -69,7 +69,7 @@ namespace ASNET {
 					std::vector<ASNET::Graph::Direct3D::Index>  indices = std::vector<Index>());
 			};
 
-			
+
 
 
 			class ShaderDataBuffer {

@@ -97,6 +97,7 @@ namespace ASNET {
 				static WORD  PMDWordRead(std::ifstream* file);
 				static void  PMDRuleOut(std::ifstream* file, int num);
 			public:
+				PMDModel(ASNET::Graph::Direct3D::GraphDirect3D* graph);
 				~PMDModel();
 				void Draw(int texture_id = 0);// the id of texture in shader,最好别用,基本上代码是完全限制住了，且没有好的着色器代码对应
 				void Draw(ASNET::Graph::Direct3D::BasicEffect* effect);
@@ -106,6 +107,7 @@ namespace ASNET {
 				void DrawPart(int index); //绘制模型部分
 				
 				auto ModelPatsNum()->int;
+
 				void Release();
 			};
 		}

@@ -38,6 +38,28 @@ void ASNET::Graph::Direct3D::PMDModel::PMDRuleOut(std::ifstream * file, int num)
 		file->get(c);
 }
 
+ASNET::Graph::Direct3D::PMDModel::PMDModel(
+	ASNET::Graph::Direct3D::GraphDirect3D * graph){
+	ParentGraph = graph;
+
+	Buffer = nullptr;
+
+	VertexNum = 0;
+	IndexNum = 0;
+	ModelPartsNum = 0;
+
+	vertices.clear();
+
+	indices.clear();
+
+	ModelParts.clear();
+
+	Textures.clear();
+
+	FilePath.clear();
+
+}
+
 ASNET::Graph::Direct3D::PMDModel::~PMDModel(){
 	ParentGraph = nullptr;
 	delete Buffer;
@@ -49,6 +71,9 @@ ASNET::Graph::Direct3D::PMDModel::~PMDModel(){
 	indices.clear();
 	ModelParts.clear();
 	
+	for (std::map<std::wstring, ASNET::Graph::Direct3D::Texture*>::iterator
+		it = Textures.begin(); it != Textures.end(); it++)
+		delete it->second;
 }
 
 void ASNET::Graph::Direct3D::PMDModel::Draw(int texture_id){
@@ -103,7 +128,7 @@ auto ASNET::Graph::Direct3D::PMDModel::ModelPatsNum() -> int{
 
 void ASNET::Graph::Direct3D::PMDModel::Release(){
 	ParentGraph = nullptr;
-	Buffer->~Buffer();
+	delete Buffer;
 
 	VertexNum = 0;
 	IndexNum = 0;
@@ -112,6 +137,10 @@ void ASNET::Graph::Direct3D::PMDModel::Release(){
 	indices.clear();
 	ModelParts.clear();
 	
+	for (std::map<std::wstring, ASNET::Graph::Direct3D::Texture*>::iterator
+		it = Textures.begin(); it != Textures.end(); it++)
+		delete it->second;
+
 }
 
 ASNET::Graph::Direct3D::PMDModelPart::operator ASNET::Graph::Direct3D::Material(){
@@ -138,6 +167,8 @@ ASNET::Graph::Direct3D::PMDModelPart::PMDModelPart(){
 	TextureID = 0;
 	Texture = nullptr;
 
+
+
 }
 
 ASNET::Graph::Direct3D::PMDModelPart::~PMDModelPart(){
@@ -154,5 +185,4 @@ ASNET::Graph::Direct3D::PMDModelPart::~PMDModelPart(){
 	StartFace = 0;
 	EffectCount = 0;
 	TextureID = 0;
-	delete Texture;
 }

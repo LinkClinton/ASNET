@@ -10,7 +10,7 @@ void ASNET::Graph::Direct3D::Direct3DModelLoader::LoadPMDModel(
 	ASNET::Graph::Word filename, PMDModel *& model) {
 	std::ifstream in_file;
 	if (model) return;
-	model = new ASNET::Graph::Direct3D::PMDModel();
+	model = new ASNET::Graph::Direct3D::PMDModel(graph);
 	int len = wcslen(filename);
 	int Last = 0;
 	for (int i = 0; i < len; i++) 

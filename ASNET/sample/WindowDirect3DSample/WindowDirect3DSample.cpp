@@ -102,7 +102,7 @@ void ASNET::Sample::Direct3DMainPage::OnDraw(void * sender, ASNET::Graph::Graph 
 	Direct3DEffect->EffectEnd();
 
 
-	//Direct3DPMDModel->Draw(Direct3DEffect);
+	Direct3DPMDModel->Draw(Direct3DEffect);
 
 	
 
