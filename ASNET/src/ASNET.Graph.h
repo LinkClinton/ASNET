@@ -23,6 +23,8 @@ namespace ASNET {
 		typedef D2D_POINT_2F     Point;
 		typedef wchar_t*         Word;
 
+		
+
 		class Font {
 		private:
 			ASNET::Graph::Graph* ParentGraph;

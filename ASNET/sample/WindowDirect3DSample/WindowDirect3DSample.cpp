@@ -36,7 +36,11 @@ void ASNET::Sample::Direct3DMainPage::OnLoading(void * sender, void * any){
 	Direct3DRender = Window->graph;
 	Direct3DShader = Window->shader;
 	
-	ASNET::Graph::Direct3D::GeometryMaker::MakeGrid(Direct3DMesh, 100, 100, 200, 200);
+	ASNET::Graph::Direct3D::GeometryMaker::CreateGrid(Direct3DMesh, 100, 100, 200, 200);
+
+	Direct3DLabel = new ASNET::Control::Label((ASNET::Graph::Graph*)Direct3DRender, 100, 200, 100, 200, L"Lable",
+		L"Hello", L"Consolas", 12);
+
 
 	//Direct3DRender->LoadTexture(Direct3DTexture, L"model.te4.png");
 	
@@ -63,13 +67,9 @@ void ASNET::Sample::Direct3DMainPage::OnLoading(void * sender, void * any){
 	
 	
 
-	//Direct3DEffect->Enable(ASNET::Graph::Direct3D::Enable::Texture);
-	//Direct3DEffect->Enable(ASNET::Graph::Direct3D::Enable::DirLight);
-
 	Direct3DEffect->DirLightOn(0, Direct3DDirLight);
 	Direct3DEffect->PointLightOn(0, Direct3DPointLight);
 
-	//Direct3DEffect->SetTexture(Direct3DTexture);
 
 	ASNET::Graph::Direct3D::Direct3DModelLoader::LoadPMDModel(Direct3DRender, L"model/remu.pmd", Direct3DPMDModel);
 	

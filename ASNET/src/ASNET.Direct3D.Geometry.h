@@ -24,8 +24,22 @@ namespace ASNET {
 			class GeometryMaker {
 			private:
 			public:
-				static void MakeGrid(ASNET::Graph::Direct3D::GeometryMesh &mesh,
+				static void CreateGrid(ASNET::Graph::Direct3D::GeometryMesh &mesh,
 					float width, float depth, UINT dx, UINT dz);
+
+				static void CreateGrid(ASNET::Graph::Direct3D::GraphDirect3D* graph,
+					ASNET::Graph::Direct3D::Buffer* &buffer,
+					float width, float depth, UINT dx, UINT dz,
+					bool CPUAcess = false);
+
+				static void CreateBox(ASNET::Graph::Direct3D::GeometryMesh &mesh,
+					float width, float height, float depth);
+
+				static void CreateBox(ASNET::Graph::Direct3D::GraphDirect3D* graph,
+					ASNET::Graph::Direct3D::Buffer* &buffer,
+					float width, float height, float depth,
+					bool CPUAcess);
+
 
 			};
 

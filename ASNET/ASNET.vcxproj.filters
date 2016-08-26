@@ -78,6 +78,12 @@
     <ClInclude Include="src\ASNET.Control.Timer.h">
       <Filter>头文件\Control</Filter>
     </ClInclude>
+    <ClInclude Include="src\ASNET.Control.Label.h">
+      <Filter>头文件\Control</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ASNET.Control.h">
+      <Filter>头文件\Control</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\ASNET.Window.cpp">
@@ -108,6 +114,12 @@
       <Filter>源文件\Extend\Direct3D</Filter>
     </ClCompile>
     <ClCompile Include="src\ASNET.Control.Timer.cpp">
+      <Filter>源文件\Control</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ASNET.Control.cpp">
+      <Filter>源文件\Control</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ASNET.Control.Label.cpp">
       <Filter>源文件\Control</Filter>
     </ClCompile>
   </ItemGroup>

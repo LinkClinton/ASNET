@@ -3,6 +3,7 @@
 #include<ASNET.Direct3D.Model.h>
 #include<ASNET.Direct3D.Effect.h>
 #include<ASNET.Direct3D.Geometry.h>
+#include<ASNET.Control.Label.h>
 #include<DirectXMath.h>
 
 #include<iostream>
@@ -45,6 +46,8 @@ namespace ASNET {
 
 			bool									  IsMouseDown;
 
+			
+			ASNET::Control::Label*                    Direct3DLabel;
 			float									  ModelAngleY = 0.0f;
 			float                                     ModelAngleX = 0.0f;
 			const float								  pixelangle = 0.005f;
