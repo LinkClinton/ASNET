@@ -1,6 +1,5 @@
 #include<ASNET.Window.h>
 #include<ASNET.Graph.Direct3D.h>
-#include<ASNET.Direct3D.Model.h>
 #include<ASNET.Direct3D.Effect.h>
 #include<ASNET.Direct3D.Geometry.h>
 #include<ASNET.Control.Label.h>
@@ -35,7 +34,7 @@ namespace ASNET {
 			ASNET::Graph::Direct3D::Buffer*			  Direct3DCubeBuffer;
 
 			ASNET::Graph::Direct3D::GeometryMesh	  Direct3DMesh;
-			ASNET::Graph::Direct3D::PMDModel*         Direct3DPMDModel;
+		
 			
 			
 			ASNET::Graph::Direct3D::DirLight		  Direct3DDirLight;

@@ -71,7 +71,7 @@ void ASNET::Sample::Direct3DMainPage::OnLoading(void * sender, void * any){
 	Direct3DEffect->PointLightOn(0, Direct3DPointLight);
 
 
-	ASNET::Graph::Direct3D::Direct3DModelLoader::LoadPMDModel(Direct3DRender, L"model/remu.pmd", Direct3DPMDModel);
+	//ASNET::Graph::Direct3D::Direct3DModelLoader::LoadPMDModel(Direct3DRender, L"model/remu.pmd", Direct3DPMDModel);
 	
 }
 
@@ -102,7 +102,7 @@ void ASNET::Sample::Direct3DMainPage::OnDraw(void * sender, ASNET::Graph::Graph 
 	Direct3DEffect->EffectEnd();
 
 
-	Direct3DPMDModel->Draw(Direct3DEffect);
+	//Direct3DPMDModel->Draw(Direct3DEffect);
 
 	
 
