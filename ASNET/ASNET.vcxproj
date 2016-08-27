@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\ASNET.Control.Base.h" />
     <ClInclude Include="src\ASNET.Control.h" />
     <ClInclude Include="src\ASNET.Control.Label.h" />
     <ClInclude Include="src\ASNET.Control.Timer.h" />

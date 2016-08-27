@@ -57,6 +57,12 @@ void ASNET::Sample::PageSample::OnLoading(void * sender, void * any)
 		ASNET::Event::EventHandler::GetSenderMessage(sender)->NowUsedPage();
 	std::cout << "Page Loading" << std::endl;
 
+	MyLabel = new ASNET::Control::Label(graph, 100, 200, 100, 200, L"Label", L"Hello", L"Consolas", 15);
+
+	MyLabel->MouseButtonDownHandler += PageSample::OnLabelClickDown;
+
+	RegisterControl((ASNET::Control::Control*)MyLabel);
+
 }
 
 void ASNET::Sample::PageSample::OnDraw(void * sender, ASNET::Graph::Graph * render)
@@ -75,15 +81,21 @@ void ASNET::Sample::PageSample::OnDraw(void * sender, ASNET::Graph::Graph * rend
 	graph->DrawWord(L"Hello,World", D2D1::RectF(0, 0, (float)Window->Width, (float)Window->Height), font,
 		ASNET::Graph::Color::Black, ASNET::Graph::TextAlign::Center,
 		ASNET::Graph::TextAlign::Center);
-	
 	delete font;
+
+	MyLabel->OnDraw(sender, render);
 
 	//Ë¢ÐÂ
 	render->Present();
 	
 }
 
+void ASNET::Sample::PageSample::OnLabelClickDown(void * sender, ASNET::Event::EventMouseClick * e){
+	std::cout << e->x << std::endl;
+}
+
 ASNET::Sample::PageSample::PageSample()
 {
-	
+
 }
+

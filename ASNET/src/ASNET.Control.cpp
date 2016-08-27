@@ -1,4 +1,4 @@
-#include "ASNET.Control.h"
+#include "ASNET.Control.Base.h"
 
 ASNET::Control::Color::Color(){
 	r = 0;
@@ -55,4 +55,40 @@ void ASNET::Control::Control::OnKeyDown(void * sender, ASNET::Event::EventBoardC
 
 void ASNET::Control::Control::OnKeyUp(void * sender, ASNET::Event::EventBoardClick * e)
 {
+}
+
+
+
+ASNET::Control::Control::Control(){
+	IsActive = true;
+	IsFocus = false;
+	IsShow = true;
+}
+
+ASNET::Control::Control::operator ASNET::Graph::Rect(){
+	return D2D1::RectF(Left, Top, Right, Bottom);
+}
+
+void ASNET::Control::Control::Show(){
+	IsShow = true;
+}
+
+void ASNET::Control::Control::Hide(){
+	IsShow = false;
+}
+
+void ASNET::Control::Control::GetFocus(){
+	IsFocus = true;
+}
+
+void ASNET::Control::Control::LostFocus(){
+	IsFocus = false;
+}
+
+void ASNET::Control::Control::Active(){
+	IsActive = true;
+}
+
+void ASNET::Control::Control::UnActive(){
+	IsActive = false;
 }

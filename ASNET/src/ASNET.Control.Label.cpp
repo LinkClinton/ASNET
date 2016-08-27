@@ -1,5 +1,22 @@
 #include "ASNET.Control.Label.h"
 
+void ASNET::Control::Label::OnDraw(void * sender, ASNET::Graph::Graph * graph){
+	if (!IsShow) return; 
+	graph->DrawRectangle(
+		D2D1::RectF(Left, Top, Right, Bottom),
+		ASNET::Graph::Color(0, 0, 0, 0), 0.0f, true,
+		BackColor
+	);
+
+	graph->DrawWord(Text,
+		D2D1::RectF(Left, Top, Right, Bottom),
+		TextFont, TextColor, Horizontal, Vertical);
+		
+}
+
+
+
+
 ASNET::Control::Label::Label(
 	ASNET::Graph::Graph * graph,
 	float left, float right, float top, float bottom,
@@ -18,7 +35,7 @@ ASNET::Control::Label::Label(
 	Horizontal = horizontal;
 	Vertical = vertical;
 
-	BackColor = ASNET::Graph::Color::White;
+	BackColor = ASNET::Graph::Color(1, 1, 1, 0);
 	TextColor = ASNET::Graph::Color::Black;
 
 	ParentGraph->LoadFont(TextFont, fontface, fontsize);
@@ -33,21 +50,6 @@ void ASNET::Control::Label::reset(wchar_t * fontface,
 	float fontsize){
 	
 	TextFont->reset(fontface, fontsize);
-
-}
-
-void ASNET::Control::Label::Draw(
-	ASNET::Graph::Graph * graph){
-
-	ParentGraph->DrawRectangle(
-		D2D1::RectF(Left, Top, Right, Bottom),
-		ASNET::Graph::Color(0, 0, 0, 0), 0.0f, true,
-		BackColor
-	);
-
-	ParentGraph->DrawWord(Text,
-		D2D1::RectF(Left, Top, Right, Bottom),
-		TextFont, TextColor, Horizontal, Vertical);
 
 }
 

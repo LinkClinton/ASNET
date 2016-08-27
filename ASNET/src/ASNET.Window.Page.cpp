@@ -41,9 +41,80 @@ namespace ASNET {
 		{
 		}
 
-		Page::Page()
+		ASNET::Page::Page::Page()
 		{
 		}
+
+		void ASNET::Page::Page::RegisterControl(ASNET::Control::Control * control){
+			Controls.push_back(control);
+			control->ParentGraph = graph;
+		}
+
+		void ASNET::Page::Page::UnRegisterControl(ASNET::Control::Control * control){
+			for (UINT i = 0; i < Controls.size(); i++)
+				if (Controls[i] == control) {
+					Controls.erase(Controls.begin() + i);
+					break;
+				}
+		}
+
+		
+		//==要判断事件是否引发，只有在这个控件的范围内才会
+		static bool PosInRect(int x, int y, ASNET::Graph::Rect rect) {
+			if (x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom) return true;
+			return false;
+		}
+		
+
+		void Page::OnControlMouseMove(void * sender, ASNET::Event::EventMouseMove * e){
+			for (UINT i = 0;i<Controls.size();i++)
+				if (Controls[i]->IsActive && PosInRect(e->x,e->y,*Controls[i])) {
+					Controls[i]->OnMouseMove(sender, e);
+					ASNET::Event::DoEventHandlers(Controls[i]->MouseMoveHandler, sender, e);
+				}
+		}
+
+		void Page::OnControlMouseWheel(void * sender, ASNET::Event::EventMouseWheel * e){
+			for (UINT i = 0; i < Controls.size(); i++) 
+				if (Controls[i]->IsActive && PosInRect(e->x, e->y, *Controls[i])) {
+					Controls[i]->OnMouseWheel(sender, e);
+					ASNET::Event::DoEventHandlers(Controls[i]->MouseWheelHandler, sender, e);
+				}
+		}
+
+		void Page::OnControlMouseUp(void * sender, ASNET::Event::EventMouseClick * e){
+			for (UINT i = 0; i < Controls.size(); i++)
+				if (Controls[i]->IsActive && PosInRect(e->x, e->y, *Controls[i])) {
+					Controls[i]->OnMouseUp(sender, e);
+					ASNET::Event::DoEventHandlers(Controls[i]->MouseButtonUpHandler, sender, e);
+				}
+		}
+
+		void Page::OnControlMouseDown(void * sender, ASNET::Event::EventMouseClick * e){
+			for (UINT i = 0; i < Controls.size(); i++)
+				if (Controls[i]->IsActive && PosInRect(e->x, e->y, *Controls[i])) {
+					Controls[i]->OnMouseDown(sender, e);
+					ASNET::Event::DoEventHandlers(Controls[i]->MouseButtonDownHandler, sender, e);
+				}
+		}
+
+		void Page::OnControlKeyDown(void * sender, ASNET::Event::EventBoardClick * e){
+			for (UINT i = 0; i < Controls.size(); i++)
+				if (Controls[i]->IsActive && Controls[i]->IsFocus) {
+					Controls[i]->OnKeyDown(sender, e);
+					ASNET::Event::DoEventHandlers(Controls[i]->BoardDownHandler, sender, e);
+				}
+		}
+
+		void Page::OnControlKeyUp(void * sender, ASNET::Event::EventBoardClick * e){
+			for (UINT i = 0; i < Controls.size(); i++)
+				if (Controls[i]->IsActive && Controls[i]->IsFocus) {
+					Controls[i]->OnKeyUp(sender, e);
+					ASNET::Event::DoEventHandlers(Controls[i]->BoardUpHandler, sender, e);
+				}
+		}
+
+		
 
 	}
 }

@@ -140,10 +140,12 @@ namespace ASNET {
 			OnMouseMove(this, e);
 			ASNET::Event::DoEventHandlers(
 				MouseMoveHandler, this, e);
-			if (UsedPage)
-				UsedPage->OnMouseMove(this, e),
+			if (UsedPage) {
+				UsedPage->OnMouseMove(this, e);
 				ASNET::Event::DoEventHandlers(
 					UsedPage->MouseMoveHandler, this, e);
+				UsedPage->OnControlMouseMove(this, e);
+			}
 			break;
 		}
 		case ASNET::Event::EventType::EventMouseClick: {
@@ -152,20 +154,23 @@ namespace ASNET {
 				OnMouseDown(this, e);
 				ASNET::Event::DoEventHandlers(
 					MouseButtonDownHandler, this, e);
-				if (UsedPage)
-					UsedPage->OnMouseDown(this, e),
+				if (UsedPage) {
+					UsedPage->OnMouseDown(this, e);
 					ASNET::Event::DoEventHandlers(
 						UsedPage->MouseButtonDownHandler, this, e);
+					UsedPage->OnControlMouseDown(this, e);
+				}
 			}
 			else {
 				OnMouseUp(this, e);
 				ASNET::Event::DoEventHandlers(
 					MouseButtonUpHandler, this, e);
-				if (UsedPage)
-					UsedPage->OnMouseUp(this, e),
-				ASNET::Event::DoEventHandlers(
-					UsedPage->MouseButtonUpHandler, this, e
-				);
+				if (UsedPage) {
+					UsedPage->OnMouseUp(this, e);
+					ASNET::Event::DoEventHandlers(
+						UsedPage->MouseButtonUpHandler, this, e);
+					UsedPage->OnControlMouseUp(this, e);
+				}
 			}
 			break;
 		}
@@ -173,11 +178,12 @@ namespace ASNET {
 			ASNET::Event::EventMouseWheel* e = (ASNET::Event::EventMouseWheel*)BaseEvent;
 			OnMouseWheel(this, e);
 			ASNET::Event::DoEventHandlers(MouseWheelHandler, this, e);
-			if (UsedPage)
-				UsedPage->OnMouseWheel(this, e),
+			if (UsedPage) {
+				UsedPage->OnMouseWheel(this, e);
 				ASNET::Event::DoEventHandlers(
-					UsedPage->MouseWheelHandler, this, e
-				);
+					UsedPage->MouseWheelHandler, this, e);
+				UsedPage->OnControlMouseWheel(this, e);
+			}
 			break;
 		}
 		case ASNET::Event::EventType::EventBoardClick: {
@@ -185,20 +191,22 @@ namespace ASNET {
 			if (e->IsDown) {
 				OnKeyDown(this, e);
 				ASNET::Event::DoEventHandlers(BoardDownHandler, this, e);
-				if (UsedPage)
-					UsedPage->OnKeyDown(this, e),
+				if (UsedPage) {
+					UsedPage->OnKeyDown(this, e);
 					ASNET::Event::DoEventHandlers(
-						UsedPage->BoardDownHandler, this, e
-					);
+						UsedPage->BoardDownHandler, this, e);
+					UsedPage->OnControlKeyDown(this, e);
+				}
 			}
 			else {
 				OnKeyUp(this, e);
 				ASNET::Event::DoEventHandlers(BoardUpHandler, this, e);
-				if (UsedPage)
-					UsedPage->OnKeyUp(this, e),
+				if (UsedPage) {
+					UsedPage->OnKeyUp(this, e);
 					ASNET::Event::DoEventHandlers(
-						UsedPage->BoardUpHandler, this, e
-					);
+						UsedPage->BoardUpHandler, this, e);
+					UsedPage->OnControlKeyUp(this, e);
+				}
 			}
 			break;
 		}
@@ -277,17 +285,19 @@ namespace ASNET {
 		Pages.erase(Pages.begin() + index);
 	}
 
-	void ASNET::Window::NextPage(){
+	void ASNET::Window::NextPage(void* any){
 		NowPage++;
 		UsedPage = Pages[NowPage];
-		UsedPage->OnLoading(this, NULL);
 		UsedPage->graph = GraphRender;
+		UsedPage->OnLoading(this, any);
+		
 	}
 
-	void Window::ShowPage(int index){
+	void Window::ShowPage(int index, void* any) {
 		UsedPage = Pages[index];
-		UsedPage->OnLoading(this, NULL);
 		UsedPage->graph = GraphRender;
+		UsedPage->OnLoading(this, any);
+
 	}
 
 	auto Window::NowUsedPage() -> ASNET::Page::Page *
@@ -312,8 +322,6 @@ namespace ASNET {
 			if (UsedPage) {
 				UsedPage->graph = GraphRender;
 				UsedPage->OnDraw(this, GraphRender);
-				ASNET::Event::DoEventHandlers(
-					UsedPage->GraphDrawHandler, this, GraphRender);
 			}
 		}
 	}

@@ -1,5 +1,6 @@
 #pragma once
 #include"ASNET.Window.Event.h"
+#include"ASNET.Control.Base.h"
 #include"ASNET.Graph.h"
 
 
@@ -9,9 +10,17 @@ namespace ASNET {
 	class Window;
 	namespace Page {
 
+		//事件优先级，窗口最优先，然后界面然后控件
+
 		class Page {
 		private:
-			friend class Window;
+			std::vector<ASNET::Control::Control*>  Controls;
+			void OnControlMouseMove(void* sender, ASNET::Event::EventMouseMove* e);
+			void OnControlMouseWheel(void* sender, ASNET::Event::EventMouseWheel* e);
+			void OnControlMouseUp(void* sender, ASNET::Event::EventMouseClick* e);
+			void OnControlMouseDown(void* sender, ASNET::Event::EventMouseClick* e);
+			void OnControlKeyDown(void* sender, ASNET::Event::EventBoardClick* e);
+			void OnControlKeyUp(void* sender, ASNET::Event::EventBoardClick* e);
 		protected:
 			ASNET::Graph::Graph*       graph;
 		protected:
@@ -32,10 +41,15 @@ namespace ASNET {
 			ASNET::Event::EventBoardClickHandlers		BoardUpHandler;
 			ASNET::Event::EventBoardClickHandlers		BoardDownHandler;
 			ASNET::Event::EventSizeChangeHandlers		SizeChangeHandler;
-			ASNET::Event::EventGraphDrawHandlers		GraphDrawHandler;
 			
+		
+			friend class Window;
 		public:
 			Page();
+
+			void RegisterControl(ASNET::Control::Control* control);
+
+			void UnRegisterControl(ASNET::Control::Control* control);
 		};
 	}
 }

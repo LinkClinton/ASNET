@@ -58,9 +58,9 @@ namespace ASNET {
 
 		void DeletePage(int index);
 
-		void ShowPage(int index);
+		void ShowPage(int index, void* any = nullptr);
 
-		void NextPage();
+		void NextPage(void* any = nullptr);
 
 		auto NowUsedPage()->ASNET::Page::Page*;
 

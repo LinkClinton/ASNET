@@ -1,5 +1,6 @@
 #pragma once
 #include<ASNET.Window.h>
+#include<ASNET.Control.h>
 namespace ASNET {
 	namespace Sample {
 
@@ -32,9 +33,14 @@ namespace ASNET {
 			void OnLoading(void* sender, void* any)override;
 			//绘制这个页面
 			void OnDraw(void* sender, ASNET::Graph::Graph* render)override;
+
+			ASNET::Control::Label* MyLabel;
+			static void OnLabelClickDown(void* sender, ASNET::Event::EventMouseClick* e);
 		public:
 			PageSample(); //构造函数重新写
 		};
+
+		
 
 	}
 }

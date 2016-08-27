@@ -94,7 +94,7 @@ void ASNET::Sample::Direct3DMainPage::OnDraw(void * sender, ASNET::Graph::Graph 
 	
 	
 	
-
+	//Direct3DLabel->Draw();
 	
 
 	Direct3DEffect->EffectBegin();
