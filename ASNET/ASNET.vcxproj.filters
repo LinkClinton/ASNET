@@ -87,6 +87,9 @@
     <ClInclude Include="src\ASNET.Control.h">
       <Filter>头文件\Control</Filter>
     </ClInclude>
+    <ClInclude Include="src\ASNET.Direct3D.Model.PMX.h">
+      <Filter>头文件\Extend\Direct3D</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\ASNET.Window.cpp">

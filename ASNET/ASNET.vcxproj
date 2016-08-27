@@ -27,6 +27,7 @@
     <ClInclude Include="src\ASNET.Direct3D.Geometry.h" />
     <ClInclude Include="src\ASNET.Direct3D.Model.h" />
     <ClInclude Include="src\ASNET.Direct3D.Model.PMD.h" />
+    <ClInclude Include="src\ASNET.Direct3D.Model.PMX.h" />
     <ClInclude Include="src\ASNET.Window.Event.h" />
     <ClInclude Include="src\ASNET.Graph.Direct3D.h" />
     <ClInclude Include="src\ASNET.Graph.h" />
