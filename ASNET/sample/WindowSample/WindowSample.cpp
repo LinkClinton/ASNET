@@ -57,6 +57,13 @@ void ASNET::Sample::PageSample::OnLoading(void * sender, void * any)
 		ASNET::Event::EventHandler::GetSenderMessage(sender)->NowUsedPage();
 	std::cout << "Page Loading" << std::endl;
 
+	ASNET::Graph::Direct3D::Value a;
+	a._byte[0] = 1;
+	a._byte[1] = 2;
+	a._byte[2] = 0;
+	a._byte[3] = 0;
+	std::cout << a._int << " " << a._short << std::endl;
+
 	MyLabel = new ASNET::Control::Label(graph, 100, 200, 100, 200, L"Label", L"Hello", L"Consolas", 15);
 
 	MyLabel->MouseButtonDownHandler += PageSample::OnLabelClickDown;

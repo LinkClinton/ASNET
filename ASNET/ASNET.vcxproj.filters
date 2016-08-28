@@ -81,6 +81,12 @@
     <ClInclude Include="src\ASNET.Control.h">
       <Filter>头文件\Control</Filter>
     </ClInclude>
+    <ClInclude Include="src\ASNET.Direct3D.Model.h">
+      <Filter>头文件\Extend\Direct3D</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ASNET.Direct3D.Mesh.h">
+      <Filter>头文件\Extend\Direct3D</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\ASNET.Window.cpp">
@@ -112,6 +118,12 @@
     </ClCompile>
     <ClCompile Include="src\ASNET.Control.Label.cpp">
       <Filter>源文件\Control</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ASNET.Direct3D.Mesh.cpp">
+      <Filter>源文件\Extend\Direct3D</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ASNET.Direct3D.Model.cpp">
+      <Filter>源文件\Extend\Direct3D</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

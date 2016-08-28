@@ -2,6 +2,7 @@
 #include<ASNET.Graph.Direct3D.h>
 #include<ASNET.Direct3D.Effect.h>
 #include<ASNET.Direct3D.Geometry.h>
+#include<ASNET.Direct3D.Model.h>
 #include<ASNET.Control.Label.h>
 #include<DirectXMath.h>
 
@@ -36,7 +37,7 @@ namespace ASNET {
 			ASNET::Graph::Direct3D::GeometryMesh	  Direct3DMesh;
 		
 			
-			
+			ASNET::Graph::Direct3D::Model*            Direct3DModel;
 			ASNET::Graph::Direct3D::DirLight		  Direct3DDirLight;
 			ASNET::Graph::Direct3D::PointLight        Direct3DPointLight;
 			ASNET::Graph::Direct3D::BasicEffect*      Direct3DEffect;

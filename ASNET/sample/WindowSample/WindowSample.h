@@ -1,6 +1,7 @@
 #pragma once
 #include<ASNET.Window.h>
 #include<ASNET.Control.h>
+#include<ASNET.Direct3D.Model.h>
 namespace ASNET {
 	namespace Sample {
 

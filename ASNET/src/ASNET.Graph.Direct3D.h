@@ -53,7 +53,7 @@ namespace ASNET {
 				ID3D11Buffer*  IndexBuffer;
 				UINT		   VertexCount;
 				UINT		   IndexCount;
-				friend class   PMDModel;
+				friend class   Mesh;
 				friend class   GraphDirect3D;
 				friend class   Shader;
 			public:
@@ -192,7 +192,7 @@ namespace ASNET {
 				void Direct3DInitalize();
 
 				friend class Direct3DModelLoader;
-				friend class PMDModel;
+				friend class Mesh;
 				friend class ShaderDataBuffer;
 				friend class Texture;
 				friend class Shader;
