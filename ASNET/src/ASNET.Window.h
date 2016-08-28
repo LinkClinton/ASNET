@@ -8,6 +8,10 @@
 #include"ASNET.Window.Event.h"
 #include"ASNET.Window.Page.h"
 
+//窗口类，简单的来说可以支持创建窗口
+//然后其内容并不是有窗口类决定，而是Page类
+//同样这只是一个基类而已
+
 namespace ASNET {
 	
 	class Window {

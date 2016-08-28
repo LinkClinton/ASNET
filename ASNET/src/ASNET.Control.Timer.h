@@ -3,6 +3,8 @@
 namespace ASNET {
 	namespace Control {
 		
+		//时间类，由于只是简单的计时而已，所以并不需要继承基类以及界面
+
 		typedef std::chrono::high_resolution_clock Time;
 
 		class Timer {

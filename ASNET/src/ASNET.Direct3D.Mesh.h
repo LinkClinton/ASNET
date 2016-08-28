@@ -6,6 +6,10 @@
 #include<fstream>
 #include<map>
 
+//mesh格式，作为模型的基础类来用的
+//存放模型的顶点信息材质贴图信息
+//以及支持绘制模型
+
 namespace ASNET {
 	namespace Graph {
 		namespace Direct3D {

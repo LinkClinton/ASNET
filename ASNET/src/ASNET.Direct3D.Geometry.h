@@ -1,6 +1,9 @@
 #pragma once
 #include"ASNET.Graph.Direct3D.h"
 
+//简单的物体的创建
+//比如Grid和Cube的创建
+
 namespace ASNET {
 	namespace Graph {
 		namespace Direct3D {

@@ -6,6 +6,11 @@
 
 #include<vector>
 
+//用于加载控件和绘制内容的
+//当一个页面被使用的时候，其所有的函数或者什么才属于有效的
+//一个控件如果要加载必须用Page注册
+//如果要废除一个控件可以用Page卸载
+//当然这是一个基类
 namespace ASNET {
 	class Window;
 	namespace Page {

@@ -8,6 +8,10 @@
 //std
 #include<vector>
 
+//Effect类，集成了部分着色器代码
+//便于一些简单的特效的使用
+//目前基本上就是光照了
+
 namespace ASNET {
 	namespace Graph {
 		namespace Direct3D {

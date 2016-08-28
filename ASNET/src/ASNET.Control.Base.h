@@ -3,10 +3,14 @@
 #include"ASNET.Graph.h"
 #include"ASNET.Window.Event.h"
 
+
+//写下当时的想法，保证以后写的时候能够继续
+//作为控件的基类，所有的控件以此作为基础
+//并继承，具体的控件并不支持你去继承他，因此在具体的控件中虚函数基本上无用
+//控件基本的类中有描述这个类大小，以及其状态
+//是否被激活或者得到焦点或者被显示
 namespace ASNET {
-	namespace Page {
-		class Page;
-	}
+	namespace Page {class Page;}
 	namespace Control {
 
 		class Color {

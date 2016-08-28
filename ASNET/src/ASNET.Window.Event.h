@@ -6,6 +6,8 @@
 #include"ASNET.Window.Keycode.h"
 #include"ASNET.Graph.h"
 
+//简单的事件类
+
 namespace ASNET {
 	class Window;
 	namespace Event {

@@ -11,7 +11,11 @@
 
 #undef LoadImage
 
-
+//简单的2D绘制的类
+//基本是用Direct2D做的
+//因为某种坑的原因，使用的是d2d1而不是d2d1_1
+//同样其所有的资源文件创建的时候保持其nullptr，因为会在加载的时候将其创建
+//注意不用的时候delete
 namespace ASNET {
 	//class Window;
 	namespace Graph {

@@ -4,6 +4,11 @@
 
 #include<memory>
 
+//简单的控件Label
+//继承自Control
+//在OnDraw中是绘制控件的代码，由于某种原因
+//绘制控件的代码要自己在主绘制函数中调用
+//如果IsShow没有被设置为true的话也是无法绘制出来的
 namespace ASNET {
 	namespace Control {
 		
