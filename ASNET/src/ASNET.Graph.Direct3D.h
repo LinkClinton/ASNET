@@ -187,7 +187,7 @@ namespace ASNET {
 				void CompileShader(ASNET::Graph::Direct3D::Shader* shader);
 				void LoadShader(ASNET::Graph::Direct3D::Shader* shader);
 				void UpDateInputLayout(Shader* shader);
-				void SetShader(ASNET::Graph::Direct3D::Shader* shader);
+				
 
 				void Direct3DInitalize();
 
@@ -201,6 +201,8 @@ namespace ASNET {
 				GraphDirect3D(HWND hwnd, ASNET::Graph::Direct3D::Shader*
 					shader = nullptr, bool IsWindowed = true);
 				~GraphDirect3D();
+
+				void SetShader(ASNET::Graph::Direct3D::Shader* shader);
 
 				void SetCullMode(ASNET::Graph::Direct3D::CullMode cullmode);
 

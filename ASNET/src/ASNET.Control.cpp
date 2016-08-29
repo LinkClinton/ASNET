@@ -1,4 +1,4 @@
-#include "ASNET.Control.Base.h"
+#include "ASNET.Control.h"
 
 ASNET::Control::Color::Color(){
 	r = 0;
@@ -54,6 +54,10 @@ void ASNET::Control::Control::OnKeyDown(void * sender, ASNET::Event::EventBoardC
 }
 
 void ASNET::Control::Control::OnKeyUp(void * sender, ASNET::Event::EventBoardClick * e)
+{
+}
+
+void ASNET::Control::Control::OnDraw(void * sender, ASNET::Graph::Direct3D::GraphDirect3D * render)
 {
 }
 

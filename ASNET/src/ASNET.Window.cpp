@@ -143,7 +143,7 @@ namespace ASNET {
 			if (UsedPage) {
 				UsedPage->OnMouseMove(this, e);
 				ASNET::Event::DoEventHandlers(
-					UsedPage->MouseMoveHandler, this, e);
+					UsedPage->MouseMoveHandler, UsedPage, e);
 				UsedPage->OnControlMouseMove(this, e);
 			}
 			break;
@@ -157,7 +157,7 @@ namespace ASNET {
 				if (UsedPage) {
 					UsedPage->OnMouseDown(this, e);
 					ASNET::Event::DoEventHandlers(
-						UsedPage->MouseButtonDownHandler, this, e);
+						UsedPage->MouseButtonDownHandler, UsedPage, e);
 					UsedPage->OnControlMouseDown(this, e);
 				}
 			}
@@ -168,7 +168,7 @@ namespace ASNET {
 				if (UsedPage) {
 					UsedPage->OnMouseUp(this, e);
 					ASNET::Event::DoEventHandlers(
-						UsedPage->MouseButtonUpHandler, this, e);
+						UsedPage->MouseButtonUpHandler, UsedPage, e);
 					UsedPage->OnControlMouseUp(this, e);
 				}
 			}
@@ -181,7 +181,7 @@ namespace ASNET {
 			if (UsedPage) {
 				UsedPage->OnMouseWheel(this, e);
 				ASNET::Event::DoEventHandlers(
-					UsedPage->MouseWheelHandler, this, e);
+					UsedPage->MouseWheelHandler, UsedPage, e);
 				UsedPage->OnControlMouseWheel(this, e);
 			}
 			break;
@@ -194,7 +194,7 @@ namespace ASNET {
 				if (UsedPage) {
 					UsedPage->OnKeyDown(this, e);
 					ASNET::Event::DoEventHandlers(
-						UsedPage->BoardDownHandler, this, e);
+						UsedPage->BoardDownHandler, UsedPage, e);
 					UsedPage->OnControlKeyDown(this, e);
 				}
 			}
@@ -204,7 +204,7 @@ namespace ASNET {
 				if (UsedPage) {
 					UsedPage->OnKeyUp(this, e);
 					ASNET::Event::DoEventHandlers(
-						UsedPage->BoardUpHandler, this, e);
+						UsedPage->BoardUpHandler, UsedPage, e);
 					UsedPage->OnControlKeyUp(this, e);
 				}
 			}
@@ -251,14 +251,12 @@ namespace ASNET {
 
 	void Window::Initalize(){
 		Hwnd = CreateWindows(Width, Height, IcoName, Title);
+		Graph = new ASNET::Graph::Direct3D::GraphDirect3D(Hwnd);
 		OnLoading();
 		
 	}
 
-	void Window::InitalizeGraphUI(){
-		GraphRender = new ASNET::Graph::Graph(Hwnd);
-	}
-
+	
 
 
 
@@ -273,7 +271,7 @@ namespace ASNET {
 		Height = 0;
 		IcoName = NULL;
 		Title = NULL;
-		GraphRender = NULL;
+		Graph = NULL;
 	}
 
 	void ASNET::Window::AddPage(ASNET::Page::Page * page){
@@ -288,14 +286,14 @@ namespace ASNET {
 	void ASNET::Window::NextPage(void* any){
 		NowPage++;
 		UsedPage = Pages[NowPage];
-		UsedPage->graph = GraphRender;
+		UsedPage->ParentGraph = Graph;
 		UsedPage->OnLoading(this, any);
 		
 	}
 
 	void Window::ShowPage(int index, void* any) {
 		UsedPage = Pages[index];
-		UsedPage->graph = GraphRender;
+		UsedPage->ParentGraph = Graph;
 		UsedPage->OnLoading(this, any);
 
 	}
@@ -320,8 +318,9 @@ namespace ASNET {
 				CoreComputeEvents(Message.message);
 			}
 			if (UsedPage) {
-				UsedPage->graph = GraphRender;
-				UsedPage->OnDraw(this, GraphRender);
+				UsedPage->OnDraw(this, Graph);
+				UsedPage->OnControlDraw(this, Graph);
+				Graph->Present();
 			}
 		}
 	}
@@ -343,7 +342,7 @@ namespace ASNET {
 			if (Pages[i])
 				delete Pages[i];
 		Pages.clear();
-		delete GraphRender;
+		delete Graph;
 	}
 
 }

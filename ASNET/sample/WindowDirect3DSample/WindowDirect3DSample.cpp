@@ -22,37 +22,38 @@ ASNET::Sample::Direct3DWindow::Direct3DWindow(){
 	Initalize();
 	shader = new ASNET::Graph::Direct3D::Shader(L"vertexshader.hlsl",
 		L"pixelshader.hlsl");
-	graph =	new ASNET::Graph::Direct3D::GraphDirect3D(Hwnd, shader);
+	Graph->SetShader(shader);
 }
 
 ASNET::Sample::Direct3DWindow::~Direct3DWindow(){
-	delete graph;
+	
 	delete shader;
 }
 
 
 void ASNET::Sample::Direct3DMainPage::OnLoading(void * sender, void * any){
 	ASNET::Sample::Direct3DWindow* Window = (ASNET::Sample::Direct3DWindow*)sender;
-	Direct3DRender = Window->graph;
 	Direct3DShader = Window->shader;
 	
 	ASNET::Graph::Direct3D::GeometryMaker::CreateGrid(Direct3DMesh, 100, 100, 200, 200);
 
-	Direct3DLabel = new ASNET::Control::Label((ASNET::Graph::Graph*)Direct3DRender, 100, 200, 100, 200, L"Lable",
+	Direct3DLabel = new ASNET::Control::Label((ASNET::Graph::Graph*)ParentGraph, 100, 200, 100, 200, L"Lable",
 		L"Hello", L"Consolas", 12);
 
-	ASNET::Graph::Direct3D::Direct3DModelLoader::LoadPMXModel(Direct3DRender, L"model/Ysna.pmx",
+	Direct3DLabel->Show();
+
+	ASNET::Graph::Direct3D::Direct3DModelLoader::LoadPMXModel(ParentGraph, L"model/Ysna.pmx",
 		Direct3DModel);
 
-
+	RegisterControl(Direct3DLabel);
 
 	//Direct3DRender->LoadTexture(Direct3DTexture, L"model.te4.png");
 	
-	Direct3DRender->LoadBuffer(Direct3DMesh, Direct3DMesh.vertices, Direct3DMesh.indices, true);
+	ParentGraph->LoadBuffer(Direct3DMesh, Direct3DMesh.vertices, Direct3DMesh.indices, true);
 
-	Direct3DEffect = new ASNET::Graph::Direct3D::BasicEffect(Direct3DRender);
+	Direct3DEffect = new ASNET::Graph::Direct3D::BasicEffect(ParentGraph);
 
-	Direct3DRender->SetCullMode(ASNET::Graph::Direct3D::CullMode::CullNone);
+	ParentGraph->SetCullMode(ASNET::Graph::Direct3D::CullMode::CullNone);
 
 	//Direct3DRender->SetFillMode(ASNET::Graph::Direct3D::FillMode::FillWireFrame);
 //	Direct3DShader->SendTextureToShader(0, Direct3DTexture);
@@ -83,8 +84,8 @@ void ASNET::Sample::Direct3DMainPage::OnLoading(void * sender, void * any){
 	
 }
 
-void ASNET::Sample::Direct3DMainPage::OnDraw(void * sender, ASNET::Graph::Graph * render){
-	Direct3DRender->Clear(D2D1::ColorF::Black);
+void ASNET::Sample::Direct3DMainPage::OnDraw(void * sender, ASNET::Graph::Direct3D::GraphDirect3D * render){
+	render->Clear(D2D1::ColorF::Black);
 
 	world = DirectX::XMMatrixIdentity();
 
@@ -102,11 +103,11 @@ void ASNET::Sample::Direct3DMainPage::OnDraw(void * sender, ASNET::Graph::Graph 
 	
 	
 	
-	//Direct3DLabel->Draw();
+
 	
 
 	Direct3DEffect->EffectBegin();
-	Direct3DRender->DrawBuffer(Direct3DMesh);
+	render->DrawBuffer(Direct3DMesh);
 	Direct3DEffect->EffectEnd();
 
 
@@ -119,7 +120,7 @@ void ASNET::Sample::Direct3DMainPage::OnDraw(void * sender, ASNET::Graph::Graph 
 
 	
 
-	Direct3DRender->Present();
+	
 	//std::cout << Direct3DRender->RenderTime() << std::endl;
 }
 

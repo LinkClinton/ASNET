@@ -13,7 +13,6 @@ namespace ASNET {
 
 		class Direct3DWindow :public ASNET::Window {
 		private:
-			ASNET::Graph::Direct3D::GraphDirect3D*  graph;
 			ASNET::Graph::Direct3D::Shader*			shader;
 			friend class Direct3DMainPage;
 		protected:
@@ -25,7 +24,6 @@ namespace ASNET {
 
 		class Direct3DMainPage :public ASNET::Page::Page {
 		private:
-			ASNET::Graph::Direct3D::GraphDirect3D*    Direct3DRender;
 			ASNET::Graph::Direct3D::Shader*			  Direct3DShader;
 			ASNET::Graph::Direct3D::ShaderDataBuffer* Direct3DProj;
 			ASNET::Graph::Direct3D::ShaderDataBuffer* Direct3DView;
@@ -54,7 +52,7 @@ namespace ASNET {
 			friend class Direct3DWindow;
 		protected:
 			void OnLoading(void* sender, void* any)override;
-			void OnDraw(void* sender, ASNET::Graph::Graph* render)override;
+			void OnDraw(void* sender, ASNET::Graph::Direct3D::GraphDirect3D* render)override;
 			void OnMouseUp(void* sender, ASNET::Event::EventMouseClick* e)override;
 			void OnMouseMove(void* sender, ASNET::Event::EventMouseMove* e)override;
 			void OnMouseDown(void* sender, ASNET::Event::EventMouseClick* e)override;

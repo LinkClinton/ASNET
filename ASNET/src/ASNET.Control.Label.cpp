@@ -1,14 +1,14 @@
 #include "ASNET.Control.Label.h"
 
-void ASNET::Control::Label::OnDraw(void * sender, ASNET::Graph::Graph * graph){
+void ASNET::Control::Label::OnDraw(void * sender, ASNET::Graph::Direct3D::GraphDirect3D * render){
 	if (!IsShow) return; 
-	graph->DrawRectangle(
+	render->DrawRectangle(
 		D2D1::RectF(Left, Top, Right, Bottom),
 		ASNET::Graph::Color(0, 0, 0, 0), 0.0f, true,
 		BackColor
 	);
 
-	graph->DrawWord(Text,
+	render->DrawWord(Text,
 		D2D1::RectF(Left, Top, Right, Bottom),
 		TextFont, TextColor, Horizontal, Vertical);
 		

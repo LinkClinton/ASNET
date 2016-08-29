@@ -3,6 +3,7 @@
 #include<Windows.h>
 
 #include"ASNET.Graph.h"
+#include"ASNET.Graph.Direct3D.h"
 
 #include"ASNET.Window.Keycode.h"
 #include"ASNET.Window.Event.h"
@@ -22,15 +23,14 @@ namespace ASNET {
 		
 		ASNET::Page::Page*                  UsedPage;
 		std::vector<ASNET::Page::Page*>     Pages;
-	private:
-
+	protected:
+		Graph::Direct3D::GraphDirect3D*     Graph;
 	protected:
 		int									Width;
 		int									Height;
 		LPCWSTR								IcoName;
 		LPCWSTR								Title;
 	
-		ASNET::Graph::Graph*                GraphRender;//this render for ui
 		int									NowPage;
 	private:
 		ASNET::Event::EventType CoreGetEventArgs(
@@ -47,7 +47,7 @@ namespace ASNET {
 		virtual void OnLoading(); //Load the Window,after window create
 
 		void		 Initalize();//use it before use any function
-		void         InitalizeGraphUI(); //use it before the GraphRender 
+		//void         InitalizeGraphShader(); //the graph shader
 	protected:
 		ASNET::Event::EventMouseMoveHandlers		MouseMoveHandler;
 		ASNET::Event::EventMouseWheelHandlers		MouseWheelHandler;

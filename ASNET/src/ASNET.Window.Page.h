@@ -1,6 +1,6 @@
 #pragma once
 #include"ASNET.Window.Event.h"
-#include"ASNET.Control.Base.h"
+#include"ASNET.Control.h"
 #include"ASNET.Graph.h"
 
 
@@ -26,8 +26,7 @@ namespace ASNET {
 			void OnControlMouseDown(void* sender, ASNET::Event::EventMouseClick* e);
 			void OnControlKeyDown(void* sender, ASNET::Event::EventBoardClick* e);
 			void OnControlKeyUp(void* sender, ASNET::Event::EventBoardClick* e);
-		protected:
-			ASNET::Graph::Graph*       graph;
+			void OnControlDraw(void* sender, ASNET::Graph::Direct3D::GraphDirect3D* render);
 		protected:
 			virtual void OnMouseMove(void* sender, ASNET::Event::EventMouseMove* e);
 			virtual void OnMouseWheel(void* sender, ASNET::Event::EventMouseWheel* e);
@@ -36,7 +35,7 @@ namespace ASNET {
 			virtual void OnKeyDown(void* sender, ASNET::Event::EventBoardClick* e);
 			virtual void OnKeyUp(void* sender, ASNET::Event::EventBoardClick* e);
 			virtual void OnSizeChanged(void* sender, ASNET::Event::EventSizeChange* e);
-			virtual void OnDraw(void* sender, ASNET::Graph::Graph* render); 
+			virtual void OnDraw(void* sender, ASNET::Graph::Direct3D::GraphDirect3D* render); 
 			virtual void OnLoading(void* sender, void* any);
 		protected:
 			ASNET::Event::EventMouseMoveHandlers		MouseMoveHandler;
@@ -47,7 +46,7 @@ namespace ASNET {
 			ASNET::Event::EventBoardClickHandlers		BoardDownHandler;
 			ASNET::Event::EventSizeChangeHandlers		SizeChangeHandler;
 			
-		
+			ASNET::Graph::Direct3D::GraphDirect3D*		ParentGraph;
 			friend class Window;
 		public:
 			Page();
