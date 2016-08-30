@@ -12,6 +12,7 @@
 //窗口类，简单的来说可以支持创建窗口
 //然后其内容并不是有窗口类决定，而是Page类
 //同样这只是一个基类而已
+//直接用Direct3DGraph代替了Graph，那么就代表我们需要在使用到着色器的时候使用函数SetShader
 
 namespace ASNET {
 	
@@ -32,6 +33,9 @@ namespace ASNET {
 		LPCWSTR								Title;
 	
 		int									NowPage;
+	protected:
+		int									MousePosx;
+		int									MousePosy;
 	private:
 		ASNET::Event::EventType CoreGetEventArgs(
 			int message, ASNET::Event::EventBase* &e);
@@ -47,7 +51,6 @@ namespace ASNET {
 		virtual void OnLoading(); //Load the Window,after window create
 
 		void		 Initalize();//use it before use any function
-		//void         InitalizeGraphShader(); //the graph shader
 	protected:
 		ASNET::Event::EventMouseMoveHandlers		MouseMoveHandler;
 		ASNET::Event::EventMouseWheelHandlers		MouseWheelHandler;
@@ -77,5 +80,20 @@ namespace ASNET {
 		void Hide();
 
 		void Release();
+
+
+
+		bool GetKeyState(ASNET::Keycode keycode); //true is down ,false is up
+
+		auto GetMousePosx()->int;
+
+		auto GetMousePosy()->int;
 	};
 }
+
+
+#include"ASNET.Window.Keycode.h"
+#include"ASNET.Window.Event.h"
+#include"ASNET.Window.Page.h"
+
+

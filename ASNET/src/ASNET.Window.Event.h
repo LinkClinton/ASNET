@@ -125,7 +125,6 @@ namespace ASNET {
 
 			static auto GetSenderMessage(void* sender)->ASNET::Window*;
 
-
 		};
 
 		template<typename Handlers, typename EventArg>

@@ -67,6 +67,7 @@ ASNET::Control::Control::Control(){
 	IsActive = true;
 	IsFocus = false;
 	IsShow = true;
+	MouseIn = false;
 }
 
 ASNET::Control::Control::operator ASNET::Graph::Rect(){

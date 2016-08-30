@@ -2,10 +2,15 @@
 
 void ASNET::Control::Label::OnDraw(void * sender, ASNET::Graph::Direct3D::GraphDirect3D * render){
 	if (!IsShow) return; 
+
+	Color EdgeColor = ASNET::Graph::Color(0, 0, 0, 0);
+
+	if (MouseIn)
+		EdgeColor = ASNET::Graph::Color::AliceBlue;
+		
 	render->DrawRectangle(
 		D2D1::RectF(Left, Top, Right, Bottom),
-		ASNET::Graph::Color(0, 0, 0, 0), 0.0f, true,
-		BackColor
+		EdgeColor, 1.0f, true, BackColor
 	);
 
 	render->DrawWord(Text,

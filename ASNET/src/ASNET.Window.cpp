@@ -345,4 +345,16 @@ namespace ASNET {
 		delete Graph;
 	}
 
+	bool Window::GetKeyState(ASNET::Keycode keycode){ 
+		return KEYDOWN((int)keycode);
+	}
+
+	auto Window::GetMousePosx() -> int{
+		return MousePosx;
+	}
+
+	auto Window::GetMousePosy() -> int{
+		return MousePosy;
+	}
+
 }

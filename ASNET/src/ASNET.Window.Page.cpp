@@ -69,9 +69,11 @@ namespace ASNET {
 		void Page::OnControlMouseMove(void * sender, ASNET::Event::EventMouseMove * e){
 			for (UINT i = 0;i<Controls.size();i++)
 				if (Controls[i]->IsActive && PosInRect(e->x,e->y,*Controls[i])) {
+					Controls[i]->MouseIn = true;
 					Controls[i]->OnMouseMove(sender, e);
 					ASNET::Event::DoEventHandlers(Controls[i]->MouseMoveHandler, &Controls[i], e);
 				}
+				else Controls[i]->MouseIn = false;
 		}
 
 		void Page::OnControlMouseWheel(void * sender, ASNET::Event::EventMouseWheel * e){
@@ -118,7 +120,7 @@ namespace ASNET {
 			ASNET::Graph::Direct3D::GraphDirect3D * render){
 			for (UINT i = 0; i < Controls.size(); i++)
 				if (Controls[i]->IsActive && Controls[i]->IsShow) 
-					Controls[i]->OnDraw(&Controls[i], render);
+					Controls[i]->OnDraw(sender, render);
 		}
 
 		

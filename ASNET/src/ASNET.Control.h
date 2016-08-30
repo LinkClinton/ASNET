@@ -26,7 +26,8 @@ namespace ASNET {
 
 		//所有的事件，只有在控件范围内才会被使用
 		class Control {
-		private:
+		protected:
+			bool		 MouseIn;
 			friend class ASNET::Page::Page;
 		protected:
 			virtual void OnMouseMove(void* sender, ASNET::Event::EventMouseMove* e);
