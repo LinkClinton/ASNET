@@ -2,7 +2,6 @@
 
 #include"ASNET.Control.h"
 
-#include<memory>
 
 //简单的控件Label
 //继承自Control
@@ -13,20 +12,21 @@ namespace ASNET {
 
 		class Label:public Control {
 		protected:
-		
 			void OnDraw(void* sender, ASNET::Graph::Direct3D::GraphDirect3D* render)override;
 		public:
 
-			wchar_t*                 Name;
-			wchar_t*                 Text;
+			wchar_t*                 Name; //Label的名字
+			wchar_t*                 Text; //Label文本的内容
 
-			ASNET::Control::Color    BackColor;
-			ASNET::Control::Color    TextColor;
+			bool                     IsCanSelect; //鼠标在其范围内的时候是否显示选中
 
-			ASNET::Graph::Font*      TextFont;
+			ASNET::Control::Color    BackColor; //背景颜色
+			ASNET::Control::Color    TextColor; //文本颜色
 
-			ASNET::Graph::TextAlign  Horizontal;
-			ASNET::Graph::TextAlign  Vertical;
+			ASNET::Graph::Font*      TextFont; //使用的字体
+
+			ASNET::Graph::TextAlign  Horizontal; //文本的排版
+			ASNET::Graph::TextAlign  Vertical; //文本的排版
 		public:
 			Label(ASNET::Graph::Graph* graph,
 				float left, float right, float top, float bottom,
@@ -35,13 +35,12 @@ namespace ASNET {
 				ASNET::Graph::TextAlign vertical = ASNET::Graph::TextAlign::Center);
 			~Label();
 
-		
+			
 
 			void reset(wchar_t* fontface, float fontsize);
 
-			
+
 		};
-
-
 	}
 }
+
