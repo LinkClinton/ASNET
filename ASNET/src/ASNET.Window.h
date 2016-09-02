@@ -16,77 +16,90 @@
 
 namespace ASNET {
 	
+	//窗口基类
 	class Window {
 	protected:
-		HWND								Hwnd;
-		MSG									Message;
-		HINSTANCE							Hinstance;
+		HWND								Hwnd; //句柄
+		MSG									Message; //窗口消息
+		HINSTANCE							Hinstance; //实例句柄
 		
-		ASNET::Page::Page*                  UsedPage;
-		std::vector<ASNET::Page::Page*>     Pages;
+		ASNET::Page::Page*                  UsedPage; //使用的Page
+		std::vector<ASNET::Page::Page*>     Pages; //Page集合
 	protected:
-		Graph::Direct3D::GraphDirect3D*     Graph;
+		Graph::Direct3D::GraphDirect3D*     Graph; //使用的渲染接口
 	protected:
-		int									Width;
-		int									Height;
-		LPCWSTR								IcoName;
-		LPCWSTR								Title;
+		int									Width; //宽度
+		int									Height; //高度
+		LPCWSTR								IcoName; //Ico图标文件名
+		LPCWSTR								Title; //窗口标题
 	
-		int									NowPage;
+		int									NowPage; //现在使用的Page在集合里面的索引
 	protected:
-		int									MousePosx;
-		int									MousePosy;
+		int									MousePosx; //鼠标位置
+		int									MousePosy; //鼠标位置
 	private:
+		//获取事件
 		ASNET::Event::EventType CoreGetEventArgs(
 			int message, ASNET::Event::EventBase* &e);
+		//处理事件
 		void CoreComputeEvents(int message);
 	protected:
+		//当鼠标移动的时候触发
 		virtual void OnMouseMove(void* sender, ASNET::Event::EventMouseMove* e);
+		//当鼠标滑轮滚动的时候触发
 		virtual void OnMouseWheel(void* sender, ASNET::Event::EventMouseWheel* e);
+		//当鼠标按键弹起的时候触发
 		virtual void OnMouseUp(void* sender, ASNET::Event::EventMouseClick* e);
+		//当鼠标按键按下的时候触发
 		virtual void OnMouseDown(void* sender, ASNET::Event::EventMouseClick* e);
+		//当键盘按键按下的时候触发
 		virtual void OnKeyDown(void* sender, ASNET::Event::EventBoardClick* e);
+		//当键盘按键弹起的时候触发
 		virtual void OnKeyUp(void* sender, ASNET::Event::EventBoardClick* e);
+		//目前不可用
 		virtual void OnSizeChanged(void* sender, ASNET::Event::EventSizeChange* e);
+		//在窗口加载的时候触发，将会在Initllize里面
 		virtual void OnLoading(); //Load the Window,after window create
-
+		//在构造函数里面使用
 		void		 Initalize();//use it before use any function
 	protected:
-		ASNET::Event::EventMouseMoveHandlers		MouseMoveHandler;
-		ASNET::Event::EventMouseWheelHandlers		MouseWheelHandler;
-		ASNET::Event::EventMouseClickHandlers		MouseButtonUpHandler;
-		ASNET::Event::EventMouseClickHandlers		MouseButtonDownHandler;
-		ASNET::Event::EventBoardClickHandlers		BoardUpHandler;
-		ASNET::Event::EventBoardClickHandlers		BoardDownHandler;
-		ASNET::Event::EventSizeChangeHandlers		SizeChangeHandler;
+		ASNET::Event::EventMouseMoveHandlers		MouseMoveHandler; //鼠标移动事件集合
+		ASNET::Event::EventMouseWheelHandlers		MouseWheelHandler; //鼠标滑轮滚动事件集合
+		ASNET::Event::EventMouseClickHandlers		MouseButtonUpHandler; //鼠标按键弹起事件集合
+		ASNET::Event::EventMouseClickHandlers		MouseButtonDownHandler; //鼠标按键按下事件集合
+		ASNET::Event::EventBoardClickHandlers		BoardUpHandler; //键盘按键弹起事件集合
+		ASNET::Event::EventBoardClickHandlers		BoardDownHandler; //键盘按键按下事件集合
+		ASNET::Event::EventSizeChangeHandlers		SizeChangeHandler; //窗口大小事件集合
 	public:
+		//默认构造函数
 		Window();
+		//添加一个Page
 		void AddPage(ASNET::Page::Page* page);
-
+		//删除一个Page
 		void DeletePage(int index);
-
+		//显示某个Page
 		void ShowPage(int index, void* any = nullptr);
-
+		//跳转到下一个Page
 		void NextPage(void* any = nullptr);
-
+		//返回现在使用的Page的指针
 		auto NowUsedPage()->ASNET::Page::Page*;
-
+		//返回现在有多少个Page在集合里面
 		auto NowPageNum()->int;
-
+		//运行
 		void Run();
-
+		//显示窗口
 		void Show();
-
+		//隐藏窗口
 		void Hide();
-
+		//释放资源
 		void Release();
 
 
-
+		//返回某个按键信息,true表示按下false表示弹起
 		bool GetKeyState(ASNET::Keycode keycode); //true is down ,false is up
-
+		//返回鼠标位置
 		auto GetMousePosx()->int;
-
+		//返回鼠标位置
 		auto GetMousePosy()->int;
 	};
 }

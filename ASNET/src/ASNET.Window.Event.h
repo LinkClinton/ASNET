@@ -15,6 +15,7 @@ namespace ASNET {
 	class Window;
 	namespace Event {
 
+		//事件类型
 		enum class EventType :int {
 			EventOther,
 			EventMouseMove,
@@ -69,22 +70,22 @@ namespace ASNET {
 		};
 
 
+		
+		typedef std::function<void(void*, EventBase*)>			EventBaseHandler; //基础事件
+		typedef std::function<void(void*, EventMouseMove*)>		EventMouseMoveHandler; //鼠标移动事件
+		typedef std::function<void(void*, EventMouseWheel*)>	EventMouseWheelHandler; //鼠标滑轮滚动事件
+		typedef std::function<void(void*, EventMouseClick*)>	EventMouseClickHandler; //鼠标点击事件
+		typedef	std::function<void(void*, EventBoardClick*)>	EventBoardClickHandler; //键盘按键事件
+		typedef std::function<void(void*, EventSizeChange*)>	EventSizeChangeHandler; //窗口大小事件
 
-		typedef std::function<void(void*, EventBase*)>			EventBaseHandler;
-		typedef std::function<void(void*, EventMouseMove*)>		EventMouseMoveHandler;
-		typedef std::function<void(void*, EventMouseWheel*)>	EventMouseWheelHandler;
-		typedef std::function<void(void*, EventMouseClick*)>	EventMouseClickHandler;
-		typedef	std::function<void(void*, EventBoardClick*)>	EventBoardClickHandler;
-		typedef std::function<void(void*, EventSizeChange*)>	EventSizeChangeHandler;
 
-
-		typedef std::vector<ASNET::Event::EventBaseHandler>				EventBaseHandlers;
-		typedef std::vector<ASNET::Graph::EventGraphDrawHandler>		EventGraphDrawHandlers;
-		typedef std::vector<ASNET::Event::EventMouseMoveHandler>		EventMouseMoveHandlers;
-		typedef std::vector<ASNET::Event::EventMouseWheelHandler>		EventMouseWheelHandlers;
-		typedef std::vector<ASNET::Event::EventMouseClickHandler>		EventMouseClickHandlers;
-		typedef std::vector<ASNET::Event::EventBoardClickHandler>		EventBoardClickHandlers;
-		typedef std::vector < ASNET::Event::EventSizeChangeHandler>		EventSizeChangeHandlers;
+		typedef std::vector<ASNET::Event::EventBaseHandler>				EventBaseHandlers; //基础事件集合
+		typedef std::vector<ASNET::Graph::EventGraphDrawHandler>		EventGraphDrawHandlers; //绘制事件集合
+		typedef std::vector<ASNET::Event::EventMouseMoveHandler>		EventMouseMoveHandlers; //鼠标移动事件集合
+		typedef std::vector<ASNET::Event::EventMouseWheelHandler>		EventMouseWheelHandlers; //鼠标滑轮滚动事件集合 
+		typedef std::vector<ASNET::Event::EventMouseClickHandler>		EventMouseClickHandlers; //鼠标点击事件集合 
+		typedef std::vector<ASNET::Event::EventBoardClickHandler>		EventBoardClickHandlers; //键盘按键事件集合
+		typedef std::vector < ASNET::Event::EventSizeChangeHandler>		EventSizeChangeHandlers; //窗口大小事件集合
 
 		class EventHandler {
 		public:
@@ -127,6 +128,7 @@ namespace ASNET {
 
 		};
 
+		//将一个事件集合里面的事件处理
 		template<typename Handlers, typename EventArg>
 		static void DoEventHandlers(Handlers handlers, void * sender, EventArg eventarg) {
 			int size = handlers.size();

@@ -7,6 +7,7 @@ namespace ASNET {
 
 		typedef std::chrono::high_resolution_clock Time;
 
+		//简单的Timer类
 		class Timer {
 		private:
 			Time::time_point LastTime; //上次计时的时间
@@ -14,14 +15,15 @@ namespace ASNET {
 			std::chrono::duration<float> Time; //前面两者相差的时间
 			bool Started; //计时器状态
 		public:
+			//默认构造函数
 			Timer();
-			//开始计时(Finish)
+			//开始计时
 			void  Start();
-			//结束计时(Finish)
+			//结束计时
 			void  End();
-			//获取计时器状态(Finish)
+			//获取计时器状态
 			bool  GetState();
-			//获取经过时间(Finish)
+			//获取经过时间
 			float GetTime();
 		};
 

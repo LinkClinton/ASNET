@@ -40,6 +40,8 @@ void ASNET::Sample::Direct3DMainPage::OnLoading(void * sender, void * any){
 	Direct3DLabel = new ASNET::Control::Label((ASNET::Graph::Graph*)ParentGraph, 100, 200, 100, 200, L"Lable",
 		L"Hello", L"Consolas", 12);
 
+	Direct3DLabel->IsCanSelect = true;
+
 	Direct3DLabel->Show();
 
 	ASNET::Graph::Direct3D::Direct3DModelLoader::LoadPMXModel(ParentGraph, L"model/Ysna.pmx",
@@ -108,11 +110,12 @@ void ASNET::Sample::Direct3DMainPage::OnDraw(void * sender, ASNET::Graph::Direct
 
 	Direct3DEffect->EffectBegin();
 	render->DrawBuffer(Direct3DMesh);
+	Direct3DModel->Draw(Direct3DEffect);
 	Direct3DEffect->EffectEnd();
 
 
 
-	Direct3DModel->Draw(Direct3DEffect);
+	
 
 	
 

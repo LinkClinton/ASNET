@@ -8,6 +8,7 @@ namespace ASNET {
 	namespace Graph {
 		namespace Direct3D {
 
+			//简单的模型类
 			class Model :public Mesh {
 			private:
 				std::wstring ModelName; //English
@@ -15,7 +16,9 @@ namespace ASNET {
 
 				friend class Direct3DModelLoader;
 			public:
+				//构造函数
 				Model(ASNET::Graph::Direct3D::GraphDirect3D* graph);
+				//析构函数
 				~Model();
 			};
 
@@ -32,11 +35,16 @@ namespace ASNET {
 
 			class Direct3DModelLoader {
 			private:
+				//按照字节读入信息，最高4字节
 				static Value ValueRead(std::ifstream* file, UINT size);
+				//按照字节忽略信息，无上限
 				static void  ValueRuleOut(std::ifstream* file, UINT size);
+				//对于PMX格式文件读入窄字符函数
 				static void  StringRead(std::ifstream* file,std::wstring &str);
+				//对于PMX格式文件读入宽字符函数
 				static void  WideStringRead(std::ifstream* file, std::wstring &str);
 			public:
+				//加载PMX格式的模型
 				static void LoadPMXModel(ASNET::Graph::Direct3D::GraphDirect3D* graph,
 					ASNET::Graph::Word filename, ASNET::Graph::Direct3D::Model* &model);
 			};

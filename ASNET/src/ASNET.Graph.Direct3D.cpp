@@ -374,11 +374,13 @@ void ASNET::Graph::Direct3D::GraphDirect3D::UpDateInputLayout(Shader * shader){
 }
 
 void ASNET::Graph::Direct3D::GraphDirect3D::SetShader(
-	ASNET::Graph::Direct3D::Shader * shader){
-	if (!shader->IsCompile)
-		CompileShader(shader);
-	else
-		LoadShader(shader);
+	ASNET::Graph::Direct3D::Shader * shader, bool IsLoad) {
+	if (!IsLoad) {
+		if (!shader->IsCompile)
+			CompileShader(shader);
+		else
+			LoadShader(shader);
+	}
 
 	g_devicecontext3d->VSSetShader(shader->VertexShader, 0, 0);
 	g_devicecontext3d->PSSetShader(shader->PixelShader, 0, 0);

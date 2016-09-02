@@ -13,63 +13,77 @@ namespace ASNET {
 	namespace Page { class Page; }
 	namespace Control {
 
+		//简单的Color类，和D2D1::Color兼容
 		class Color {
 		public:
 			float r, g, b, a;
+			//默认构造函数
 			Color();
+			//D2D1::Color的赋值
 			Color(ASNET::Graph::Color color);
+			//D2D1::Color的枚举赋值
 			Color(ASNET::Graph::Color::Enum color);
+			//赋值
 			Color(float _r, float _g, float _b, float _a);
 
+			//返回D2D1::Color类型
 			operator ASNET::Graph::Color();
 		};
 
-		//所有的事件，只有在控件范围内才会被使用
+		//简单的Control基类，所有的事件，只有在控件范围内才会被使用
 		class Control {
 		protected:
-			bool		 MouseIn;
-			friend class ASNET::Page::Page;
+			bool		 MouseIn; //鼠标是否在控件范围内
+			friend class ASNET::Page::Page;  
 		protected:
-			virtual void OnMouseMove(void* sender, ASNET::Event::EventMouseMove* e);
-			virtual void OnMouseWheel(void* sender, ASNET::Event::EventMouseWheel* e);
+			//当鼠标移动的时候触发
+			virtual void OnMouseMove(void* sender, ASNET::Event::EventMouseMove* e); 
+			//当鼠标滚轮滑动的时候触发
+			virtual void OnMouseWheel(void* sender, ASNET::Event::EventMouseWheel* e); 
+			//当鼠标按钮弹起的时候触发
 			virtual void OnMouseUp(void* sender, ASNET::Event::EventMouseClick* e);
-			virtual void OnMouseDown(void* sender, ASNET::Event::EventMouseClick* e);
+			//当鼠标按钮按下的时候触发
+			virtual void OnMouseDown(void* sender, ASNET::Event::EventMouseClick* e); 
+			//当键盘按键按下的时候触发
 			virtual void OnKeyDown(void* sender, ASNET::Event::EventBoardClick* e);
+			//当键盘按键弹起的时候触发
 			virtual void OnKeyUp(void* sender, ASNET::Event::EventBoardClick* e);
+			//描述这个控件的绘制方法
 			virtual void OnDraw(void* sender, ASNET::Graph::Direct3D::GraphDirect3D* render);
 		public:
-			ASNET::Event::EventMouseMoveHandlers		MouseMoveHandler;
-			ASNET::Event::EventMouseWheelHandlers		MouseWheelHandler;
-			ASNET::Event::EventMouseClickHandlers		MouseButtonUpHandler;
-			ASNET::Event::EventMouseClickHandlers		MouseButtonDownHandler;
-			ASNET::Event::EventBoardClickHandlers		BoardUpHandler;
-			ASNET::Event::EventBoardClickHandlers		BoardDownHandler;
+			ASNET::Event::EventMouseMoveHandlers		MouseMoveHandler; //鼠标移动事件的集合
+			ASNET::Event::EventMouseWheelHandlers		MouseWheelHandler; //鼠标滑轮移动事件的集合
+			ASNET::Event::EventMouseClickHandlers		MouseButtonUpHandler; //鼠标按钮弹起事件的集合
+			ASNET::Event::EventMouseClickHandlers		MouseButtonDownHandler; //鼠标按钮按下事件的集合
+			ASNET::Event::EventBoardClickHandlers		BoardUpHandler; //键盘按键弹起事件的集合
+			ASNET::Event::EventBoardClickHandlers		BoardDownHandler; //键盘按键按下事件的集合
 		public:
-			bool  IsActive;
-			bool  IsFocus;
-			bool  IsShow;
+			bool  IsActive; //控件是否被激活
+			bool  IsFocus; //控件是否获取了焦点，将会影响控件获取键盘按键信息
+			bool  IsShow; //控件是否显示
 
-			float Left;
-			float Right;
-			float Top;
-			float Bottom;
+			float Left; //控件范围left
+			float Right; //控件范围right
+			float Top; //控件范围top
+			float Bottom; //控件范围bottom
 
-			ASNET::Graph::Graph*     ParentGraph;
+			ASNET::Graph::Graph*     ParentGraph; //渲染控件的接口指针
 		public:
+			//默认构造函数
 			Control();
-
-			operator ASNET::Graph::Rect();
-
+			//控件范围
+			operator ASNET::Graph::Rect(); 
+			//显示控件
 			void Show();
-
+			//隐藏控件
 			void Hide();
-
+			//获取焦点
 			void GetFocus();
-
+			//丢去焦点
 			void LostFocus();
-
+			//激活
 			void Active();
-
+			//不激活
 			void UnActive();
 
 		};

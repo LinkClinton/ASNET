@@ -84,14 +84,12 @@ void ASNET::Graph::Direct3D::Mesh::Draw(UINT texture_id){
 void ASNET::Graph::Direct3D::Mesh::Draw(
 	ASNET::Graph::Direct3D::BasicEffect * effect){
 	PrepareDraw();
-	effect->EffectBegin();
 	for (UINT i = 0; i < MeshPartCount; i++) {
 		if (MeshParts[i].Texture)
 			effect->SetTexture(MeshParts[i].Texture);
 		effect->SetMaterial(MeshParts[i].Material);
 		DrawPart(i);
 	}
-	effect->EffectEnd();
 }
 
 
