@@ -58,6 +58,20 @@ namespace ASNET {
 				}
 		}
 
+		void Page::SetFocus(ASNET::Control::Control * control){
+			if (ControlsFocus)
+				ControlsFocus->IsFocus = false,
+				ControlsFocus->OnLostFocus(ControlsFocus),
+				ASNET::Event::DoEventHandlers(ControlsFocus->LostFocusHandler, ControlsFocus);
+
+			ControlsFocus = control;
+			ControlsFocus->IsFocus = true;
+
+			ControlsFocus->OnGetFocus(ControlsFocus);
+			ASNET::Event::DoEventHandlers(ControlsFocus->GetFocusHandler, ControlsFocus);
+
+		}
+
 		
 		//==要判断事件是否引发，只有在这个控件的范围内才会
 		static bool PosInRect(int x, int y, ASNET::Graph::Rect rect) {
@@ -95,6 +109,9 @@ namespace ASNET {
 		void Page::OnControlMouseDown(void * sender, ASNET::Event::EventMouseClick * e){
 			for (UINT i = 0; i < Controls.size(); i++)
 				if (Controls[i]->IsActive && PosInRect(e->x, e->y, *Controls[i])) {
+					
+					SetFocus(Controls[i]);
+
 					Controls[i]->OnMouseDown(sender, e);
 					ASNET::Event::DoEventHandlers(Controls[i]->MouseButtonDownHandler, &Controls[i], e);
 				}

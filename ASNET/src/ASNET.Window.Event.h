@@ -78,6 +78,10 @@ namespace ASNET {
 		typedef	std::function<void(void*, EventBoardClick*)>	EventBoardClickHandler; //键盘按键事件
 		typedef std::function<void(void*, EventSizeChange*)>	EventSizeChangeHandler; //窗口大小事件
 
+		typedef std::function<void(void*)>				        EventGetFocusHandler; //得到焦点事件
+		typedef std::function<void(void*)>                      EventLostFocusHandler; //失去焦点事件
+
+
 
 		typedef std::vector<ASNET::Event::EventBaseHandler>				EventBaseHandlers; //基础事件集合
 		typedef std::vector<ASNET::Graph::EventGraphDrawHandler>		EventGraphDrawHandlers; //绘制事件集合
@@ -85,7 +89,11 @@ namespace ASNET {
 		typedef std::vector<ASNET::Event::EventMouseWheelHandler>		EventMouseWheelHandlers; //鼠标滑轮滚动事件集合 
 		typedef std::vector<ASNET::Event::EventMouseClickHandler>		EventMouseClickHandlers; //鼠标点击事件集合 
 		typedef std::vector<ASNET::Event::EventBoardClickHandler>		EventBoardClickHandlers; //键盘按键事件集合
-		typedef std::vector < ASNET::Event::EventSizeChangeHandler>		EventSizeChangeHandlers; //窗口大小事件集合
+		typedef std::vector<ASNET::Event::EventSizeChangeHandler>		EventSizeChangeHandlers; //窗口大小事件集合
+
+		typedef std::vector<ASNET::Event::EventGetFocusHandler>	        EventGetFocusHandlers; //获取焦点事件集合
+		typedef std::vector<ASNET::Event::EventLostFocusHandler>	    EventLostFocusHandlers; //失去焦点事件集合
+
 
 		class EventHandler {
 		public:
@@ -124,6 +132,14 @@ namespace ASNET {
 				ASNET::Event::EventSizeChangeHandler handler
 				);
 
+			friend ASNET::Event::EventGetFocusHandlers operator+=(
+				ASNET::Event::EventGetFocusHandlers &handlers,
+				ASNET::Event::EventGetFocusHandler handler
+				);
+
+		
+
+
 			static auto GetSenderMessage(void* sender)->ASNET::Window*;
 
 		};
@@ -131,9 +147,14 @@ namespace ASNET {
 		//将一个事件集合里面的事件处理
 		template<typename Handlers, typename EventArg>
 		static void DoEventHandlers(Handlers handlers, void * sender, EventArg eventarg) {
-			int size = handlers.size();
-			for (int i = 0; i < size; i++)
+			for (size_t i = 0; i < handlers.size(); i++)
 				handlers[i](sender, eventarg);
+		}
+
+		template<typename Handlers>
+		static void DoEventHandlers(Handlers handlers, void* sender) {
+			for (size_t i = 0; i < handlers.size(); i++)
+				handlers[i](sender);
 		}
 
 	}

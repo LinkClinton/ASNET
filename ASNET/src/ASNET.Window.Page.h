@@ -19,6 +19,7 @@ namespace ASNET {
 		//Page类
 		class Page {
 		private:
+			ASNET::Control::Control*               ControlsFocus; //得到焦点的控件
 			std::vector<ASNET::Control::Control*>  Controls; //控件集合
 			//处理关于控件的鼠标移动事件
 			void OnControlMouseMove(void* sender, ASNET::Event::EventMouseMove* e); 
@@ -72,6 +73,8 @@ namespace ASNET {
 			void RegisterControl(ASNET::Control::Control* control);
 			//取消注册某个控件
 			void UnRegisterControl(ASNET::Control::Control* control);
+			//设置获取焦点的控件，之前获取焦点的控件将会失去焦点
+			void SetFocus(ASNET::Control::Control* control);
 		};
 	}
 }

@@ -5,7 +5,6 @@
 #include<ASNET.Direct3D.Model.h>
 #include<ASNET.Control.Label.h>
 #include<DirectXMath.h>
-
 #include<iostream>
 
 namespace ASNET {

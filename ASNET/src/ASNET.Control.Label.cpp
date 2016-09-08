@@ -5,7 +5,7 @@ void ASNET::Control::Label::OnDraw(void * sender, ASNET::Graph::Direct3D::GraphD
 
 	Color EdgeColor = ASNET::Graph::Color(0, 0, 0, 0);
 
-	if (MouseIn && IsCanSelect)
+	if (MouseIn && Selectibility)
 		EdgeColor = ASNET::Graph::Color::AliceBlue;
 		
 	render->DrawRectangle(
@@ -43,7 +43,7 @@ ASNET::Control::Label::Label(
 	BackColor = ASNET::Graph::Color(1, 1, 1, 0);
 	TextColor = ASNET::Graph::Color::Black;
 
-	IsCanSelect = false;
+	Selectibility = false;
 
 	ParentGraph->LoadFont(TextFont, fontface, fontsize);
 

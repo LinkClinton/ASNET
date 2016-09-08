@@ -8,7 +8,7 @@
 //并继承，具体的控件并不支持你去继承他，因此在具体的控件中虚函数基本上无用
 //控件基本的类中有描述这个类大小，以及其状态
 //是否被激活或者得到焦点或者被显示
-//所有的控件会被认为是2D的，因此将会在OnDraw后再去画，他无法被任何覆盖
+//所有的控件会被认为是2D的，因此将会在OnDraw后再去画，他无法被非控件覆盖
 namespace ASNET {
 	namespace Page { class Page; }
 	namespace Control {
@@ -48,15 +48,22 @@ namespace ASNET {
 			virtual void OnKeyDown(void* sender, ASNET::Event::EventBoardClick* e);
 			//当键盘按键弹起的时候触发
 			virtual void OnKeyUp(void* sender, ASNET::Event::EventBoardClick* e);
+			//当获取焦点的时候触发
+			virtual void OnGetFocus(void* sender);
+			//当失去焦点的时候触发
+			virtual void OnLostFocus(void* sender);
 			//描述这个控件的绘制方法
 			virtual void OnDraw(void* sender, ASNET::Graph::Direct3D::GraphDirect3D* render);
 		public:
+			ASNET::Event::EventGetFocusHandlers         GetFocusHandler; //获取焦点事件集合
+			ASNET::Event::EventLostFocusHandlers        LostFocusHandler; //失去焦点事件集合
 			ASNET::Event::EventMouseMoveHandlers		MouseMoveHandler; //鼠标移动事件的集合
 			ASNET::Event::EventMouseWheelHandlers		MouseWheelHandler; //鼠标滑轮移动事件的集合
 			ASNET::Event::EventMouseClickHandlers		MouseButtonUpHandler; //鼠标按钮弹起事件的集合
 			ASNET::Event::EventMouseClickHandlers		MouseButtonDownHandler; //鼠标按钮按下事件的集合
 			ASNET::Event::EventBoardClickHandlers		BoardUpHandler; //键盘按键弹起事件的集合
 			ASNET::Event::EventBoardClickHandlers		BoardDownHandler; //键盘按键按下事件的集合
+			
 		public:
 			bool  IsActive; //控件是否被激活
 			bool  IsFocus; //控件是否获取了焦点，将会影响控件获取键盘按键信息
@@ -77,10 +84,6 @@ namespace ASNET {
 			void Show();
 			//隐藏控件
 			void Hide();
-			//获取焦点
-			void GetFocus();
-			//丢去焦点
-			void LostFocus();
 			//激活
 			void Active();
 			//不激活

@@ -57,6 +57,14 @@ void ASNET::Control::Control::OnKeyUp(void * sender, ASNET::Event::EventBoardCli
 {
 }
 
+void ASNET::Control::Control::OnGetFocus(void * sender)
+{
+}
+
+void ASNET::Control::Control::OnLostFocus(void * sender)
+{
+}
+
 void ASNET::Control::Control::OnDraw(void * sender, ASNET::Graph::Direct3D::GraphDirect3D * render)
 {
 }
@@ -82,13 +90,7 @@ void ASNET::Control::Control::Hide(){
 	IsShow = false;
 }
 
-void ASNET::Control::Control::GetFocus(){
-	IsFocus = true;
-}
 
-void ASNET::Control::Control::LostFocus(){
-	IsFocus = false;
-}
 
 void ASNET::Control::Control::Active(){
 	IsActive = true;
