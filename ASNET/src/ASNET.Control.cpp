@@ -74,7 +74,7 @@ void ASNET::Control::Control::OnDraw(void * sender, ASNET::Graph::Direct3D::Grap
 ASNET::Control::Control::Control(){
 	IsActive = true;
 	IsFocus = false;
-	IsShow = true;
+	Visibility = true;
 	MouseIn = false;
 }
 
@@ -83,11 +83,11 @@ ASNET::Control::Control::operator ASNET::Graph::Rect(){
 }
 
 void ASNET::Control::Control::Show(){
-	IsShow = true;
+	Visibility = true;
 }
 
 void ASNET::Control::Control::Hide(){
-	IsShow = false;
+	Visibility = false;
 }
 
 

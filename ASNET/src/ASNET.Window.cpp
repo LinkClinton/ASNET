@@ -19,6 +19,7 @@ namespace ASNET {
 		{
 		case WM_DESTROY: {
 			PostQuitMessage(0);
+			break;
 		}
 		default:
 			return DefWindowProc(hWnd, message, wParam, lParam);
@@ -123,6 +124,12 @@ namespace ASNET {
 			e = eventarg;
 			return ASNET::Event::EventType::EventBoardClick;
 		}
+		if (message == WM_SETFOCUS) {
+			return ASNET::Event::EventType::EventGetFocus;
+		}
+		if (message == WM_KILLFOCUS) {
+			return ASNET::Event::EventType::EventLostFocus;
+		}
 		return ASNET::Event::EventType::EventOther;
 	}
 
@@ -210,6 +217,16 @@ namespace ASNET {
 			}
 			break;
 		}
+		case ASNET::Event::EventType::EventGetFocus: {
+			OnGetFocus(this);
+			ASNET::Event::DoEventHandlers(GetFocusHandler, this);
+			break;
+		}
+		case ASNET::Event::EventType::EventLostFocus: {
+			OnLostFocus(this);
+			ASNET::Event::DoEventHandlers(LostFocusHandler, this);
+			break;
+		}
 		default:
 			break;
 		}
@@ -246,6 +263,14 @@ namespace ASNET {
 	}
 
 	void ASNET::Window::OnLoading()
+	{
+	}
+
+	void Window::OnGetFocus(void * sender)
+	{
+	}
+
+	void Window::OnLostFocus(void * sender)
 	{
 	}
 

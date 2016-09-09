@@ -9,6 +9,10 @@
 //控件基本的类中有描述这个类大小，以及其状态
 //是否被激活或者得到焦点或者被显示
 //所有的控件会被认为是2D的，因此将会在OnDraw后再去画，他无法被非控件覆盖
+
+//控件的焦点仅仅只是表示在这个页面被显示的时候他是否获取了焦点
+//当窗口和或者页面没有使用的时候必然焦点也是无效的
+
 namespace ASNET {
 	namespace Page { class Page; }
 	namespace Control {
@@ -67,7 +71,7 @@ namespace ASNET {
 		public:
 			bool  IsActive; //控件是否被激活
 			bool  IsFocus; //控件是否获取了焦点，将会影响控件获取键盘按键信息
-			bool  IsShow; //控件是否显示
+			bool  Visibility; //控件是否可见 
 
 			float Left; //控件范围left
 			float Right; //控件范围right

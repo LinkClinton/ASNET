@@ -21,7 +21,9 @@ namespace ASNET {
 			EventMouseMove,
 			EventMouseClick,
 			EventMouseWheel,
-			EventBoardClick
+			EventBoardClick,
+			EventGetFocus,
+			EventLostFocus
 		};
 
 

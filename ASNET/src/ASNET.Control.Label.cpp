@@ -1,7 +1,7 @@
 #include "ASNET.Control.Label.h"
 
 void ASNET::Control::Label::OnDraw(void * sender, ASNET::Graph::Direct3D::GraphDirect3D * render){
-	if (!IsShow) return; 
+	if (!Visibility) return; 
 
 	Color EdgeColor = ASNET::Graph::Color(0, 0, 0, 0);
 

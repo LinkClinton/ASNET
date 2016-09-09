@@ -60,9 +60,15 @@ namespace ASNET {
 		virtual void OnSizeChanged(void* sender, ASNET::Event::EventSizeChange* e);
 		//在窗口加载的时候触发，将会在Initllize里面
 		virtual void OnLoading(); //Load the Window,after window create
+		//当得到焦点的时候触发
+		virtual void OnGetFocus(void* sender);
+		//当失去焦点的时候触发
+		virtual void OnLostFocus(void* sender);
 		//在构造函数里面使用
 		void		 Initalize();//use it before use any function
 	protected:
+		ASNET::Event::EventGetFocusHandlers         GetFocusHandler; //获取焦点事件集合
+		ASNET::Event::EventLostFocusHandlers        LostFocusHandler; //失去焦点事件集合
 		ASNET::Event::EventMouseMoveHandlers		MouseMoveHandler; //鼠标移动事件集合
 		ASNET::Event::EventMouseWheelHandlers		MouseWheelHandler; //鼠标滑轮滚动事件集合
 		ASNET::Event::EventMouseClickHandlers		MouseButtonUpHandler; //鼠标按键弹起事件集合
@@ -70,6 +76,7 @@ namespace ASNET {
 		ASNET::Event::EventBoardClickHandlers		BoardUpHandler; //键盘按键弹起事件集合
 		ASNET::Event::EventBoardClickHandlers		BoardDownHandler; //键盘按键按下事件集合
 		ASNET::Event::EventSizeChangeHandlers		SizeChangeHandler; //窗口大小事件集合
+		
 	public:
 		//默认构造函数
 		Window();
