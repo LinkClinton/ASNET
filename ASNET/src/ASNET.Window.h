@@ -35,6 +35,7 @@ namespace ASNET {
 	
 		int									NowPage; //现在使用的Page在集合里面的索引
 	protected:
+		
 		int									MousePosx; //鼠标位置
 		int									MousePosy; //鼠标位置
 	private:
@@ -108,6 +109,10 @@ namespace ASNET {
 		auto GetMousePosx()->int;
 		//返回鼠标位置
 		auto GetMousePosy()->int;
+		//返回窗口宽度
+		auto GetWidth()->int;
+		//返回窗口高度
+		auto GetHeight()->int;
 	};
 }
 

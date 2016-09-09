@@ -29,6 +29,13 @@ ASNET::Control::Color::Color(float _r, float _g, float _b, float _a){
 	a = _a;
 }
 
+ASNET::Control::Color::Color(ASNET::Graph::Color color, float _a) {
+	r = color.r;
+	g = color.g;
+	b = color.b;
+	a = _a;
+}
+
 ASNET::Control::Color::operator ASNET::Graph::Color(){
 	return ASNET::Graph::Color(r, g, b, a);
 }
@@ -75,6 +82,7 @@ ASNET::Control::Control::Control(){
 	IsActive = true;
 	IsFocus = false;
 	Visibility = true;
+	Selectibility = false;
 	MouseIn = false;
 }
 
@@ -82,20 +90,3 @@ ASNET::Control::Control::operator ASNET::Graph::Rect(){
 	return D2D1::RectF(Left, Top, Right, Bottom);
 }
 
-void ASNET::Control::Control::Show(){
-	Visibility = true;
-}
-
-void ASNET::Control::Control::Hide(){
-	Visibility = false;
-}
-
-
-
-void ASNET::Control::Control::Active(){
-	IsActive = true;
-}
-
-void ASNET::Control::Control::UnActive(){
-	IsActive = false;
-}

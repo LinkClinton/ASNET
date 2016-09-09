@@ -7,6 +7,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ASNET", "ASNET\ASNET.vcxpro
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WindowDirect3DSample", "ASNET\sample\WindowDirect3DSample\WindowDirect3DSample.vcxproj", "{F26B253D-984B-434B-B39E-377B1A597B7B}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WindowControlSample", "ASNET\sample\WindowControlSample\WindowControlSample.vcxproj", "{A63F2355-A176-468B-A7D3-1323C7F7E489}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -31,6 +33,14 @@ Global
 		{F26B253D-984B-434B-B39E-377B1A597B7B}.Release|x64.Build.0 = Release|x64
 		{F26B253D-984B-434B-B39E-377B1A597B7B}.Release|x86.ActiveCfg = Release|Win32
 		{F26B253D-984B-434B-B39E-377B1A597B7B}.Release|x86.Build.0 = Release|Win32
+		{A63F2355-A176-468B-A7D3-1323C7F7E489}.Debug|x64.ActiveCfg = Debug|x64
+		{A63F2355-A176-468B-A7D3-1323C7F7E489}.Debug|x64.Build.0 = Debug|x64
+		{A63F2355-A176-468B-A7D3-1323C7F7E489}.Debug|x86.ActiveCfg = Debug|Win32
+		{A63F2355-A176-468B-A7D3-1323C7F7E489}.Debug|x86.Build.0 = Debug|Win32
+		{A63F2355-A176-468B-A7D3-1323C7F7E489}.Release|x64.ActiveCfg = Release|x64
+		{A63F2355-A176-468B-A7D3-1323C7F7E489}.Release|x64.Build.0 = Release|x64
+		{A63F2355-A176-468B-A7D3-1323C7F7E489}.Release|x86.ActiveCfg = Release|Win32
+		{A63F2355-A176-468B-A7D3-1323C7F7E489}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

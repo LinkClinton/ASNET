@@ -1,7 +1,7 @@
 #include "ASNET.Window.h"
-#define DEBUG
 
-#ifdef DEBUG
+
+#ifdef _DEBUG
 #include<iostream>
 #endif // DEBUG
 
@@ -380,6 +380,14 @@ namespace ASNET {
 
 	auto Window::GetMousePosy() -> int{
 		return MousePosy;
+	}
+
+	auto Window::GetWidth() -> int{
+		return Width;
+	}
+
+	auto Window::GetHeight() -> int{
+		return Height;
 	}
 
 }

@@ -16,7 +16,7 @@
 namespace ASNET {
 	namespace Page { class Page; }
 	namespace Control {
-
+		
 		//简单的Color类，和D2D1::Color兼容
 		class Color {
 		public:
@@ -29,6 +29,8 @@ namespace ASNET {
 			Color(ASNET::Graph::Color::Enum color);
 			//赋值
 			Color(float _r, float _g, float _b, float _a);
+			//赋值
+			Color(ASNET::Graph::Color color, float _a);
 
 			//返回D2D1::Color类型
 			operator ASNET::Graph::Color();
@@ -38,6 +40,7 @@ namespace ASNET {
 		class Control {
 		protected:
 			bool		 MouseIn; //鼠标是否在控件范围内
+			bool		 IsFocus; //控件是否获取了焦点，将会影响控件获取键盘按键信息
 			friend class ASNET::Page::Page;  
 		protected:
 			//当鼠标移动的时候触发
@@ -70,8 +73,10 @@ namespace ASNET {
 			
 		public:
 			bool  IsActive; //控件是否被激活
-			bool  IsFocus; //控件是否获取了焦点，将会影响控件获取键盘按键信息
+			
 			bool  Visibility; //控件是否可见 
+
+			bool  Selectibility; //鼠标在其范围内的时候是否显示边框表示选中,使用图片背景时候无效
 
 			float Left; //控件范围left
 			float Right; //控件范围right
@@ -84,17 +89,15 @@ namespace ASNET {
 			Control();
 			//控件范围
 			operator ASNET::Graph::Rect(); 
-			//显示控件
-			void Show();
-			//隐藏控件
-			void Hide();
-			//激活
-			void Active();
-			//不激活
-			void UnActive();
+			
 
 		};
 
+
+
+
+		static Color ControlBackGroundColor = ASNET::Graph::Color::Gray;
+		static float ControlColorAlpha = 0.2f;
 
 	}
 }
@@ -103,3 +106,4 @@ namespace ASNET {
 
 #include"ASNET.Control.Label.h"
 #include"ASNET.Control.Timer.h"
+#include"ASNET.Control.Button.h"
