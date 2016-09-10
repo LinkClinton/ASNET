@@ -40,6 +40,46 @@ ASNET::Control::Color::operator ASNET::Graph::Color(){
 	return ASNET::Graph::Color(r, g, b, a);
 }
 
+void ASNET::Control::Control::InitalizeLeaveFrame(){
+	if (!Selectibility) return;
+	IsLeaveFrame = true;
+	LeaveAlphaTime = LeaveFrameTime;
+	LeaveOldAlpha = SelectBackColor.a;
+}
+
+void ASNET::Control::Control::OnLeaveFrameDraw(void * sender,
+	ASNET::Graph::Direct3D::GraphDirect3D * render){
+
+	if (MouseIn) return;
+
+	LeaveAlphaTime -= render->RenderTime();
+
+	SelectBackColor.a = LeaveOldAlpha*LeaveAlphaTime / LeaveFrameTime;
+
+	if (LeaveAlphaTime <= 0.0f) 
+		IsLeaveFrame = false,
+		SelectBackColor.a = LeaveOldAlpha;
+
+}
+
+void ASNET::Control::Control::OnStdDraw(void * sender, 
+	ASNET::Graph::Direct3D::GraphDirect3D * render){
+	if (!BackImage) {
+		if (Selectibility && IsLeaveFrame)
+			OnLeaveFrameDraw(sender, render);
+
+		if (Selectibility && (MouseIn || IsLeaveFrame))
+			render->DrawRectangle(D2D1::RectF(Left, Top, Right, Bottom),
+				Color(0, 0, 0, 0), 1.0f, true, SelectBackColor);
+		else
+			render->DrawRectangle(D2D1::RectF(Left, Top, Right, Bottom),
+				Color(0, 0, 0, 0), 1.0f, true, BackColor);
+	}
+	else
+		render->DrawImage(BackImage,
+			D2D1::RectF(Left, Top, Right, Bottom));
+}
+
 void ASNET::Control::Control::OnMouseMove(void * sender, ASNET::Event::EventMouseMove * e)
 {
 }
@@ -84,6 +124,11 @@ ASNET::Control::Control::Control(){
 	Visibility = true;
 	Selectibility = false;
 	MouseIn = false;
+
+	BackColor = Color(1, 1, 1, 1);
+	SelectBackColor = ControlBackGroundColor;
+
+	BackImage = nullptr;
 }
 
 ASNET::Control::Control::operator ASNET::Graph::Rect(){

@@ -131,12 +131,12 @@ void ASNET::Sample::Direct3DMainPage::OnDraw(void * sender, ASNET::Graph::Direct
 
 void ASNET::Sample::Direct3DMainPage::OnMouseUp(void * sender, ASNET::Event::EventMouseClick * e){
 	if (e->button == ASNET::Event::MouseButton::Left) 
-		IsMouseDown = false;
+		IsKeyDown = false;
 	
 }
 
 void ASNET::Sample::Direct3DMainPage::OnMouseMove(void * sender, ASNET::Event::EventMouseMove * e){
-	if (IsMouseDown) {
+	if (IsKeyDown) {
 		int offestx = e->x - LastMousePosx;
 		int offesty = e->y - LastMousePosy;
 		ModelAngleX += offesty*pixelangle;
@@ -148,7 +148,7 @@ void ASNET::Sample::Direct3DMainPage::OnMouseMove(void * sender, ASNET::Event::E
 
 void ASNET::Sample::Direct3DMainPage::OnMouseDown(void * sender, ASNET::Event::EventMouseClick * e){
 	if (e->button == ASNET::Event::MouseButton::Left)
-		IsMouseDown = true;
+		IsKeyDown = true;
 }
 
 void ASNET::Sample::Direct3DMainPage::OnMouseWheel(void * sender, ASNET::Event::EventMouseWheel * e){

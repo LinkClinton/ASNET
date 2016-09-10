@@ -4,24 +4,15 @@ void ASNET::Control::Label::OnDraw(void * sender, ASNET::Graph::Direct3D::GraphD
 	if (!Visibility) return; 
 
 	
-	Color BackGroundColor = BackColor;
 
-	if (Selectibility && MouseIn)
-		BackGroundColor = SelectBackColor,
-		BackGroundColor.a *= ControlColorAlpha*2.0f;
 
-	if (!BackImage)
-		render->DrawRectangle(
-			D2D1::RectF(Left, Top, Right, Bottom),
-			Color(0, 0, 0, 0), 1.0f, true, BackGroundColor
-		);
-	else
-		render->DrawImage(BackImage,
-			D2D1::RectF(Left, Top, Right, Bottom));
+	OnStdDraw(sender, render);
+
+
 
 	render->DrawWord(Text,
 		D2D1::RectF(Left, Top, Right, Bottom),
-		TextFont, Color(TextColor, TextColor.a*ControlColorAlpha), Horizontal, Vertical);
+		TextFont, TextColor, Horizontal, Vertical);
 		
 }
 

@@ -58,4 +58,5 @@ ASNET::Sample::ControlStartPage::~ControlStartPage()
 {
 	delete Note1;
 	delete Button1;
+	delete Consolas20;
 }

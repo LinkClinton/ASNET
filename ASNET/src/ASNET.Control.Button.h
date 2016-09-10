@@ -18,7 +18,7 @@ namespace ASNET {
 			//Simple类型的按钮绘制方案
 			void SimpleDraw(void* sender, ASNET::Graph::Direct3D::GraphDirect3D* render);
 		protected:
-			bool					 IsMouseDown; //是否被按下
+			bool					 IsKeyDown; //是否被按下
 		protected:
 			//描述如何绘制
 			void OnDraw(void* sender, ASNET::Graph::Direct3D::GraphDirect3D* render)override;
@@ -37,11 +37,9 @@ namespace ASNET {
 
 			ButtonStyle              Style; //按钮的风格
 
-			ASNET::Control::Color    BackColor; //背景颜色
-			ASNET::Control::Color    SelectBackColor; //被选中后的背景颜色,有默认值
+			
 			ASNET::Control::Color    TextColor; //文本颜色
 
-			ASNET::Graph::Image*     BackImage; //背景图片，如果为空就用背景颜色代替
 			ASNET::Graph::Font*      TextFont;  //使用的字体
 
 

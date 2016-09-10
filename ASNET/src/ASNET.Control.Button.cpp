@@ -3,7 +3,7 @@
 void ASNET::Control::Button::SimpleDraw(void * sender, 
 	ASNET::Graph::Direct3D::GraphDirect3D * render){
 
-	if (IsMouseDown && Selectibility)
+	if (IsKeyDown)
 		render->DrawWord(Text,
 			D2D1::RectF(Left, Top, Right, Bottom),
 			TextFont, Color(TextColor, TextColor.a*ControlColorAlpha), Horizontal, Vertical);
@@ -18,29 +18,8 @@ void ASNET::Control::Button::OnDraw(void * sender,
 	ASNET::Graph::Direct3D::GraphDirect3D * render){
 	if (!Visibility) return;
 
-	Color BackGroundColor = BackColor;
+	OnStdDraw(sender, render);
 
-	if (Selectibility && MouseIn)
-		BackGroundColor = SelectBackColor,
-		BackGroundColor.a *= ControlColorAlpha * 2.0f;
-		
-
-	if (!BackImage) {
-		if (IsMouseDown)
-			render->DrawRectangle(D2D1::RectF(Left, Top, Right, Bottom),
-				Color(0, 0, 0, 0), 1.0f, true,
-				BackGroundColor);
-		else
-			render->DrawRectangle(
-				D2D1::RectF(Left, Top, Right, Bottom),
-				Color(0, 0, 0, 0), 1.0f, true, BackGroundColor
-			);
-		 
-	}
-	else 
-		render->DrawImage(BackImage,
-			D2D1::RectF(Left, Top, Right, Bottom));
-	
 	switch (Style)
 	{
 	case ASNET::Control::ButtonStyle::Simple:
@@ -54,24 +33,24 @@ void ASNET::Control::Button::OnDraw(void * sender,
 
 void ASNET::Control::Button::OnMouseUp(void * sender, ASNET::Event::EventMouseClick * e)
 {
-	IsMouseDown = false;
+	IsKeyDown = false;
 }
 
 void ASNET::Control::Button::OnMouseDown(void * sender, ASNET::Event::EventMouseClick * e)
 {
-	IsMouseDown = true;
+	IsKeyDown = true;
 }
 
 void ASNET::Control::Button::OnKeyDown(void * sender, ASNET::Event::EventBoardClick * e)
 {
-	if (e->keycode == ASNET::Keycode::Return)
-		IsMouseDown = true;
+	if (e->keycode == ASNET::Keycode::Return && e->IsDown)
+		IsKeyDown = true;
 }
 
 void ASNET::Control::Button::OnKeyUp(void * sender, ASNET::Event::EventBoardClick * e)
 {
-	if (e->keycode == ASNET::Keycode::Return)
-		IsMouseDown = false;
+	if (e->keycode == ASNET::Keycode::Return && !e->IsDown)
+		IsKeyDown = false;
 }
 
 ASNET::Control::Button::Button(
@@ -110,7 +89,7 @@ ASNET::Control::Button::Button(
 
 	SelectBackColor = ControlBackGroundColor;
 
-	IsMouseDown = false;
+	IsKeyDown = false;
 
 	TextFont = font;
 }

@@ -41,7 +41,7 @@ namespace ASNET {
 			int										  LastMousePosx;
 			int										  LastMousePosy;
 
-			bool									  IsMouseDown;
+			bool									  IsKeyDown;
 
 			
 			ASNET::Control::Label*                    Direct3DLabel;

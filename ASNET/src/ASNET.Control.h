@@ -38,10 +38,24 @@ namespace ASNET {
 
 		//简单的Control基类，所有的事件，只有在控件范围内才会被使用
 		class Control {
+		private:
+			const float  LeaveFrameTime = 0.13f; //鼠标移开动画持续时间
 		protected:
 			bool		 MouseIn; //鼠标是否在控件范围内
+			bool         IsLeaveFrame; //是否处于类似动画渲染的状态
 			bool		 IsFocus; //控件是否获取了焦点，将会影响控件获取键盘按键信息
+
+			float        LeaveAlphaTime; //渐变的Alpha
+			float        LeaveOldAlpha;  //原始的Alpha
 			friend class ASNET::Page::Page;  
+
+			//初始化鼠标移开后的动画绘制方案
+			void         InitalizeLeaveFrame();
+			//描述控件当鼠标移开后的动画绘制方案,图片作为背景的时候无效
+			void         OnLeaveFrameDraw(void* sender, ASNET::Graph::Direct3D::GraphDirect3D* render);
+
+			//标准控件绘制方案,大部分控件使用此绘制方案
+			void         OnStdDraw(void* sender, ASNET::Graph::Direct3D::GraphDirect3D* render);
 		protected:
 			//当鼠标移动的时候触发
 			virtual void OnMouseMove(void* sender, ASNET::Event::EventMouseMove* e); 
@@ -77,6 +91,11 @@ namespace ASNET {
 			bool  Visibility; //控件是否可见 
 
 			bool  Selectibility; //鼠标在其范围内的时候是否显示边框表示选中,使用图片背景时候无效
+
+			ASNET::Control::Color    BackColor; //背景颜色
+			ASNET::Control::Color    SelectBackColor; //被选中后的背景颜色,有默认值
+
+			ASNET::Graph::Image*     BackImage; //背景图片，如果为空就用背景颜色代替
 
 			float Left; //控件范围left
 			float Right; //控件范围right

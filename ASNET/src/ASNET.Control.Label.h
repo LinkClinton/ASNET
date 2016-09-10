@@ -21,14 +21,8 @@ namespace ASNET {
 			wchar_t*                 Name; //Label的名字
 			wchar_t*                 Text; //Label文本的内容
 
-			bool                     Selectibility; //鼠标在其范围内的时候是否显示边框表示选中
-			
-
-			ASNET::Control::Color    BackColor; //背景颜色
-			ASNET::Control::Color    SelectBackColor; //被选中后的背景颜色,有默认值
 			ASNET::Control::Color    TextColor; //文本颜色
 
-			ASNET::Graph::Image*     BackImage; //背景图片，如果为空就用背景颜色代替
 			ASNET::Graph::Font*      TextFont;  //使用的字体
 
 

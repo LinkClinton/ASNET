@@ -87,7 +87,11 @@ namespace ASNET {
 					Controls[i]->OnMouseMove(sender, e);
 					ASNET::Event::DoEventHandlers(Controls[i]->MouseMoveHandler, &Controls[i], e);
 				}
-				else Controls[i]->MouseIn = false;
+				else { 
+					if (Controls[i]->MouseIn)
+						Controls[i]->InitalizeLeaveFrame();
+					Controls[i]->MouseIn = false; 
+				}
 		}
 
 		void Page::OnControlMouseWheel(void * sender, ASNET::Event::EventMouseWheel * e){
