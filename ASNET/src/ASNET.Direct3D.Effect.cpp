@@ -264,6 +264,8 @@ void ASNET::Graph::Direct3D::BasicEffect::EffectBegin(){
 void ASNET::Graph::Direct3D::BasicEffect::EffectEnd(){
 	EffectIsBegin = false;
 
+	if (!ParentGraph->UsedShader) return;
+
 	ParentGraph->UpDateInputLayout(ParentGraph->UsedShader);
 
 	ParentGraph->g_devicecontext3d->VSSetShader(ParentGraph->UsedShader->VertexShader, 0, 0);

@@ -73,7 +73,8 @@
     <LinkIncremental>true</LinkIncremental>
     <IncludePath>C:\Program Files\Autodesk\FBX\FBX SDK\2017.0.1\include;$(SolutionDir)ASNET\src;$(IncludePath)</IncludePath>
     <ReferencePath>C:\Program Files\Autodesk\FBX\FBX SDK\2017.0.1\lib\vs2015\x86\debug;$(ReferencePath)</ReferencePath>
-    <LibraryPath>$(SolutionDir)ASNET\src;$(LibraryPath)</LibraryPath>
+    <LibraryPath>C:\Program Files\Autodesk\FBX\FBX SDK\2017.0.1\lib\vs2015\x86\debug;C:\Project\ASNET\ASNET\lib;$(SolutionDir)ASNET\src;$(LibraryPath)</LibraryPath>
+    <ExecutablePath>C:\Program Files\Autodesk\FBX\FBX SDK\2017.0.1\lib\vs2015\x86\debug;$(ExecutablePath)</ExecutablePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>

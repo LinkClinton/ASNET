@@ -16,6 +16,7 @@ namespace ASNET {
 
 				friend class Direct3DModelLoader;
 			public:
+				Model() {}
 				//构造函数
 				Model(ASNET::Graph::Direct3D::GraphDirect3D* graph);
 				//析构函数
