@@ -39,12 +39,7 @@ void ASNET::Sample::Direct3DMainPage::OnLoading(void * sender, void * any){
 	
 	ASNET::Graph::Direct3D::GeometryMaker::CreateGrid(Direct3DMesh, 100, 100, 200, 200);
 
-	Direct3DLabel = new ASNET::Control::Label((ASNET::Graph::Graph*)ParentGraph, 100, 200, 100, 200, L"Lable",
-		L"Hello", L"Consolas", 12);
 
-	Direct3DLabel->Selectibility = true;
-
-	Direct3DLabel->Show();
 
 	ASNET::Graph::Direct3D::Direct3DModelLoader::LoadPMXModel(ParentGraph, L"model/Ysna.pmx",
 		Direct3DModel);

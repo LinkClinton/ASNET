@@ -15,6 +15,14 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="FBXLoader.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="WindowFBXSDKSample.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
     <ClInclude Include="FBXLoader.h">
       <Filter>头文件</Filter>
     </ClInclude>
@@ -23,11 +31,14 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="WindowFBXSDKSample.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="FBXLoader.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
+    <None Include="ASNET.Effect.Pixel.cso">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="ASNET.Effect.Vertex.cso">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="Camera.fbx">
+      <Filter>资源文件</Filter>
+    </None>
   </ItemGroup>
 </Project>

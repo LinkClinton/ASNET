@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{04675A10-B751-4773-B191-A762700C4F03}</ProjectGuid>
+    <ProjectGuid>{CA53A1B4-0CFB-4E14-8B24-C4B58810A931}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>WindowFBXSDKSample</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
@@ -71,10 +71,8 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>C:\Program Files\Autodesk\FBX\FBX SDK\2017.0.1\include;$(SolutionDir)ASNET\src;$(IncludePath)</IncludePath>
-    <ReferencePath>C:\Program Files\Autodesk\FBX\FBX SDK\2017.0.1\lib\vs2015\x86\debug;$(ReferencePath)</ReferencePath>
-    <LibraryPath>C:\Program Files\Autodesk\FBX\FBX SDK\2017.0.1\lib\vs2015\x86\debug;C:\Project\ASNET\ASNET\lib;$(SolutionDir)ASNET\src;$(LibraryPath)</LibraryPath>
-    <ExecutablePath>C:\Program Files\Autodesk\FBX\FBX SDK\2017.0.1\lib\vs2015\x86\debug;$(ExecutablePath)</ExecutablePath>
+    <IncludePath>C:\Program Files\Autodesk\FBX\FBX SDK\2017.0.1\include;C:\Project\ASNET\ASNET\src;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Program Files\Autodesk\FBX\FBX SDK\2017.0.1\lib\vs2015\x86\debug;C:\Project\ASNET\ASNET\src;C:\Project\ASNET\ASNET\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
@@ -150,15 +148,20 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="FBXLoader.h" />
-    <ClInclude Include="WindowFBXSDKSample.h" />
-  </ItemGroup>
-  <ItemGroup>
     <ClCompile Include="FBXLoader.cpp" />
     <ClCompile Include="WindowFBXSDKSample.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ASNET\ASNET.vcxproj">
+    <ClInclude Include="FBXLoader.h" />
+    <ClInclude Include="WindowFBXSDKSample.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ASNET.Effect.Pixel.cso" />
+    <None Include="ASNET.Effect.Vertex.cso" />
+    <None Include="Camera.fbx" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\ASNET.vcxproj">
       <Project>{cab55dfd-6b79-4990-bd6d-5879fe6e14e7}</Project>
     </ProjectReference>
   </ItemGroup>

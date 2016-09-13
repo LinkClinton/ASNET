@@ -9,6 +9,7 @@ namespace ASNET {
 
 		class FBXModel :public ASNET::Graph::Direct3D::Model {
 			friend class FBXLoader;
+			friend class FBXSDKPage;
 			FBXModel(ASNET::Graph::Direct3D::GraphDirect3D* graph) {
 				ParentGraph = graph;
 			}

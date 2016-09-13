@@ -6,10 +6,10 @@
 void ASNET::Sample::FBXLoader::ReadVertex(FbxMesh * mesh, 
 	int index, FbxVertex * vertex){
 	FbxVector4 Point = mesh->GetControlPointAt(index);
-	
-	vertex->x = Point[0];
-	vertex->y = Point[1];
-	vertex->z = Point[2];
+
+	vertex->x = (float)Point[0];
+	vertex->y = (float)Point[1];
+	vertex->z = (float)Point[2];
 	
 }
 
@@ -25,18 +25,18 @@ void ASNET::Sample::FBXLoader::ReadColor(FbxMesh * mesh,
 		switch (pColor->GetReferenceMode())
 		{
 		case FbxGeometryElement::eDirect: {
-			vertex->r = pColor->GetDirectArray().GetAt(index).mRed;
-			vertex->g = pColor->GetDirectArray().GetAt(index).mGreen;
-			vertex->b = pColor->GetDirectArray().GetAt(index).mBlue;
-			vertex->a = pColor->GetDirectArray().GetAt(index).mAlpha;
+			vertex->r = (float)pColor->GetDirectArray().GetAt(index).mRed;
+			vertex->g = (float)pColor->GetDirectArray().GetAt(index).mGreen;
+			vertex->b = (float)pColor->GetDirectArray().GetAt(index).mBlue;
+			vertex->a = (float)pColor->GetDirectArray().GetAt(index).mAlpha;
 			break;
 		}
 		case FbxGeometryElement::eIndexToDirect: {
 			int id = pColor->GetIndexArray().GetAt(index);
-			vertex->r = pColor->GetDirectArray().GetAt(id).mRed;
-			vertex->g = pColor->GetDirectArray().GetAt(id).mGreen;
-			vertex->b = pColor->GetDirectArray().GetAt(id).mBlue;
-			vertex->a = pColor->GetDirectArray().GetAt(id).mAlpha;
+			vertex->r = (float)pColor->GetDirectArray().GetAt(id).mRed;
+			vertex->g = (float)pColor->GetDirectArray().GetAt(id).mGreen;
+			vertex->b = (float)pColor->GetDirectArray().GetAt(id).mBlue;
+			vertex->a = (float)pColor->GetDirectArray().GetAt(id).mAlpha;
 			break;
 		}
 		default:
@@ -48,18 +48,18 @@ void ASNET::Sample::FBXLoader::ReadColor(FbxMesh * mesh,
 		switch (pColor->GetReferenceMode())
 		{
 		case FbxGeometryElement::eDirect: {
-			vertex->r = pColor->GetDirectArray().GetAt(vertexcount).mRed;
-			vertex->g = pColor->GetDirectArray().GetAt(vertexcount).mGreen;
-			vertex->b = pColor->GetDirectArray().GetAt(vertexcount).mBlue;
-			vertex->a = pColor->GetDirectArray().GetAt(vertexcount).mAlpha;
+			vertex->r = (float)pColor->GetDirectArray().GetAt(vertexcount).mRed;
+			vertex->g = (float)pColor->GetDirectArray().GetAt(vertexcount).mGreen;
+			vertex->b = (float)pColor->GetDirectArray().GetAt(vertexcount).mBlue;
+			vertex->a = (float)pColor->GetDirectArray().GetAt(vertexcount).mAlpha;
 			break;
 		}
 		case FbxGeometryElement::eIndexToDirect: {
 			int id = pColor->GetIndexArray().GetAt(vertexcount);
-			vertex->r = pColor->GetDirectArray().GetAt(id).mRed;
-			vertex->g = pColor->GetDirectArray().GetAt(id).mGreen;
-			vertex->b = pColor->GetDirectArray().GetAt(id).mBlue;
-			vertex->a = pColor->GetDirectArray().GetAt(id).mAlpha;
+			vertex->r = (float)pColor->GetDirectArray().GetAt(id).mRed;
+			vertex->g = (float)pColor->GetDirectArray().GetAt(id).mGreen;
+			vertex->b = (float)pColor->GetDirectArray().GetAt(id).mBlue;
+			vertex->a = (float)pColor->GetDirectArray().GetAt(id).mAlpha;
 			break;
 		}
 		default:
@@ -86,7 +86,7 @@ void ASNET::Sample::FBXLoader::ProcessNode(FbxNode * node){
 			break;
 		}
 	} //遍历子节点
-	for (size_t i = 0; i < node->GetChildCount(); i++)
+	for (int i = 0; i < node->GetChildCount(); i++)
 		ProcessNode(node->GetChild(i));
 }
 
@@ -118,6 +118,7 @@ void ASNET::Sample::FBXLoader::ProcessMesh(FbxNode * node){
 
 
 			Model->VertexCount++;
+			Model->IndexCount++;
 		}
 	}
 
@@ -157,8 +158,6 @@ void ASNET::Sample::FBXLoader::LoadFbxSence(char * filename,
 
 	for (int i = 0; i < root->GetChildCount(); i++)
 		ProcessNode(root->GetChild(i));
-
-	//ProcessNode()
 
 	graph->LoadBuffer(Model->Buffer, Model->vertices, Model->indices);
 
