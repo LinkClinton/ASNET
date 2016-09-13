@@ -52,7 +52,8 @@ namespace ASNET {
 
 		void FBXSDKPage::OnDraw(void * sender, ASNET::Graph::Direct3D::GraphDirect3D * graph) {
 			graph->Clear();
-			graph->SetFillMode(ASNET::Graph::Direct3D::FillMode::FillWireFrame);
+			//graph->SetFillMode(ASNET::Graph::Direct3D::FillMode::FillWireFrame);
+			//graph->SetCullMode(ASNET::Graph::Direct3D::CullMode::CullNone);
 
 			world = DirectX::XMMatrixIdentity();
 
@@ -73,11 +74,11 @@ namespace ASNET {
 		void FBXSDKPage::OnLoading(void * sender, void * any) {
 			Loader = new ASNET::Sample::FBXLoader();
 
-			Loader->LoadFbxSence("Camera.fbx", Model, ParentGraph);
+			Loader->LoadFbxSence("Cube.fbx", Model, ParentGraph);
 
 			effect = new ASNET::Graph::Direct3D::BasicEffect(ParentGraph);
 
-			effect->SetViewMatrix(DirectX::XMVectorSet(0, 5, -1, 1),
+			effect->SetViewMatrix(DirectX::XMVectorSet(0, 50, -1, 1),
 				DirectX::XMVectorSet(0, 0, 0, 1));
 
 			effect->SetWorldMatrix(DirectX::XMMatrixIdentity());

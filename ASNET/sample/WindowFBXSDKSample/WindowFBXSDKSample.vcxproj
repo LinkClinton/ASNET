@@ -158,7 +158,7 @@
   <ItemGroup>
     <None Include="ASNET.Effect.Pixel.cso" />
     <None Include="ASNET.Effect.Vertex.cso" />
-    <None Include="Camera.fbx" />
+    <None Include="Cube.FBX" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\ASNET.vcxproj">

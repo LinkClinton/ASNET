@@ -53,9 +53,9 @@ namespace ASNET {
 			void         InitalizeLeaveFrame();
 			//描述控件当鼠标移开后的动画绘制方案,图片作为背景的时候无效
 			void         OnLeaveFrameDraw(void* sender, ASNET::Graph::Direct3D::GraphDirect3D* render);
-
-			//标准控件绘制方案,大部分控件使用此绘制方案
-			void         OnStdDraw(void* sender, ASNET::Graph::Direct3D::GraphDirect3D* render);
+			
+			//标准控件绘制方案,大部分控件使用此绘制方案,集成了控件大致外观绘制
+			virtual void OnStdDraw(void* sender, ASNET::Graph::Direct3D::GraphDirect3D* render);
 		protected:
 			//当鼠标移动的时候触发
 			virtual void OnMouseMove(void* sender, ASNET::Event::EventMouseMove* e); 

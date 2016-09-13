@@ -44,7 +44,7 @@ void ASNET::Sample::Direct3DMainPage::OnLoading(void * sender, void * any){
 	ASNET::Graph::Direct3D::Direct3DModelLoader::LoadPMXModel(ParentGraph, L"model/Ysna.pmx",
 		Direct3DModel);
 
-	RegisterControl(Direct3DLabel);
+	//RegisterControl(Direct3DLabel);
 
 	//Direct3DRender->LoadTexture(Direct3DTexture, L"model.te4.png");
 	
@@ -53,6 +53,8 @@ void ASNET::Sample::Direct3DMainPage::OnLoading(void * sender, void * any){
 	Direct3DEffect = new ASNET::Graph::Direct3D::BasicEffect(ParentGraph);
 
 	ParentGraph->SetCullMode(ASNET::Graph::Direct3D::CullMode::CullNone);
+
+	ParentGraph->SetFillMode(ASNET::Graph::Direct3D::FillMode::FillWireFrame);
 
 	//Direct3DRender->SetFillMode(ASNET::Graph::Direct3D::FillMode::FillWireFrame);
 //	Direct3DShader->SendTextureToShader(0, Direct3DTexture);

@@ -1,9 +1,11 @@
 #include "ASNET.Control.Button.h"
 
-void ASNET::Control::Button::SimpleDraw(void * sender, 
+
+
+void ASNET::Control::Button::SimpleDraw(void * sender,
 	ASNET::Graph::Direct3D::GraphDirect3D * render){
 
-	if (IsKeyDown)
+	if (IsKeyDown || IsMouseDown)
 		render->DrawWord(Text,
 			D2D1::RectF(Left, Top, Right, Bottom),
 			TextFont, Color(TextColor, TextColor.a*ControlColorAlpha), Horizontal, Vertical);
@@ -33,24 +35,27 @@ void ASNET::Control::Button::OnDraw(void * sender,
 
 void ASNET::Control::Button::OnMouseUp(void * sender, ASNET::Event::EventMouseClick * e)
 {
-	IsKeyDown = false;
+	IsMouseDown = false;
 }
 
 void ASNET::Control::Button::OnMouseDown(void * sender, ASNET::Event::EventMouseClick * e)
 {
-	IsKeyDown = true;
+	IsMouseDown = true;
 }
 
 void ASNET::Control::Button::OnKeyDown(void * sender, ASNET::Event::EventBoardClick * e)
 {
-	if (e->keycode == ASNET::Keycode::Return && e->IsDown)
+	if (e->keycode == ASNET::Keycode::Return && e->IsDown) {
 		IsKeyDown = true;
+	}
+
 }
 
 void ASNET::Control::Button::OnKeyUp(void * sender, ASNET::Event::EventBoardClick * e)
 {
-	if (e->keycode == ASNET::Keycode::Return && !e->IsDown)
+	if (e->keycode == ASNET::Keycode::Return && !e->IsDown) {
 		IsKeyDown = false;
+	}
 }
 
 ASNET::Control::Button::Button(
@@ -90,6 +95,7 @@ ASNET::Control::Button::Button(
 	SelectBackColor = ControlBackGroundColor;
 
 	IsKeyDown = false;
+	IsMouseDown = false;
 
 	TextFont = font;
 }

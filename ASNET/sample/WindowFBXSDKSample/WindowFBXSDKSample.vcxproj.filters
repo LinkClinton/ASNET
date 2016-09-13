@@ -37,7 +37,7 @@
     <None Include="ASNET.Effect.Vertex.cso">
       <Filter>资源文件</Filter>
     </None>
-    <None Include="Camera.fbx">
+    <None Include="Cube.FBX">
       <Filter>资源文件</Filter>
     </None>
   </ItemGroup>

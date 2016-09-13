@@ -49,7 +49,7 @@ void ASNET::Control::Control::InitalizeLeaveFrame(){
 
 void ASNET::Control::Control::OnLeaveFrameDraw(void * sender,
 	ASNET::Graph::Direct3D::GraphDirect3D * render){
-
+	if (!Selectibility) return;
 	if (MouseIn) return;
 
 	LeaveAlphaTime -= render->RenderTime();

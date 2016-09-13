@@ -99,28 +99,23 @@ void ASNET::Sample::FBXLoader::ProcessMesh(FbxNode * node){
 	Model->indices.clear();
 
 	Model->VertexCount = 0;
-	Model->IndexCount = 0;
+	Model->IndexCount = mesh->GetPolygonVertexCount();
 
-	size_t TriangleCount = mesh->GetPolygonCount();
-
-	for (size_t i = 0; i < TriangleCount; i++) {
-		for (size_t j = 0; j < 3; j++) {
-			ASNET::Graph::Direct3D::Index  index = mesh->GetPolygonVertex(i, j);
-			ASNET::Graph::Direct3D::Vertex vertex;
-
-			Model->indices.push_back(index);
-
-			ReadVertex(mesh, index, &vertex);
-
-			ReadColor(mesh, index, Model->VertexCount, &vertex);
-
-			Model->vertices.push_back(vertex);
-
-
-			Model->VertexCount++;
-			Model->IndexCount++;
-		}
+	for (size_t i = 0; i < Model->IndexCount; i++) {
+		ASNET::Graph::Direct3D::Index index = (UINT)mesh->GetPolygonVertices()[i];
+		Model->indices.push_back(index);
+		Model->VertexCount = max(Model->VertexCount, index);
 	}
+
+	for (size_t i = 0; i <= Model->VertexCount; i++) {
+		ASNET::Graph::Direct3D::Vertex vertex;
+		ReadVertex(mesh, i, &vertex);
+
+		ReadColor(mesh, i, i, &vertex);
+
+		Model->vertices.push_back(vertex);
+	}
+	
 
 }
 
@@ -166,6 +161,8 @@ void ASNET::Sample::FBXLoader::LoadFbxSence(char * filename,
 	Model = nullptr;
 
 	Importer->Destroy();
+
+	Scene->Destroy();
 
 	
 

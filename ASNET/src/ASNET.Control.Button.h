@@ -18,7 +18,8 @@ namespace ASNET {
 			//Simple类型的按钮绘制方案
 			void SimpleDraw(void* sender, ASNET::Graph::Direct3D::GraphDirect3D* render);
 		protected:
-			bool					 IsKeyDown; //是否被按下
+			bool					 IsKeyDown; //Return按键是否被按下
+			bool                     IsMouseDown; //鼠标按键是否被按下
 		protected:
 			//描述如何绘制
 			void OnDraw(void* sender, ASNET::Graph::Direct3D::GraphDirect3D* render)override;
