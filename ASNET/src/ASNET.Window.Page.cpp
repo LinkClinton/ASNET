@@ -137,6 +137,8 @@ namespace ASNET {
 				}
 		}
 
+		
+
 		void Page::OnControlDraw(void * sender, 
 			ASNET::Graph::Direct3D::GraphDirect3D * render){
 			for (UINT i = 0; i < Controls.size(); i++)

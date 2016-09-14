@@ -23,7 +23,8 @@ namespace ASNET {
 			EventMouseWheel,
 			EventBoardClick,
 			EventGetFocus,
-			EventLostFocus
+			EventLostFocus,
+			EventSizeChanged
 		};
 
 

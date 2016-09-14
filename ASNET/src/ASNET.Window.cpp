@@ -13,10 +13,20 @@ namespace ASNET {
 #define KEYDOWN(vk_code) ((GetAsyncKeyState(vk_code) & 0x8000) ? 1 : 0)
 #define KEYUP(vk_code) ((GetAsyncKeyState(vk_code) & 0x8000) ? 0 : 1)
 
+	static bool SizeChanged = false;
+	static int  BackEndWidth = 0;
+	static int  BACKEndHeight = 0;
+
 	static LRESULT CALLBACK DefaultWindowProc(HWND hWnd, UINT message,
 		WPARAM wParam, LPARAM lParam) {
 		switch (message)
 		{
+		case WM_SIZE: {
+			SizeChanged = true;
+			BackEndWidth = LOWORD(lParam);
+			BACKEndHeight = HIWORD(lParam);
+			break;
+		}
 		case WM_DESTROY: {
 			PostQuitMessage(0);
 			break;
@@ -70,8 +80,10 @@ namespace ASNET {
 		if (message == WM_MBUTTONUP || message == WM_MBUTTONDOWN) {
 			ASNET::Event::EventMouseClick* eventarg = new ASNET::Event::EventMouseClick();
 			eventarg->button = ASNET::Event::MouseButton::Middle;
-			eventarg->x = GET_X_LPARAM(Message.lParam);
-			eventarg->y = GET_Y_LPARAM(Message.lParam);
+			MousePosx = (int)(GET_X_LPARAM(Message.lParam)*Width_Scale);
+			MousePosy = (int)(GET_Y_LPARAM(Message.lParam)*Height_Scale);
+			eventarg->x = MousePosx;
+			eventarg->y = MousePosy;
 			if (message == WM_MBUTTONDOWN)
 				eventarg->IsDown = true;
 			else eventarg->IsDown = false;
@@ -81,8 +93,10 @@ namespace ASNET {
 		if (message == WM_LBUTTONUP || message == WM_LBUTTONDOWN) {
 			ASNET::Event::EventMouseClick* eventarg = new ASNET::Event::EventMouseClick();
 			eventarg->button = ASNET::Event::MouseButton::Left;
-			eventarg->x = GET_X_LPARAM(Message.lParam);
-			eventarg->y = GET_Y_LPARAM(Message.lParam);
+			MousePosx = (int)(GET_X_LPARAM(Message.lParam)*Width_Scale);
+			MousePosy = (int)(GET_Y_LPARAM(Message.lParam)*Height_Scale);
+			eventarg->x = MousePosx;
+			eventarg->y = MousePosy;
 			if (message == WM_LBUTTONDOWN)
 				eventarg->IsDown = true;
 			else eventarg->IsDown = false;
@@ -92,8 +106,10 @@ namespace ASNET {
 		if (message == WM_RBUTTONUP || message == WM_RBUTTONDOWN) {
 			ASNET::Event::EventMouseClick* eventarg = new ASNET::Event::EventMouseClick();
 			eventarg->button = ASNET::Event::MouseButton::Right;
-			eventarg->x = GET_X_LPARAM(Message.lParam);
-			eventarg->y = GET_Y_LPARAM(Message.lParam);
+			MousePosx = (int)(GET_X_LPARAM(Message.lParam)*Width_Scale);
+			MousePosy = (int)(GET_Y_LPARAM(Message.lParam)*Height_Scale);
+			eventarg->x = MousePosx;
+			eventarg->y = MousePosy;
 			if (message == WM_RBUTTONDOWN)
 				eventarg->IsDown = true;
 			else eventarg->IsDown = false;
@@ -102,20 +118,24 @@ namespace ASNET {
 		}
 		if (message == WM_MOUSEMOVE) {
 			ASNET::Event::EventMouseMove* eventarg = new ASNET::Event::EventMouseMove();
-			eventarg->x = GET_X_LPARAM(Message.lParam);
-			eventarg->y = GET_Y_LPARAM(Message.lParam);
+			MousePosx = (int)(GET_X_LPARAM(Message.lParam)*Width_Scale);
+			MousePosy = (int)(GET_Y_LPARAM(Message.lParam)*Height_Scale);
+			eventarg->x = MousePosx;
+			eventarg->y = MousePosy;
 			e = eventarg;
 			return ASNET::Event::EventType::EventMouseMove;
 		}
 		if (message == WM_MOUSEWHEEL) {
 			ASNET::Event::EventMouseWheel* eventarg = new ASNET::Event::EventMouseWheel();
-			eventarg->x = GET_X_LPARAM(Message.lParam);
-			eventarg->y = GET_Y_LPARAM(Message.lParam);
+			MousePosx = (int)(GET_X_LPARAM(Message.lParam)*Width_Scale);
+			MousePosy = (int)(GET_Y_LPARAM(Message.lParam)*Height_Scale);
+			eventarg->x = MousePosx;
+			eventarg->y = MousePosy;
 			eventarg->offest = GET_WHEEL_DELTA_WPARAM(Message.wParam);
 			e = eventarg;
 			return ASNET::Event::EventType::EventMouseWheel;
 		}
-		if (message == WM_KEYDOWN || WM_KEYUP) {
+		if (message == WM_KEYDOWN || message == WM_KEYUP) {
 			ASNET::Event::EventBoardClick* eventarg = new ASNET::Event::EventBoardClick();
 			eventarg->keycode = (ASNET::Keycode)Message.wParam;
 			if (message == WM_KEYDOWN)
@@ -130,13 +150,24 @@ namespace ASNET {
 		if (message == WM_KILLFOCUS) {
 			return ASNET::Event::EventType::EventLostFocus;
 		}
+		if (SizeChanged) {
+			SizeChanged = false;
+			ASNET::Event::EventSizeChange* eventarg = new ASNET::Event::EventSizeChange();
+			eventarg->last_height = Height;
+			eventarg->last_width = Width;
+			eventarg->now_width = BackEndWidth;
+			eventarg->now_height = BACKEndHeight;
+			Width_Scale *= (float)Width / (float)BackEndWidth;	
+			Height_Scale *= (float)Height / (float)BACKEndHeight;
+			e = eventarg;
+			return ASNET::Event::EventType::EventSizeChanged;
+		}
 		return ASNET::Event::EventType::EventOther;
 	}
 
 	void Window::CoreComputeEvents(int message){
 		ASNET::Event::EventBase* BaseEvent = NULL;
 		ASNET::Event::EventType type = CoreGetEventArgs(message, BaseEvent);
-		//std::cout << (int)type << std::endl;
 		switch (type)
 		{
 		case ASNET::Event::EventType::EventOther: {
@@ -227,6 +258,21 @@ namespace ASNET {
 			ASNET::Event::DoEventHandlers(LostFocusHandler, this);
 			break;
 		}
+		case ASNET::Event::EventType::EventSizeChanged: {
+			ASNET::Event::EventSizeChange* e = (ASNET::Event::EventSizeChange*)BaseEvent;
+			Width = e->now_width;
+			Height = e->now_height;
+			
+			OnSizeChanged(this, e);
+			ASNET::Event::DoEventHandlers(SizeChangeHandler, this, e);
+			
+			if (UsedPage) {
+				UsedPage->OnSizeChanged(this, e);
+				ASNET::Event::DoEventHandlers(UsedPage->SizeChangeHandler, UsedPage, e);
+				
+			}
+			break;
+		}
 		default:
 			break;
 		}
@@ -276,6 +322,8 @@ namespace ASNET {
 
 	void Window::Initalize(){
 		Hwnd = CreateWindows(Width, Height, IcoName, Title);
+		Width_Scale = 1.0f;
+		Height_Scale = 1.0f;
 		Graph = new ASNET::Graph::Direct3D::GraphDirect3D(Hwnd);
 		OnLoading();
 		

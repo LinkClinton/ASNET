@@ -82,6 +82,9 @@ void ASNET::Sample::FBXLoader::ProcessNode(FbxNode * node){
 		case FbxNodeAttribute::eMesh:
 			ProcessMesh(node);
 			break;
+		case FbxNodeAttribute::eSkeleton:
+			ProcessSkeleton(node);
+			break;
 		default:
 			break;
 		}
@@ -117,6 +120,10 @@ void ASNET::Sample::FBXLoader::ProcessMesh(FbxNode * node){
 	}
 	
 
+}
+
+void ASNET::Sample::FBXLoader::ProcessSkeleton(FbxNode * node)
+{
 }
 
 ASNET::Sample::FBXLoader::FBXLoader(){

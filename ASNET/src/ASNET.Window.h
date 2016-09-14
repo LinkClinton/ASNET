@@ -14,6 +14,8 @@
 //同样这只是一个基类而已
 //直接用Direct3DGraph代替了Graph，那么就代表我们需要在使用到着色器的时候使用函数SetShader
 
+//窗口使用的时候大小改变的时候任然将其缩放，这代表这无论窗口多大都认为其大小是创建的时候的大小
+
 namespace ASNET {
 	
 	//窗口基类
@@ -35,7 +37,8 @@ namespace ASNET {
 	
 		int									NowPage; //现在使用的Page在集合里面的索引
 	protected:
-		
+		float                               Width_Scale; //最开始的窗口宽度和现在窗口宽度的比值
+		float                               Height_Scale; //最开始的窗口高度和现在窗口高度的比值
 		int									MousePosx; //鼠标位置
 		int									MousePosy; //鼠标位置
 	private:
@@ -57,7 +60,7 @@ namespace ASNET {
 		virtual void OnKeyDown(void* sender, ASNET::Event::EventBoardClick* e);
 		//当键盘按键弹起的时候触发
 		virtual void OnKeyUp(void* sender, ASNET::Event::EventBoardClick* e);
-		//目前不可用
+		//当窗口大小改变的时候触发
 		virtual void OnSizeChanged(void* sender, ASNET::Event::EventSizeChange* e);
 		//在窗口加载的时候触发，将会在Initllize里面
 		virtual void OnLoading(); //Load the Window,after window create

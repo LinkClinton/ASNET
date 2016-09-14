@@ -52,17 +52,17 @@ namespace ASNET {
 
 		void FBXSDKPage::OnDraw(void * sender, ASNET::Graph::Direct3D::GraphDirect3D * graph) {
 			graph->Clear();
-			//graph->SetFillMode(ASNET::Graph::Direct3D::FillMode::FillWireFrame);
+			graph->SetFillMode(ASNET::Graph::Direct3D::FillMode::FillWireFrame);
 			//graph->SetCullMode(ASNET::Graph::Direct3D::CullMode::CullNone);
 
 			world = DirectX::XMMatrixIdentity();
 
 
-			world = world*DirectX::XMMatrixRotationY(ModelAngleY);
+			world = world*DirectX::XMMatrixRotationZ(ModelAngleY);
 
 			world = world*DirectX::XMMatrixRotationX(ModelAngleX);
 
-			//world = world*DirectX::XMMatrixTranspose(DirectX::XMMatrixTranslation(0, -10, 0));
+			world = world*DirectX::XMMatrixTranspose(DirectX::XMMatrixTranslation(0, 0, -5));
 
 			effect->SetWorldMatrix(world);
 
@@ -74,7 +74,7 @@ namespace ASNET {
 		void FBXSDKPage::OnLoading(void * sender, void * any) {
 			Loader = new ASNET::Sample::FBXLoader();
 
-			Loader->LoadFbxSence("Cube.fbx", Model, ParentGraph);
+			Loader->LoadFbxSence("Model/pika.fbx", Model, ParentGraph);
 
 			effect = new ASNET::Graph::Direct3D::BasicEffect(ParentGraph);
 

@@ -36,6 +36,7 @@ namespace ASNET {
 
 			void ProcessNode(FbxNode* node); //处理节点
 			void ProcessMesh(FbxNode* node); //处理Mesh节点
+			void ProcessSkeleton(FbxNode* node); //处理Skeleton
 		public:
 			FBXLoader();
 
