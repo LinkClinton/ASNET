@@ -74,6 +74,8 @@ namespace ASNET {
 		void FBXSDKPage::OnLoading(void * sender, void * any) {
 			Loader = new ASNET::Sample::FBXLoader();
 
+			//Loader->LoadFbxSence("Model/PikachuM.fbx", Model, ParentGraph);
+
 			Loader->LoadFbxSence("Model/pika.fbx", Model, ParentGraph);
 
 			effect = new ASNET::Graph::Direct3D::BasicEffect(ParentGraph);
@@ -90,6 +92,11 @@ namespace ASNET {
 
 		FBXSDKPage::FBXSDKPage()
 		{
+		}
+		FBXSDKPage::~FBXSDKPage()
+		{
+			delete Loader;
+			delete effect;
 		}
 	}
 

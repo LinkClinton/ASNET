@@ -34,6 +34,7 @@ namespace ASNET {
 			void OnLoading(void* sender, void* any)override;
 		public:
 			FBXSDKPage();
+			~FBXSDKPage();
 
 		};
 	}
