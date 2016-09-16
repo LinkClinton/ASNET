@@ -10,6 +10,9 @@ namespace ASNET {
 		class FBXModel :public ASNET::Graph::Direct3D::Model {
 			friend class FBXLoader;
 			friend class FBXSDKPage;
+
+			std::map<std::wstring, int> FileNameIndex;
+					
 		public:
 			FBXModel(ASNET::Graph::Direct3D::GraphDirect3D* graph) {
 				ParentGraph = graph;
@@ -37,8 +40,9 @@ namespace ASNET {
 			void ReadTextureUV(FbxMesh* mesh, int index, int textureindex, FbxVertex* vertex);
 			void ReadNormal(FbxMesh* mesh, int index, int indexcount, FbxVertex* vertex);
 			void ReadMaterial(FbxMesh* mesh, int materialindex, ASNET::Graph::Direct3D::MeshPart* part);
-			void ReadTextureName(FbxMesh* mesh, int materialindex, ASNET::Graph::Direct3D::MeshPart* part);
-			void LoadMaterial(FbxMesh* mesh, FBXModel* model);
+			void ReadTextureName(FbxMesh* mesh, int materialindex, ASNET::Sample::FBXModel* model);
+
+			void LoadMaterialAndTexture(FbxMesh* mesh, FBXModel* model);
 			
 			
 			

@@ -52,7 +52,7 @@ namespace ASNET {
 
 		void FBXSDKPage::OnDraw(void * sender, ASNET::Graph::Direct3D::GraphDirect3D * graph) {
 			graph->Clear();
-			graph->SetFillMode(ASNET::Graph::Direct3D::FillMode::FillWireFrame);
+			//graph->SetFillMode(ASNET::Graph::Direct3D::FillMode::FillWireFrame);
 			//graph->SetCullMode(ASNET::Graph::Direct3D::CullMode::CullNone);
 
 			world = DirectX::XMMatrixIdentity();
@@ -66,17 +66,19 @@ namespace ASNET {
 
 			effect->SetWorldMatrix(world);
 
+			effect->Enable(ASNET::Graph::Direct3D::Enable::Texture);
+
 			effect->EffectBegin();
-			graph->DrawBuffer(Model->Buffer);
+			Model->Draw(effect);
 			effect->EffectEnd();
 		}
 
 		void FBXSDKPage::OnLoading(void * sender, void * any) {
 			Loader = new ASNET::Sample::FBXLoader();
 
-			//Loader->LoadFbxSence("Model/PikachuM.fbx", Model, ParentGraph);
+			Loader->LoadFbxSence("Model/PikachuM.fbx", Model, ParentGraph);
 
-			Loader->LoadFbxSence("Model/pika.fbx", Model, ParentGraph);
+			//Loader->LoadFbxSence("Model/pika.fbx", Model, ParentGraph);
 
 			effect = new ASNET::Graph::Direct3D::BasicEffect(ParentGraph);
 

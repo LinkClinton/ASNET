@@ -2,6 +2,12 @@
 
 #pragma comment(lib,"libfbxsdk.lib")
 
+#ifdef _DEBUG
+#include<iostream>
+#endif // _DEBUG
+
+
+
 
 
 
@@ -184,47 +190,110 @@ void ASNET::Sample::FBXLoader::ReadMaterial(FbxMesh * mesh,
 
 	fbxsdk::FbxSurfaceMaterial* pSurfaceMaterial = pNode->GetMaterial(materialindex);
 
-	fbxsdk::FbxSurfacePhong* pSurfacePhong = (FbxSurfacePhong*)pSurfaceMaterial;
-	
-	FbxDouble3 value; 
-	
-	value = pSurfacePhong->Ambient;
-	part->Material.ambient.x = static_cast<float>(value[0]);
-	part->Material.ambient.y = static_cast<float>(value[1]);
-	part->Material.ambient.z = static_cast<float>(value[2]);
+	if (pSurfaceMaterial->GetClassId().Is(FbxSurfacePhong::ClassId)) {
 
-	value = pSurfacePhong->Diffuse;
-	part->Material.diffuse.x = static_cast<float>(value[0]);
-	part->Material.diffuse.y = static_cast<float>(value[1]);
-	part->Material.diffuse.z = static_cast<float>(value[2]);
+		fbxsdk::FbxSurfacePhong* pSurfacePhong = (FbxSurfacePhong*)pSurfaceMaterial;
 
-	value = pSurfacePhong->Specular;
-	part->Material.specular.x = static_cast<float>(value[0]);
-	part->Material.specular.y = static_cast<float>(value[1]);
-	part->Material.specular.z = static_cast<float>(value[2]);
+		FbxDouble3 value;
 
-	
-		
+		value = pSurfacePhong->Ambient;
+		part->Material.ambient.x = static_cast<float>(value[0]);
+		part->Material.ambient.y = static_cast<float>(value[1]);
+		part->Material.ambient.z = static_cast<float>(value[2]);
+
+		value = pSurfacePhong->Diffuse;
+		part->Material.diffuse.x = static_cast<float>(value[0]);
+		part->Material.diffuse.y = static_cast<float>(value[1]);
+		part->Material.diffuse.z = static_cast<float>(value[2]);
+
+		value = pSurfacePhong->Specular;
+		part->Material.specular.x = static_cast<float>(value[0]);
+		part->Material.specular.y = static_cast<float>(value[1]);
+		part->Material.specular.z = static_cast<float>(value[2]);
+
+	}
+
+	if (pSurfaceMaterial->GetClassId().Is(FbxSurfaceLambert::ClassId)) {
+		fbxsdk::FbxSurfaceLambert* pSurfaceLambert = (FbxSurfaceLambert*)pSurfaceMaterial;
+
+		FbxDouble3 value;
+
+		value = pSurfaceLambert->Ambient;
+		part->Material.ambient.x = static_cast<float>(value[0]);
+		part->Material.ambient.y = static_cast<float>(value[1]);
+		part->Material.ambient.z = static_cast<float>(value[2]);
+
+		value = pSurfaceLambert->Diffuse;
+		part->Material.diffuse.x = static_cast<float>(value[0]);
+		part->Material.diffuse.y = static_cast<float>(value[1]);
+		part->Material.diffuse.z = static_cast<float>(value[2]);
+
+	}
 
 }
 
-void ASNET::Sample::FBXLoader::ReadTextureName(FbxMesh * mesh, 
-	int materialindex, ASNET::Graph::Direct3D::MeshPart * part){
-
-
+void ASNET::Sample::FBXLoader::ReadTextureName(FbxMesh * mesh,
+	int materialindex, ASNET::Sample::FBXModel* model){
 	if (!mesh->GetNode()) return;
 
 	FbxNode* pNode = mesh->GetNode();
 
 	fbxsdk::FbxSurfaceMaterial* pSurfaceMaterial = pNode->GetMaterial(materialindex);
 
+
 	
-	
+		FbxProperty Property = pSurfaceMaterial->
+			FindProperty(FbxLayerElement::sTextureChannelNames[0]); //加载最为简单的模型贴图
+
+		if (Property.IsValid()) {
+			size_t TextureCount = Property.GetSrcObjectCount<FbxTexture>();
+			for (size_t i = 0; i < TextureCount; i++) {
+				FbxLayeredTexture* pLayeredTexture = Property.GetSrcObject<FbxLayeredTexture>(i);
+
+				if (!pLayeredTexture) {
+					FbxTexture* pTexture=Property.GetSrcObject<FbxTexture>(i);
+
+					if (pTexture) {
+						FbxFileTexture* pFileTexture = FbxCast<FbxFileTexture>(pTexture);
+						std::string TextureFileName = pFileTexture->GetFileName();
+						std::wstring WTextureFileName;
+
+						
+
+						for (size_t i = 0; i < TextureFileName.length(); i++) {
+							if (TextureFileName[i] == 92)
+								WTextureFileName.push_back('/');
+							else
+								WTextureFileName.push_back(TextureFileName[i]);
+						}
+						
+
+						std::map<std::wstring, int>::iterator it = 
+							model->FileNameIndex.find(WTextureFileName);
+
+						if (it != model->FileNameIndex.end()) 
+							model->MeshParts[materialindex].TextureID = it->second;
+						else {
+							model->FileNameIndex.insert(
+								std::pair<std::wstring, int>(WTextureFileName, model->TextureCount));
+							model->MeshParts[materialindex].TextureID = model->TextureCount;
+							model->TextureCount++;
+						}
+						
+					}
+
+				}
+
+			}
+		}
+
 	
 
 }
 
-void ASNET::Sample::FBXLoader::LoadMaterial(
+
+
+void ASNET::Sample::FBXLoader::LoadMaterialAndTexture(
 	FbxMesh * mesh, FBXModel * model){
 
 	int IndexCount = mesh->GetPolygonCount();
@@ -248,6 +317,7 @@ void ASNET::Sample::FBXLoader::LoadMaterial(
 					int MaterialIndex = MaterialIndices->GetAt(i);
 					if (!Visited[MaterialIndex]) {
 						ReadMaterial(mesh, MaterialIndex, &model->MeshParts[MaterialIndex]);
+						ReadTextureName(mesh, MaterialIndex, model);
 						Visited[MaterialIndex] = true;
 					}
 					model->MeshParts[MaterialIndex].EffectCount += 3;
@@ -262,6 +332,19 @@ void ASNET::Sample::FBXLoader::LoadMaterial(
 
 	}
 
+	std::map<std::wstring, int>::iterator it;
+	for (it = model->FileNameIndex.begin(); it != model->FileNameIndex.end(); it++) {
+		ASNET::Graph::Direct3D::Texture* pTexture = nullptr;
+		std::wstring TextureFileName = it->first;
+
+		model->ParentGraph->LoadTexture(pTexture, &TextureFileName[0]);
+
+		model->Textures.push_back(pTexture);
+	}
+
+	for (size_t i = 0; i < model->MeshParts.size(); i++) 
+		model->MeshParts[i].Texture = model->Textures[model->MeshParts[i].TextureID];
+	
 	if (model->MeshPartCount == 0) {
 		model->MeshParts.push_back(ASNET::Graph::Direct3D::MeshPart());
 		model->MeshParts[0].EffectCount = model->IndexCount;
@@ -334,7 +417,7 @@ void ASNET::Sample::FBXLoader::ProcessMesh(FbxNode * node){
 		}
 	}
 
-	LoadMaterial(mesh, Model);
+	LoadMaterialAndTexture(mesh, Model);
 	
 
 
