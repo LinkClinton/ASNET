@@ -82,6 +82,8 @@ cbuffer EffectEyePos : register(b6) {
 Texture2D Tex : register(s0);
 SamplerState samTex{
 	Filter = MIN_MAG_MIP_LINEAR;
+	AddressU = CLAMP;
+	AddressV = CLAMP;
 };
 void ComputeDirLight(Material mat,
 	DirLight dirLight, float3 normal, float3 toEye,

@@ -37,7 +37,7 @@ namespace ASNET {
 		void Font::reset(ASNET::Graph::Word fontname, float fontsize){
 			release(textformat);
 
-			ParentGraph->g_writefactory->CreateTextFormat(fontname, NULL,
+			ParentGraph->g_writefactory->CreateTextFormat(&fontname[0], NULL,
 				DWRITE_FONT_WEIGHT_NORMAL,
 				DWRITE_FONT_STYLE_NORMAL,
 				DWRITE_FONT_STRETCH_NORMAL,
@@ -75,7 +75,7 @@ namespace ASNET {
 			IWICStream *pStream = NULL;
 			IWICFormatConverter *pConverter = NULL;
 			HRESULT hr = ParentGraph->g_imagefactory->CreateDecoderFromFilename(
-				filename,
+				&filename[0],
 				NULL,
 				GENERIC_READ,
 				WICDecodeMetadataCacheOnLoad,
@@ -391,7 +391,7 @@ namespace ASNET {
 
 			g_devicecontext2d->CreateSolidColorBrush(color, &Brush);
 
-			g_writefactory->CreateTextLayout(word, (UINT32)wcslen(word), font->textformat, (FLOAT)(rect.right - rect.left),
+			g_writefactory->CreateTextLayout(&word[0], word.length(), font->textformat, (FLOAT)(rect.right - rect.left),
 				(FLOAT)(rect.bottom - rect.top), &Layout);
 
 
@@ -413,7 +413,7 @@ namespace ASNET {
 			IWICStream *pStream = NULL;
 			IWICFormatConverter *pConverter = NULL;
 			HRESULT hr = g_imagefactory->CreateDecoderFromFilename(
-				filename,
+				&filename[0],
 				NULL,
 				GENERIC_READ,
 				WICDecodeMetadataCacheOnLoad,
@@ -461,7 +461,7 @@ namespace ASNET {
 			if (font) return; 
 
 			font = new ASNET::Graph::Font(this);
-			g_writefactory->CreateTextFormat(fontname, NULL,
+			g_writefactory->CreateTextFormat(&fontname[0], NULL,
 				DWRITE_FONT_WEIGHT_NORMAL,
 				DWRITE_FONT_STYLE_NORMAL,
 				DWRITE_FONT_STRETCH_NORMAL,

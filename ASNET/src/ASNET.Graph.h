@@ -25,7 +25,7 @@ namespace ASNET {
 		typedef D2D_RECT_F		 Rect; //源自D2D_RECT_F
 		typedef D2D1::ColorF     Color; //源自D2D1::ColorF
 		typedef D2D_POINT_2F     Point; //源自D2D_POINT_2F
-		typedef wchar_t*         Word; //源自wchar_t*
+		typedef std::wstring     Word; //源自wchar_t*
 
 		
 		//字体

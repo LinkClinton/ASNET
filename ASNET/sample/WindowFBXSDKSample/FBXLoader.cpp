@@ -2,9 +2,6 @@
 
 #pragma comment(lib,"libfbxsdk.lib")
 
-#ifdef _DEBUG
-#include<iostream>
-#endif // _DEBUG
 
 
 
@@ -19,6 +16,8 @@ void ASNET::Sample::FBXLoader::ReadVertex(FbxMesh * mesh,
 	vertex->x = static_cast<float>(Point[0]);
 	vertex->y = static_cast<float>(Point[1]);
 	vertex->z = static_cast<float>(Point[2]);
+
+
 	
 }
 
@@ -89,7 +88,8 @@ void ASNET::Sample::FBXLoader::ReadTextureUV(FbxMesh * mesh,
 	
 	if (mesh->GetElementUVCount() < 1) return; 
 
-	FbxGeometryElementUV* pTextureUV = mesh->GetElementUV(0); //the first layer
+	FbxGeometryElementUV* pTextureUV = mesh->GetElementUV(); //the first layer
+
 
 	switch (pTextureUV->GetMappingMode())
 	{
@@ -113,8 +113,23 @@ void ASNET::Sample::FBXLoader::ReadTextureUV(FbxMesh * mesh,
 		break;
 	}
 	case FbxGeometryElement::eByPolygonVertex: {
-		vertex->u = static_cast<float>(pTextureUV->GetDirectArray().GetAt(textureindex)[0]);
-		vertex->v = static_cast<float>(pTextureUV->GetDirectArray().GetAt(textureindex)[1]);
+		switch (pTextureUV->GetReferenceMode())
+		{
+		case FbxGeometryElement::eDirect: {
+			
+			vertex->u = static_cast<float>(pTextureUV->GetDirectArray().GetAt(textureindex)[0]);
+			vertex->v = static_cast<float>(pTextureUV->GetDirectArray().GetAt(textureindex)[1]);
+			break;
+		}
+		case FbxGeometryElement::eIndexToDirect:{
+			FbxVector2 vec2 = pTextureUV->GetDirectArray().GetAt(textureindex);
+			vertex->u = static_cast<float>(pTextureUV->GetDirectArray().GetAt(textureindex)[0]);
+			vertex->v = static_cast<float>(pTextureUV->GetDirectArray().GetAt(textureindex)[1]);
+			break;
+		}
+		default:
+			break; // other reference modes not shown here!
+		}
 		break;
 	}
 	default:
@@ -251,14 +266,14 @@ void ASNET::Sample::FBXLoader::ReadTextureName(FbxMesh * mesh,
 				FbxLayeredTexture* pLayeredTexture = Property.GetSrcObject<FbxLayeredTexture>(i);
 
 				if (!pLayeredTexture) {
-					FbxTexture* pTexture=Property.GetSrcObject<FbxTexture>(i);
+					FbxTexture* pTexture = Property.GetSrcObject<FbxTexture>(i);
 
 					if (pTexture) {
 						FbxFileTexture* pFileTexture = FbxCast<FbxFileTexture>(pTexture);
 						std::string TextureFileName = pFileTexture->GetFileName();
 						std::wstring WTextureFileName;
 
-						
+
 
 						for (size_t i = 0; i < TextureFileName.length(); i++) {
 							if (TextureFileName[i] == 92)
@@ -266,12 +281,12 @@ void ASNET::Sample::FBXLoader::ReadTextureName(FbxMesh * mesh,
 							else
 								WTextureFileName.push_back(TextureFileName[i]);
 						}
-						
 
-						std::map<std::wstring, int>::iterator it = 
+
+						std::map<std::wstring, int>::iterator it =
 							model->FileNameIndex.find(WTextureFileName);
 
-						if (it != model->FileNameIndex.end()) 
+						if (it != model->FileNameIndex.end())
 							model->MeshParts[materialindex].TextureID = it->second;
 						else {
 							model->FileNameIndex.insert(
@@ -279,16 +294,11 @@ void ASNET::Sample::FBXLoader::ReadTextureName(FbxMesh * mesh,
 							model->MeshParts[materialindex].TextureID = model->TextureCount;
 							model->TextureCount++;
 						}
-						
+
 					}
-
 				}
-
 			}
 		}
-
-	
-
 }
 
 
@@ -316,8 +326,11 @@ void ASNET::Sample::FBXLoader::LoadMaterialAndTexture(
 				for (size_t i = 0; i < (size_t)IndexCount; i++) {
 					int MaterialIndex = MaterialIndices->GetAt(i);
 					if (!Visited[MaterialIndex]) {
+						
 						ReadMaterial(mesh, MaterialIndex, &model->MeshParts[MaterialIndex]);
+						
 						ReadTextureName(mesh, MaterialIndex, model);
+						
 						Visited[MaterialIndex] = true;
 					}
 					model->MeshParts[MaterialIndex].EffectCount += 3;
@@ -332,18 +345,23 @@ void ASNET::Sample::FBXLoader::LoadMaterialAndTexture(
 
 	}
 
+	model->Textures.resize(model->TextureCount); 
 	std::map<std::wstring, int>::iterator it;
 	for (it = model->FileNameIndex.begin(); it != model->FileNameIndex.end(); it++) {
 		ASNET::Graph::Direct3D::Texture* pTexture = nullptr;
+
 		std::wstring TextureFileName = it->first;
 
 		model->ParentGraph->LoadTexture(pTexture, &TextureFileName[0]);
 
-		model->Textures.push_back(pTexture);
+		model->Textures[it->second] = pTexture;
 	}
 
-	for (size_t i = 0; i < model->MeshParts.size(); i++) 
+	
+
+	for (size_t i = 0; i < model->MeshParts.size(); i++)
 		model->MeshParts[i].Texture = model->Textures[model->MeshParts[i].TextureID];
+
 	
 	if (model->MeshPartCount == 0) {
 		model->MeshParts.push_back(ASNET::Graph::Direct3D::MeshPart());
@@ -396,8 +414,11 @@ void ASNET::Sample::FBXLoader::ProcessMesh(FbxNode * node){
 	
 	std::vector<bool> Visited;
 
+
 	Model->vertices.resize(Model->VertexCount);
 	Visited.resize(Model->VertexCount);
+
+
 
 	for (size_t i = 0; i < (size_t)TriangleCount; i++) {
 		for (size_t j = 0; j < 3; j++) {
@@ -408,14 +429,22 @@ void ASNET::Sample::FBXLoader::ProcessMesh(FbxNode * node){
 			if (!Visited[index]) {
 				ReadVertex(mesh, index, &Model->vertices[index]);
 				ReadColor(mesh, index, IndexCount, &Model->vertices[index]);
+				
 				ReadNormal(mesh, index, IndexCount, &Model->vertices[index]);
 				ReadTextureUV(mesh, index, mesh->GetTextureUVIndex(i, j), &Model->vertices[index]);
+				//Model->vertices[index].v = 1.f - Model->vertices[index].v;
+				//Model->vertices[index].u = 1.f - Model->vertices[index].u;
+				//std::swap(Model->vertices[index].u, Model->vertices[index].v);
 				Visited[index] = true;
 			}
-
+		
+			
+			//std::cout << Model->vertices[index].u << ", " << Model->vertices[index].v << std::endl;
 			IndexCount++;
 		}
 	}
+
+	
 
 	LoadMaterialAndTexture(mesh, Model);
 	

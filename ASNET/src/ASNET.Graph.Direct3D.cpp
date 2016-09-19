@@ -175,7 +175,7 @@ ASNET::Graph::Direct3D::Texture::Texture(ASNET::Graph::Direct3D::GraphDirect3D* 
 
 	release(TexView);
 
-	FileName = nullptr;
+	FileName.clear();
 }
 
 ASNET::Graph::Direct3D::Texture::~Texture(){
@@ -183,7 +183,7 @@ ASNET::Graph::Direct3D::Texture::~Texture(){
 
 	release(TexView);
 
-	FileName = nullptr;
+	FileName.clear();
 }
 
 ASNET::Graph::Direct3D::Texture::operator ID3D11ShaderResourceView*(){
@@ -198,7 +198,7 @@ void ASNET::Graph::Direct3D::Texture::reset(
 
 	//need get it out 
 	D3DX11CreateShaderResourceViewFromFile(ParentGraph->g_device3d,
-		FileName, 0, 0, &TexView, 0);
+		&FileName[0], 0, 0, &TexView, 0);
 }
 
 ASNET::Graph::Direct3D::Shader::Shader(
@@ -237,8 +237,8 @@ ASNET::Graph::Direct3D::Shader::~Shader(){
 	release(VertexShaderBlob);
 	release(PixelShaderBlob);
 
-	VertexShaderName = nullptr;
-	PixelShaderName = nullptr;
+	VertexShaderName.clear();
+	PixelShaderName.clear();
 
 	VertexShaderFunctionName = nullptr;
 	PixelShaderFunctionName = nullptr;
@@ -299,7 +299,7 @@ void ASNET::Graph::Direct3D::GraphDirect3D::CompileShader(
 
 	ID3DBlob* ErrorBlob = nullptr;
 
-	D3DX11CompileFromFile(shader->VertexShaderName, 0, 0,
+	D3DX11CompileFromFile(&shader->VertexShaderName[0], 0, 0,
 		shader->VertexShaderFunctionName, "vs_5_0", 0, 0, 0,
 		&shader->VertexShaderBlob, &ErrorBlob, 0);
 	
@@ -308,7 +308,7 @@ void ASNET::Graph::Direct3D::GraphDirect3D::CompileShader(
 
 	ErrorBlob = nullptr;
 
-	D3DX11CompileFromFile(shader->PixelShaderName, 0, 0,
+	D3DX11CompileFromFile(&shader->PixelShaderName[0], 0, 0,
 		shader->PixelShaderFunctionName, "ps_5_0", 0, 0, 0,
 		&shader->PixelShaderBlob, &ErrorBlob, 0);
 
@@ -457,7 +457,7 @@ void ASNET::Graph::Direct3D::GraphDirect3D::LoadTexture(
 	texture->ParentGraph = this;
 
 	D3DX11CreateShaderResourceViewFromFile(g_device3d,
-		texture->FileName, 0, 0, &texture->TexView, 0);
+		&texture->FileName[0], 0, 0, &texture->TexView, 0);
 }
 
 void ASNET::Graph::Direct3D::GraphDirect3D::LoadBuffer(

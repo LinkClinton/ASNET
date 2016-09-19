@@ -52,8 +52,7 @@ namespace ASNET {
 
 		void FBXSDKPage::OnDraw(void * sender, ASNET::Graph::Direct3D::GraphDirect3D * graph) {
 			graph->Clear();
-			//graph->SetFillMode(ASNET::Graph::Direct3D::FillMode::FillWireFrame);
-			//graph->SetCullMode(ASNET::Graph::Direct3D::CullMode::CullNone);
+
 
 			world = DirectX::XMMatrixIdentity();
 
@@ -98,6 +97,7 @@ namespace ASNET {
 		FBXSDKPage::~FBXSDKPage()
 		{
 			delete Loader;
+			delete Model;
 			delete effect;
 		}
 	}

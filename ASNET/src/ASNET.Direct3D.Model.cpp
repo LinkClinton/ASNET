@@ -56,7 +56,7 @@ void ASNET::Graph::Direct3D::Direct3DModelLoader::LoadPMXModel(
 
 	//texture path
 	std::wstring  FilePath;
-	UINT StrLen = wcslen(filename);
+	UINT StrLen = filename.length();
 	UINT Last = 0;
 	for (UINT i = 0; i < StrLen; i++)
 		if (filename[i] == '/') Last = i;

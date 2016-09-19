@@ -4,6 +4,12 @@
 
 #include<ASNET.Direct3D.Model.h>
 
+
+#ifdef _DEBUG
+#include<iostream>
+#include<string>
+#endif // _DEBUG
+
 namespace ASNET {
 	namespace Sample {
 
@@ -24,7 +30,48 @@ namespace ASNET {
 
 		typedef ASNET::Graph::Direct3D::Vertex FbxVertex;
 
-		
+		static void ReadLine(std::string &String,std::ifstream* file) {
+			char ch = file->get();
+			while (ch != '\n') {
+				String += ch;
+				if (file->eof()) break;
+				ch = file->get();
+			}
+		}
+
+		static void ReadVertexPosition(ASNET::Graph::Word filename) {
+			std::ifstream file_in;
+			std::ofstream file_out;
+			int cnt = 0;
+			file_in.open(filename);
+			file_out.open("result.out");
+			std::string String;
+			while (!file_in.eof()) {
+				String.clear();
+				ReadLine(String, &file_in);
+				if (int pos = String.find("Coordinates:") != String.npos) {
+					cnt++;
+					if (cnt <= 2255)
+						file_out << String.substr(pos + 24) << std::endl;
+				}
+			}
+		}
+
+		static void ReadTextureUVFromFile(ASNET::Graph::Word filename) {
+			std::ifstream file_in;
+			std::ofstream file_out;
+			file_in.open(filename);
+			file_out.open("result.out");
+			std::string String;
+			while (!file_in.eof()) {
+				String.clear();
+				ReadLine(String, &file_in);
+				if (int pos = String.find("Texture UV:") != String.npos) {
+					
+					file_out << String.substr(pos + 23) << std::endl;
+				}
+			}
+		}
 
 
 		class FBXLoader {

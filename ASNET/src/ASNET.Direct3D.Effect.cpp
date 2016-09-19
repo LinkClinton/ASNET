@@ -131,7 +131,9 @@ void ASNET::Graph::Direct3D::BasicEffect::Enable(
 		break;
 	}
 	EffectStateBuffer->UpDateBuffer();
-	//EffectShader->SendBufferToPixelShader(EffectBufferID, EffectStateBuffer);
+
+	if (EffectIsBegin)
+		EffectShader->SendBufferToPixelShader(EffectBufferID, EffectStateBuffer);
 }
 
 void ASNET::Graph::Direct3D::BasicEffect::UnEnable(
@@ -154,7 +156,9 @@ void ASNET::Graph::Direct3D::BasicEffect::UnEnable(
 		break;
 	}
 	EffectStateBuffer->UpDateBuffer();
-	//EffectShader->SendBufferToPixelShader(EffectBufferID, EffectStateBuffer);
+
+	if (EffectIsBegin)
+		EffectShader->SendBufferToPixelShader(EffectBufferID, EffectStateBuffer);
 }
 
 void ASNET::Graph::Direct3D::BasicEffect::DirLightOn(int which,
@@ -165,14 +169,18 @@ void ASNET::Graph::Direct3D::BasicEffect::DirLightOn(int which,
 	LightsStateBuffer->UpDateBuffer();
 	DirLightsBuffer->UpDateBuffer();
 
-	//EffectShader->SendBufferToPixelShader(LightsBufferID, LightsStateBuffer);
-	//EffectShader->SendBufferToPixelShader(DirLightsBufferID, DirLightsBuffer);
+	if (EffectIsBegin) {
+		EffectShader->SendBufferToPixelShader(LightsBufferID, LightsStateBuffer);
+		EffectShader->SendBufferToPixelShader(DirLightsBufferID, DirLightsBuffer);
+	}
 }
 
 void ASNET::Graph::Direct3D::BasicEffect::DirLightOff(int which){
 	LightsState[which].DirLightsState= false;
 	LightsStateBuffer->UpDateBuffer();
-	//EffectShader->SendBufferToPixelShader(LightsBufferID, LightsStateBuffer);
+
+	if (EffectIsBegin)
+		EffectShader->SendBufferToPixelShader(LightsBufferID, LightsStateBuffer);
 
 }
 
@@ -183,15 +191,19 @@ void ASNET::Graph::Direct3D::BasicEffect::SpotLightOn(int which,
 
 	LightsStateBuffer->UpDateBuffer();
 	SpotLightsBuffer->UpDateBuffer();
-
-	//EffectShader->SendBufferToPixelShader(LightsBufferID, LightsStateBuffer);
-	//EffectShader->SendBufferToPixelShader(SpotLightsBufferID , SpotLightsBuffer);
+	
+	if (EffectIsBegin) {
+		EffectShader->SendBufferToPixelShader(LightsBufferID, LightsStateBuffer);
+		EffectShader->SendBufferToPixelShader(SpotLightsBufferID, SpotLightsBuffer);
+	}
 }
 
 void ASNET::Graph::Direct3D::BasicEffect::SpotLightOff(int which){
 	LightsState[which].SpotLihtsState = false;
 	LightsStateBuffer->UpDateBuffer();
-	//EffectShader->SendBufferToPixelShader(LightsBufferID, LightsStateBuffer);
+
+	if (EffectIsBegin)
+		EffectShader->SendBufferToPixelShader(LightsBufferID, LightsStateBuffer);
 }
 
 void ASNET::Graph::Direct3D::BasicEffect::PointLightOn(int which,
@@ -202,20 +214,28 @@ void ASNET::Graph::Direct3D::BasicEffect::PointLightOn(int which,
 	LightsStateBuffer->UpDateBuffer();
 	PointLightsBuffer->UpDateBuffer();
 
-	//EffectShader->SendBufferToPixelShader(LightsBufferID, LightsStateBuffer);
-	//EffectShader->SendBufferToPixelShader(PointLightsBufferID, PointLightsBuffer);
+	if (EffectIsBegin) {
+		EffectShader->SendBufferToPixelShader(LightsBufferID, LightsStateBuffer);
+		EffectShader->SendBufferToPixelShader(PointLightsBufferID, PointLightsBuffer);
+	}
 }
 
 void ASNET::Graph::Direct3D::BasicEffect::PointLightOff(int which){
 	LightsState[which].PointLightsState = false;
 	LightsStateBuffer->UpDateBuffer();
-	//EffectShader->SendBufferToPixelShader(LightsBufferID, LightsStateBuffer);
+	
+	if (EffectIsBegin)
+		EffectShader->SendBufferToPixelShader(LightsBufferID, LightsStateBuffer);
 }
 
 void ASNET::Graph::Direct3D::BasicEffect::SetMaterial(
 	ASNET::Graph::Direct3D::Material  material){
 	ParentGraph->g_devicecontext3d->UpdateSubresource(MaterialBuffer->DataBuffer, 0,
 		nullptr, &material, 0, 0);
+
+	if (EffectIsBegin)
+		EffectShader->SendBufferToPixelShader(MaterialBufferID, MaterialBuffer);
+
 }
 
 void ASNET::Graph::Direct3D::BasicEffect::SetTexture(
@@ -228,6 +248,10 @@ void ASNET::Graph::Direct3D::BasicEffect::SetProjMatrix(
 	DirectX::CXMMATRIX matrix){
 	ParentGraph->g_devicecontext3d->UpdateSubresource(ProjMatrixBuffer->DataBuffer, 0,
 		nullptr, &matrix, 0, 0);
+
+	if (EffectIsBegin)
+		EffectShader->SendBufferToVertexShader(ProjMatrixBufferID, ProjMatrixBuffer);
+
 }
 
 void ASNET::Graph::Direct3D::BasicEffect::SetViewMatrix(DirectX::XMVECTOR eyepos,
@@ -238,6 +262,12 @@ void ASNET::Graph::Direct3D::BasicEffect::SetViewMatrix(DirectX::XMVECTOR eyepos
 		nullptr, &matrix, 0, 0);
 	ParentGraph->g_devicecontext3d->UpdateSubresource(EyePosBuffer->DataBuffer, 0,
 		nullptr, &eyepos, 0, 0);
+
+	if (EffectIsBegin) {
+		EffectShader->SendBufferToVertexShader(ViewMatrixBufferID, ViewMatrixBuffer);
+		EffectShader->SendBufferToPixelShader(EyePosBufferID, EyePosBuffer);
+	}
+
 }
 
 
@@ -247,6 +277,11 @@ void ASNET::Graph::Direct3D::BasicEffect::SetWorldMatrix(
 		nullptr, &matrix, 0, 0);
 	ParentGraph->g_devicecontext3d->UpdateSubresource(NormalMatrixBuffer->DataBuffer, 0,
 		nullptr, &InverseTranspose(matrix), 0, 0);
+
+	if (EffectIsBegin) {
+		EffectShader->SendBufferToVertexShader(WorldMatrixBufferID, WorldMatrixBuffer);
+		EffectShader->SendBufferToVertexShader(NormalMatrixBufferID, NormalMatrixBuffer);
+	}
 
 }
 
