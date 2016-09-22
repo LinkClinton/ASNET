@@ -116,15 +116,14 @@ void ASNET::Sample::FBXLoader::ReadTextureUV(FbxMesh * mesh,
 		switch (pTextureUV->GetReferenceMode())
 		{
 		case FbxGeometryElement::eDirect: {
-			
 			vertex->u = static_cast<float>(pTextureUV->GetDirectArray().GetAt(textureindex)[0]);
 			vertex->v = static_cast<float>(pTextureUV->GetDirectArray().GetAt(textureindex)[1]);
 			break;
 		}
 		case FbxGeometryElement::eIndexToDirect:{
-			FbxVector2 vec2 = pTextureUV->GetDirectArray().GetAt(textureindex);
-			vertex->u = static_cast<float>(pTextureUV->GetDirectArray().GetAt(textureindex)[0]);
-			vertex->v = static_cast<float>(pTextureUV->GetDirectArray().GetAt(textureindex)[1]);
+			int id = pTextureUV->GetIndexArray().GetAt(textureindex);
+			vertex->u = static_cast<float>(pTextureUV->GetDirectArray().GetAt(id)[0]);
+			vertex->v = static_cast<float>(pTextureUV->GetDirectArray().GetAt(id)[1]);
 			break;
 		}
 		default:
@@ -215,16 +214,19 @@ void ASNET::Sample::FBXLoader::ReadMaterial(FbxMesh * mesh,
 		part->Material.ambient.x = static_cast<float>(value[0]);
 		part->Material.ambient.y = static_cast<float>(value[1]);
 		part->Material.ambient.z = static_cast<float>(value[2]);
+		part->Material.ambient.w = 1.0f;
 
 		value = pSurfacePhong->Diffuse;
 		part->Material.diffuse.x = static_cast<float>(value[0]);
 		part->Material.diffuse.y = static_cast<float>(value[1]);
 		part->Material.diffuse.z = static_cast<float>(value[2]);
+		part->Material.diffuse.w = 1.0f;
 
 		value = pSurfacePhong->Specular;
 		part->Material.specular.x = static_cast<float>(value[0]);
 		part->Material.specular.y = static_cast<float>(value[1]);
 		part->Material.specular.z = static_cast<float>(value[2]);
+		part->Material.specular.w = 1.0f;
 
 	}
 
@@ -352,15 +354,17 @@ void ASNET::Sample::FBXLoader::LoadMaterialAndTexture(
 
 		std::wstring TextureFileName = it->first;
 
+		
+
 		model->ParentGraph->LoadTexture(pTexture, &TextureFileName[0]);
 
 		model->Textures[it->second] = pTexture;
 	}
 
 	
-
-	for (size_t i = 0; i < model->MeshParts.size(); i++)
-		model->MeshParts[i].Texture = model->Textures[model->MeshParts[i].TextureID];
+	if (model->TextureCount)
+		for (size_t i = 0; i < model->MeshParts.size(); i++)
+			model->MeshParts[i].Texture = model->Textures[model->MeshParts[i].TextureID];
 
 	
 	if (model->MeshPartCount == 0) {
@@ -389,6 +393,9 @@ void ASNET::Sample::FBXLoader::ProcessNode(FbxNode * node){
 		case FbxNodeAttribute::eSkeleton:
 			ProcessSkeleton(node);
 			break;
+		case FbxNodeAttribute::eLight:
+			ProcessLight(node);
+			break;
 		default:
 			break;
 		}
@@ -398,6 +405,7 @@ void ASNET::Sample::FBXLoader::ProcessNode(FbxNode * node){
 }
 
 void ASNET::Sample::FBXLoader::ProcessMesh(FbxNode * node){
+	if (Once) return;
 	FbxMesh* mesh = node->GetMesh();
 
 	if (!mesh) return;
@@ -418,7 +426,7 @@ void ASNET::Sample::FBXLoader::ProcessMesh(FbxNode * node){
 	Model->vertices.resize(Model->VertexCount);
 	Visited.resize(Model->VertexCount);
 
-
+	
 
 	for (size_t i = 0; i < (size_t)TriangleCount; i++) {
 		for (size_t j = 0; j < 3; j++) {
@@ -431,9 +439,14 @@ void ASNET::Sample::FBXLoader::ProcessMesh(FbxNode * node){
 				ReadColor(mesh, index, IndexCount, &Model->vertices[index]);
 				
 				ReadNormal(mesh, index, IndexCount, &Model->vertices[index]);
-				ReadTextureUV(mesh, index, mesh->GetTextureUVIndex(i, j), &Model->vertices[index]);
-				//Model->vertices[index].v = 1.f - Model->vertices[index].v;
-				//Model->vertices[index].u = 1.f - Model->vertices[index].u;
+				//ReadTextureUV(mesh, index, mesh->GetTextureUVIndex(i, j), &Model->vertices[index]);
+				ReadTextureUV(mesh, index, IndexCount, &Model->vertices[index]);
+				/*int u = (float)Model->vertices[index].u;
+				int v = (float)Model->vertices[index].v;
+				Model->vertices[index].u -= u;
+				Model->vertices[index].v -= v;*/
+				Model->vertices[index].v = (1.f - Model->vertices[index].v);
+				Model->UpDataCenterPos(Model->vertices[index]);
 				//std::swap(Model->vertices[index].u, Model->vertices[index].v);
 				Visited[index] = true;
 			}
@@ -444,7 +457,7 @@ void ASNET::Sample::FBXLoader::ProcessMesh(FbxNode * node){
 		}
 	}
 
-	
+	Once = true;
 
 	LoadMaterialAndTexture(mesh, Model);
 	
@@ -452,8 +465,18 @@ void ASNET::Sample::FBXLoader::ProcessMesh(FbxNode * node){
 
 }
 
+void ASNET::Sample::FBXLoader::ProcessLight(FbxNode * node)
+{
+	
+}
+
+
 void ASNET::Sample::FBXLoader::ProcessSkeleton(FbxNode * node)
 {
+	FbxSkeleton* Skeleton = (FbxSkeleton*)node->GetNodeAttribute();
+
+	
+
 }
 
 ASNET::Sample::FBXLoader::FBXLoader(){
@@ -474,7 +497,7 @@ ASNET::Sample::FBXLoader::~FBXLoader()
 void ASNET::Sample::FBXLoader::LoadFbxSence(char * filename, 
 	ASNET::Sample::FBXModel *& model,ASNET::Graph::Direct3D::GraphDirect3D* graph){
 
-
+	Once = false;
 
 	model = new FBXModel(graph);
 
@@ -511,4 +534,22 @@ void ASNET::Sample::FBXLoader::LoadFbxSence(char * filename,
 	
 
 
+}
+
+void ASNET::Sample::FBXModel::UpDataCenterPos(
+	ASNET::Sample::FbxVertex vertex){
+	MaxPos.x = max(MaxPos.x, vertex.x);
+	MaxPos.y = max(MaxPos.y, vertex.y);
+	MaxPos.z = max(MaxPos.z, vertex.z);
+	MinPos.x = min(MinPos.x, vertex.x);
+	MinPos.y = min(MinPos.y, vertex.y);
+	MinPos.z = min(MinPos.z, vertex.z);
+	CenterPos.x = (MaxPos.x + MinPos.x) / 2.f;
+	CenterPos.y = (MaxPos.y + MinPos.y) / 2.f;
+	CenterPos.z = (MaxPos.z + MinPos.z) / 2.f;
+}
+
+DirectX::XMMATRIX ASNET::Sample::FBXModel::FromCenterToOrigin()
+{
+	return DirectX::XMMatrixTranspose(DirectX::XMMatrixTranslation(-CenterPos.x, -CenterPos.y, -CenterPos.z));
 }

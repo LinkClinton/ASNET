@@ -13,6 +13,9 @@
 
 namespace ASNET {
 	class Window;
+
+#define NO_MESSAGE -1
+
 	namespace Event {
 
 		//事件类型
@@ -24,6 +27,7 @@ namespace ASNET {
 			EventBoardClick,
 			EventGetFocus,
 			EventLostFocus,
+			EventMouseLeave,
 			EventSizeChanged
 		};
 
@@ -83,7 +87,7 @@ namespace ASNET {
 
 		typedef std::function<void(void*)>				        EventGetFocusHandler; //得到焦点事件
 		typedef std::function<void(void*)>                      EventLostFocusHandler; //失去焦点事件
-
+		typedef std::function<void(void*)>                      EventMouseLeaveHandler; //鼠标离开窗口事件
 
 
 		typedef std::vector<ASNET::Event::EventBaseHandler>				EventBaseHandlers; //基础事件集合
@@ -96,6 +100,8 @@ namespace ASNET {
 
 		typedef std::vector<ASNET::Event::EventGetFocusHandler>	        EventGetFocusHandlers; //获取焦点事件集合
 		typedef std::vector<ASNET::Event::EventLostFocusHandler>	    EventLostFocusHandlers; //失去焦点事件集合
+		typedef std::vector<ASNET::Event::EventMouseLeaveHandler>       EventMouseLeaveHandlers;  //鼠标离开窗口事件
+		
 
 
 		class EventHandler {

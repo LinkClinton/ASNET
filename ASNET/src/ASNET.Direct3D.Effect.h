@@ -68,6 +68,11 @@ namespace ASNET {
 				DirectX::XMFLOAT4 ambient; //对于环境光的反射 
 				DirectX::XMFLOAT4 diffuse; //对于漫反射
 				DirectX::XMFLOAT4 specular; //第四个元素是材质光滑
+				Material() { 
+					ambient = DirectX::XMFLOAT4(0, 0, 0, 1); 
+					diffuse = DirectX::XMFLOAT4(0, 0, 0, 1);
+					specular = DirectX::XMFLOAT4(0, 0, 0, 1);
+				}
 				typedef std::vector<Material> Collections; //Collections
 			};
 

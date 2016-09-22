@@ -37,8 +37,8 @@ namespace ASNET {
 	
 		int									NowPage; //现在使用的Page在集合里面的索引
 	protected:
-		float                               Width_Scale; //最开始的窗口宽度和现在窗口宽度的比值
-		float                               Height_Scale; //最开始的窗口高度和现在窗口高度的比值
+		float                               WidthScale; //最开始的窗口宽度和现在窗口宽度的比值
+		float                               HeightScale; //最开始的窗口高度和现在窗口高度的比值
 		int									MousePosx; //鼠标位置
 		int									MousePosy; //鼠标位置
 	private:
@@ -68,6 +68,8 @@ namespace ASNET {
 		virtual void OnGetFocus(void* sender);
 		//当失去焦点的时候触发
 		virtual void OnLostFocus(void* sender);
+		//当鼠标离开窗口的时候触发
+		virtual void OnMouseLeave(void* sender);
 		//在构造函数里面使用
 		void		 Initalize();//use it before use any function
 	protected:
@@ -80,6 +82,7 @@ namespace ASNET {
 		ASNET::Event::EventBoardClickHandlers		BoardUpHandler; //键盘按键弹起事件集合
 		ASNET::Event::EventBoardClickHandlers		BoardDownHandler; //键盘按键按下事件集合
 		ASNET::Event::EventSizeChangeHandlers		SizeChangeHandler; //窗口大小事件集合
+		ASNET::Event::EventMouseLeaveHandlers       MouseLeaveHandler; //鼠标离开窗口事件
 		
 	public:
 		//默认构造函数

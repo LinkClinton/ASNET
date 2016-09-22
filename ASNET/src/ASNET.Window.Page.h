@@ -50,6 +50,8 @@ namespace ASNET {
 			virtual void OnKeyUp(void* sender, ASNET::Event::EventBoardClick* e);
 			//处理窗口大小事件
 			virtual void OnSizeChanged(void* sender, ASNET::Event::EventSizeChange* e);
+			//处理鼠标离开窗口事件
+			virtual void OnMouseLeave(void* sender);
 			//处理绘制事件，将描述这个类怎么绘制出来
 			virtual void OnDraw(void* sender, ASNET::Graph::Direct3D::GraphDirect3D* render); 
 			//加载控件事件，当控件被AddPage的时候触发
@@ -62,7 +64,8 @@ namespace ASNET {
 			ASNET::Event::EventBoardClickHandlers		BoardUpHandler; //键盘按键弹起事件集合
 			ASNET::Event::EventBoardClickHandlers		BoardDownHandler; //键盘按键按下事件集合
 			ASNET::Event::EventSizeChangeHandlers		SizeChangeHandler; //窗口大小事件集合
-			
+			ASNET::Event::EventMouseLeaveHandlers       MouseLeaveHandler; //鼠标离开窗口事件集合
+
 			ASNET::Graph::Direct3D::GraphDirect3D*		ParentGraph; //渲染的指针接口
 			friend class Window; 
 		public:

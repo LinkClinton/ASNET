@@ -33,6 +33,10 @@ namespace ASNET {
 		{
 		}
 
+		void Page::OnMouseLeave(void * sender)
+		{
+		}
+
 		void ASNET::Page::Page::OnDraw(void * sender, ASNET::Graph::Direct3D::GraphDirect3D * render)
 		{
 		}

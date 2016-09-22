@@ -73,15 +73,15 @@ namespace ASNET {
 	}
 
 
-
+	//没有消息的话参数是-1
 	ASNET::Event::EventType Window::CoreGetEventArgs(
 		int message,
 		ASNET::Event::EventBase *& e) {
 		if (message == WM_MBUTTONUP || message == WM_MBUTTONDOWN) {
 			ASNET::Event::EventMouseClick* eventarg = new ASNET::Event::EventMouseClick();
 			eventarg->button = ASNET::Event::MouseButton::Middle;
-			MousePosx = (int)(GET_X_LPARAM(Message.lParam)*Width_Scale);
-			MousePosy = (int)(GET_Y_LPARAM(Message.lParam)*Height_Scale);
+			MousePosx = (int)(GET_X_LPARAM(Message.lParam)*WidthScale);
+			MousePosy = (int)(GET_Y_LPARAM(Message.lParam)*HeightScale);
 			eventarg->x = MousePosx;
 			eventarg->y = MousePosy;
 			if (message == WM_MBUTTONDOWN)
@@ -93,8 +93,8 @@ namespace ASNET {
 		if (message == WM_LBUTTONUP || message == WM_LBUTTONDOWN) {
 			ASNET::Event::EventMouseClick* eventarg = new ASNET::Event::EventMouseClick();
 			eventarg->button = ASNET::Event::MouseButton::Left;
-			MousePosx = (int)(GET_X_LPARAM(Message.lParam)*Width_Scale);
-			MousePosy = (int)(GET_Y_LPARAM(Message.lParam)*Height_Scale);
+			MousePosx = (int)(GET_X_LPARAM(Message.lParam)*WidthScale);
+			MousePosy = (int)(GET_Y_LPARAM(Message.lParam)*HeightScale);
 			eventarg->x = MousePosx;
 			eventarg->y = MousePosy;
 			if (message == WM_LBUTTONDOWN)
@@ -106,8 +106,8 @@ namespace ASNET {
 		if (message == WM_RBUTTONUP || message == WM_RBUTTONDOWN) {
 			ASNET::Event::EventMouseClick* eventarg = new ASNET::Event::EventMouseClick();
 			eventarg->button = ASNET::Event::MouseButton::Right;
-			MousePosx = (int)(GET_X_LPARAM(Message.lParam)*Width_Scale);
-			MousePosy = (int)(GET_Y_LPARAM(Message.lParam)*Height_Scale);
+			MousePosx = (int)(GET_X_LPARAM(Message.lParam)*WidthScale);
+			MousePosy = (int)(GET_Y_LPARAM(Message.lParam)*HeightScale);
 			eventarg->x = MousePosx;
 			eventarg->y = MousePosy;
 			if (message == WM_RBUTTONDOWN)
@@ -118,8 +118,8 @@ namespace ASNET {
 		}
 		if (message == WM_MOUSEMOVE) {
 			ASNET::Event::EventMouseMove* eventarg = new ASNET::Event::EventMouseMove();
-			MousePosx = (int)(GET_X_LPARAM(Message.lParam)*Width_Scale);
-			MousePosy = (int)(GET_Y_LPARAM(Message.lParam)*Height_Scale);
+			MousePosx = (int)(GET_X_LPARAM(Message.lParam)*WidthScale);
+			MousePosy = (int)(GET_Y_LPARAM(Message.lParam)*HeightScale);
 			eventarg->x = MousePosx;
 			eventarg->y = MousePosy;
 			e = eventarg;
@@ -127,8 +127,8 @@ namespace ASNET {
 		}
 		if (message == WM_MOUSEWHEEL) {
 			ASNET::Event::EventMouseWheel* eventarg = new ASNET::Event::EventMouseWheel();
-			MousePosx = (int)(GET_X_LPARAM(Message.lParam)*Width_Scale);
-			MousePosy = (int)(GET_Y_LPARAM(Message.lParam)*Height_Scale);
+			MousePosx = (int)(GET_X_LPARAM(Message.lParam)*WidthScale);
+			MousePosy = (int)(GET_Y_LPARAM(Message.lParam)*HeightScale);
 			eventarg->x = MousePosx;
 			eventarg->y = MousePosy;
 			eventarg->offest = GET_WHEEL_DELTA_WPARAM(Message.wParam);
@@ -157,10 +157,20 @@ namespace ASNET {
 			eventarg->last_width = Width;
 			eventarg->now_width = BackEndWidth;
 			eventarg->now_height = BACKEndHeight;
-			Width_Scale *= (float)Width / (float)BackEndWidth;	
-			Height_Scale *= (float)Height / (float)BACKEndHeight;
+			WidthScale *= (float)Width / (float)BackEndWidth;	
+			HeightScale *= (float)Height / (float)BACKEndHeight;
 			e = eventarg;
 			return ASNET::Event::EventType::EventSizeChanged;
+		}
+		//后面的处理消息的语句代表着这些语句的触发在触发无用消息的时候才会考虑触发
+		//鼠标离开的事件
+		{
+			POINT MousePos;
+			GetCursorPos(&MousePos);
+			MousePos.x = (long)(MousePos.x*WidthScale);
+			MousePos.y = (long)(MousePos.y*HeightScale);
+			if (MousePos.x < 0 || MousePos.x > Width || MousePos.y < 0 || MousePos.y > Height)
+				return ASNET::Event::EventType::EventMouseLeave;
 		}
 		return ASNET::Event::EventType::EventOther;
 	}
@@ -258,6 +268,15 @@ namespace ASNET {
 			ASNET::Event::DoEventHandlers(LostFocusHandler, this);
 			break;
 		}
+		case ASNET::Event::EventType::EventMouseLeave: {
+			OnMouseLeave(this);
+			ASNET::Event::DoEventHandlers(MouseLeaveHandler, this);
+			if (UsedPage) {
+				UsedPage->OnMouseLeave(this);
+				ASNET::Event::DoEventHandlers(UsedPage->MouseLeaveHandler, UsedPage);
+			}
+			break;
+		}
 		case ASNET::Event::EventType::EventSizeChanged: {
 			ASNET::Event::EventSizeChange* e = (ASNET::Event::EventSizeChange*)BaseEvent;
 			Width = e->now_width;
@@ -320,10 +339,14 @@ namespace ASNET {
 	{
 	}
 
+
+	void Window::OnMouseLeave(void * sender)
+	{
+	}	
 	void Window::Initalize(){
 		Hwnd = CreateWindows(Width, Height, IcoName, Title);
-		Width_Scale = 1.0f;
-		Height_Scale = 1.0f;
+		WidthScale = 1.0f;
+		HeightScale = 1.0f;
 		Graph = new ASNET::Graph::Direct3D::GraphDirect3D(Hwnd);
 		OnLoading();
 		
@@ -390,6 +413,7 @@ namespace ASNET {
 				DispatchMessage(&Message);
 				CoreComputeEvents(Message.message);
 			}
+			else { CoreComputeEvents(NO_MESSAGE); }
 			if (UsedPage) {
 				UsedPage->OnDraw(this, Graph);
 				UsedPage->OnControlDraw(this, Graph);

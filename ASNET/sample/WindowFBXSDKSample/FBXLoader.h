@@ -10,27 +10,40 @@
 #include<string>
 #endif // _DEBUG
 
+#define INF 377777
+
 namespace ASNET {
 	namespace Sample {
+
+		typedef ASNET::Graph::Direct3D::Vertex FbxVertex;
 
 		class FBXModel :public ASNET::Graph::Direct3D::Model {
 			friend class FBXLoader;
 			friend class FBXSDKPage;
 
 			std::map<std::wstring, int> FileNameIndex;
-					
+			
+			DirectX::XMFLOAT3 MaxPos;
+			DirectX::XMFLOAT3 MinPos;
+			DirectX::XMFLOAT3 CenterPos;
 		public:
 			FBXModel(ASNET::Graph::Direct3D::GraphDirect3D* graph) {
 				ParentGraph = graph;
+				MaxPos = DirectX::XMFLOAT3(-INF, -INF, -INF);
+				MinPos = DirectX::XMFLOAT3(INF, INF, INF);
 			}
+			void UpDataCenterPos(ASNET::Sample::FbxVertex vertex);
 			
+			DirectX::XMMATRIX FromCenterToOrigin();
+
 		};
 
 		
 
-		typedef ASNET::Graph::Direct3D::Vertex FbxVertex;
+		
 
-		static void ReadLine(std::string &String,std::ifstream* file) {
+#ifdef _DEBUG
+		static void ReadLine(std::string &String, std::ifstream* file) {
 			char ch = file->get();
 			while (ch != '\n') {
 				String += ch;
@@ -67,11 +80,17 @@ namespace ASNET {
 				String.clear();
 				ReadLine(String, &file_in);
 				if (int pos = String.find("Texture UV:") != String.npos) {
-					
+
 					file_out << String.substr(pos + 23) << std::endl;
 				}
 			}
 		}
+#endif // _DEBUG
+
+
+		
+
+
 
 
 		class FBXLoader {
@@ -80,6 +99,7 @@ namespace ASNET {
 			FbxIOSettings*  Ios; //输入输出设置
 
 			ASNET::Sample::FBXModel* Model;
+			bool                     Once;
 		protected: 
 		protected:
 			void ReadVertex(FbxMesh* mesh, int index, FbxVertex* vertex);
@@ -96,6 +116,7 @@ namespace ASNET {
 
 			void ProcessNode(FbxNode* node); //处理节点
 			void ProcessMesh(FbxNode* node); //处理Mesh节点
+			void ProcessLight(FbxNode* node);
 			void ProcessSkeleton(FbxNode* node); //处理Skeleton
 		public:
 			FBXLoader();

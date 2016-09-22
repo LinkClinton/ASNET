@@ -50,18 +50,25 @@ namespace ASNET {
 				IsKeyDown = false;
 		}
 
-		void FBXSDKPage::OnDraw(void * sender, ASNET::Graph::Direct3D::GraphDirect3D * graph) {
-			graph->Clear();
+		void FBXSDKPage::OnMouseLeave(void * sender)
+		{
+			IsKeyDown = false;
+		}
 
+		void FBXSDKPage::OnDraw(void * sender, ASNET::Graph::Direct3D::GraphDirect3D * graph) {
+			graph->Clear(ASNET::Graph::Color::Black);
+
+			//graph->SetFillMode(ASNET::Graph::Direct3D::FillMode::FillWireFrame);
 
 			world = DirectX::XMMatrixIdentity();
 
+			//world = world*DirectX::XMMatrixScaling(10, 10, 10);
 
-			world = world*DirectX::XMMatrixRotationZ(ModelAngleY);
+			world = world*DirectX::XMMatrixRotationY(ModelAngleY);
 
-			world = world*DirectX::XMMatrixRotationX(ModelAngleX);
+		//	world = world*DirectX::XMMatrixRotationX(ModelAngleX);
 
-			world = world*DirectX::XMMatrixTranspose(DirectX::XMMatrixTranslation(0, 0, -5));
+			world = world*(Model->FromCenterToOrigin());
 
 			effect->SetWorldMatrix(world);
 
@@ -75,13 +82,13 @@ namespace ASNET {
 		void FBXSDKPage::OnLoading(void * sender, void * any) {
 			Loader = new ASNET::Sample::FBXLoader();
 
-			Loader->LoadFbxSence("Model/PikachuM.fbx", Model, ParentGraph);
+			Loader->LoadFbxSence("Model/lich_King/lich_King.fbx", Model, ParentGraph);
 
 			//Loader->LoadFbxSence("Model/pika.fbx", Model, ParentGraph);
 
 			effect = new ASNET::Graph::Direct3D::BasicEffect(ParentGraph);
 
-			effect->SetViewMatrix(DirectX::XMVectorSet(0, 50, -1, 1),
+			effect->SetViewMatrix(DirectX::XMVectorSet(70, 0, -1, 1),
 				DirectX::XMVectorSet(0, 0, 0, 1));
 
 			effect->SetWorldMatrix(DirectX::XMMatrixIdentity());

@@ -52,9 +52,9 @@ void ASNET::Sample::Direct3DMainPage::OnLoading(void * sender, void * any){
 
 	Direct3DEffect = new ASNET::Graph::Direct3D::BasicEffect(ParentGraph);
 
-	ParentGraph->SetCullMode(ASNET::Graph::Direct3D::CullMode::CullNone);
+	//ParentGraph->SetCullMode(ASNET::Graph::Direct3D::CullMode::CullNone);
 
-	ParentGraph->SetFillMode(ASNET::Graph::Direct3D::FillMode::FillWireFrame);
+//	ParentGraph->SetFillMode(ASNET::Graph::Direct3D::FillMode::FillWireFrame);
 
 	//Direct3DRender->SetFillMode(ASNET::Graph::Direct3D::FillMode::FillWireFrame);
 //	Direct3DShader->SendTextureToShader(0, Direct3DTexture);

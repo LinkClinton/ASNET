@@ -7,6 +7,7 @@
 namespace ASNET {
 	namespace Sample {
 		class FBXSDKWindow :public ASNET::Window {
+			friend class FBXSDKPage;
 		public:
 			FBXSDKWindow();
 		};
@@ -30,6 +31,7 @@ namespace ASNET {
 			void OnMouseMove(void* sender, ASNET::Event::EventMouseMove* e)override;
 			void OnMouseDown(void* sender, ASNET::Event::EventMouseClick* e)override;
 			void OnMouseUp(void* sender, ASNET::Event::EventMouseClick* e)override;
+			void OnMouseLeave(void* sender)override;
 			void OnDraw(void* sender, ASNET::Graph::Direct3D::GraphDirect3D* graph)override;
 			void OnLoading(void* sender, void* any)override;
 		public:

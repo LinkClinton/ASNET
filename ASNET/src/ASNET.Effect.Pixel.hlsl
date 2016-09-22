@@ -248,6 +248,9 @@ float4 main(PixelIn In): SV_TARGET{
 			return FinaColor;
 		}
 		else {
+			float4 texColor = Tex.Sample(samTex, In.tex);
+			//float4 OutColor = texColor*(material.diffuse + material.ambient);
+			//return OutColor;
 			return Tex.Sample(samTex, In.tex);
 		}
 		
