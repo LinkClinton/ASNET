@@ -40,19 +40,28 @@ namespace ASNET {
 		class Control {
 		private:
 			const float  LeaveFrameTime = 0.13f; //鼠标移开动画持续时间
+			const float  EnterFrameTime = 0.13f;
 		protected:
 			bool		 MouseIn; //鼠标是否在控件范围内
-			bool         IsLeaveFrame; //是否处于类似动画渲染的状态
+			bool		 IsFrame; //是否属于动画渲染的状态
+			bool         IsLeaveFrame; //是否处于离开动画渲染的状态
+			bool         IsEnterFrame; //是否处于进入动画渲染的状态
 			bool		 IsFocus; //控件是否获取了焦点，将会影响控件获取键盘按键信息
 
-			float        LeaveAlphaTime; //渐变的Alpha
-			float        LeaveOldAlpha;  //原始的Alpha
+			float        LeaveAlphaTime; //Leave渐变的Alpha
+			float        LeaveOldAlpha;  //Leave原始的Alpha
+			float        EnterAlphaTime; //Enter渐变的Alpha
+			float        EnterOldAlpha;  //Enter原始的Alpha
+
+
 			friend class ASNET::Page::Page;  
 
 			//初始化鼠标移开后的动画绘制方案
 			void         InitalizeLeaveFrame();
 			//描述控件当鼠标移开后的动画绘制方案,图片作为背景的时候无效
 			void         OnLeaveFrameDraw(void* sender, ASNET::Graph::Direct3D::GraphDirect3D* render);
+
+			
 			
 			//标准控件绘制方案,大部分控件使用此绘制方案,集成了控件大致外观绘制
 			virtual void OnStdDraw(void* sender, ASNET::Graph::Direct3D::GraphDirect3D* render);
@@ -84,7 +93,7 @@ namespace ASNET {
 			ASNET::Event::EventMouseClickHandlers		MouseButtonDownHandler; //鼠标按钮按下事件的集合
 			ASNET::Event::EventBoardClickHandlers		BoardUpHandler; //键盘按键弹起事件的集合
 			ASNET::Event::EventBoardClickHandlers		BoardDownHandler; //键盘按键按下事件的集合
-			
+
 		public:
 			bool  IsActive; //控件是否被激活
 			

@@ -354,8 +354,6 @@ void ASNET::Sample::FBXLoader::LoadMaterialAndTexture(
 
 		std::wstring TextureFileName = it->first;
 
-		
-
 		model->ParentGraph->LoadTexture(pTexture, &TextureFileName[0]);
 
 		model->Textures[it->second] = pTexture;
@@ -372,7 +370,7 @@ void ASNET::Sample::FBXLoader::LoadMaterialAndTexture(
 		model->MeshParts[0].EffectCount = model->IndexCount;
 		model->MeshParts[0].StartFace = 0;
 	}
-
+	
 }
 
 
@@ -467,7 +465,7 @@ void ASNET::Sample::FBXLoader::ProcessMesh(FbxNode * node){
 
 void ASNET::Sample::FBXLoader::ProcessLight(FbxNode * node)
 {
-	
+
 }
 
 
@@ -475,8 +473,24 @@ void ASNET::Sample::FBXLoader::ProcessSkeleton(FbxNode * node)
 {
 	FbxSkeleton* Skeleton = (FbxSkeleton*)node->GetNodeAttribute();
 
+	if (node->GetParent() && node->GetParent()->GetNodeAttribute() &&
+		node->GetParent()->GetNodeAttribute()->GetAttributeType() == FbxNodeAttribute::eSkeleton) {
+		FbxNode* pNode = node->GetParent();
+		FBXBone* parent = nullptr;
+		FBXBone* BoneNode = new FBXBone();
+		std::string ParentBoneName = pNode->GetName();
+		parent = Model->BoneNameIndex.find(ParentBoneName)->second;
+		BoneNode->ParentBone = parent;
+		BoneNode->BoneName = node->GetName();
+		parent->SonBone.push_back(BoneNode);
+		Model->BoneNameIndex.insert(std::pair<std::string, FBXBone*>(BoneNode->BoneName, BoneNode));
+	}
+	else {
+		Model->root = new FBXBone();
+		Model->root->BoneName = node->GetName();
+		Model->BoneNameIndex.insert(std::pair<std::string, FBXBone*>(Model->root->BoneName, Model->root));
+	}
 	
-
 }
 
 ASNET::Sample::FBXLoader::FBXLoader(){

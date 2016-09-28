@@ -37,6 +37,8 @@ namespace ASNET {
 				float r, g, b, a; //颜色
 				float u, v; //贴图坐标
 				float nx, ny, nz; //法线
+				//float wx, wy, wz; //骨骼权重
+				//byte  BoneIndices[4];
 				//构造函数
 				Vertex();
 				//构造函数
@@ -245,7 +247,7 @@ namespace ASNET {
 				void LoadBuffer(ASNET::Graph::Direct3D::Buffer* &buffer,
 					std::vector<ASNET::Graph::Direct3D::Vertex> vertices,
 					std::vector<ASNET::Graph::Direct3D::Index>  indices = std::vector<Index>(),
-					bool CPUAcess = false); //only for vertex buffer
+					bool CPUAccess = false); //only for vertex buffer
 
 			
 				//加载着色器缓存

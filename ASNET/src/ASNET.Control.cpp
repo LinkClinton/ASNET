@@ -42,6 +42,7 @@ ASNET::Control::Color::operator ASNET::Graph::Color(){
 
 void ASNET::Control::Control::InitalizeLeaveFrame(){
 	if (!Selectibility) return;
+	IsFrame = true;
 	IsLeaveFrame = true;
 	LeaveAlphaTime = LeaveFrameTime;
 	LeaveOldAlpha = SelectBackColor.a;
@@ -50,17 +51,20 @@ void ASNET::Control::Control::InitalizeLeaveFrame(){
 void ASNET::Control::Control::OnLeaveFrameDraw(void * sender,
 	ASNET::Graph::Direct3D::GraphDirect3D * render){
 	if (!Selectibility) return;
-	if (MouseIn) return;
+	if (MouseIn) LeaveAlphaTime = 0;
 
 	LeaveAlphaTime -= render->RenderTime();
 
 	SelectBackColor.a = LeaveOldAlpha*LeaveAlphaTime / LeaveFrameTime;
 
-	if (LeaveAlphaTime <= 0.0f) 
-		IsLeaveFrame = false,
+	if (LeaveAlphaTime <= 0.0f) {
+		IsFrame = false;
+		IsLeaveFrame = false;
 		SelectBackColor.a = LeaveOldAlpha;
-
+	}
 }
+
+
 
 void ASNET::Control::Control::OnStdDraw(void * sender, 
 	ASNET::Graph::Direct3D::GraphDirect3D * render){
@@ -68,7 +72,7 @@ void ASNET::Control::Control::OnStdDraw(void * sender,
 		if (Selectibility && IsLeaveFrame)
 			OnLeaveFrameDraw(sender, render);
 
-		if (Selectibility && (MouseIn || IsLeaveFrame))
+		if (Selectibility && (MouseIn || IsFrame))
 			render->DrawRectangle(D2D1::RectF(Left, Top, Right, Bottom),
 				Color(0, 0, 0, 0), 1.0f, true, SelectBackColor);
 		else

@@ -245,3 +245,5 @@ ModelManifest.xml
 .fake/
 /ASNET/test.cpp
 *.dll
+/ASNET/sample/WindowFBXSDKSample/Model/Lich_King/ImportScene.exe
+/ASNET/sample/WindowFBXSDKSample/Model/Lich_King/lich_King.txt

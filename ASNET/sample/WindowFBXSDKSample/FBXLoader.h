@@ -8,6 +8,7 @@
 #ifdef _DEBUG
 #include<iostream>
 #include<string>
+#define out(x) std::cout<<x<<std::endl;
 #endif // _DEBUG
 
 #define INF 377777
@@ -17,15 +18,33 @@ namespace ASNET {
 
 		typedef ASNET::Graph::Direct3D::Vertex FbxVertex;
 
+		class FBXBone {
+		public:
+			FBXBone*              ParentBone;
+			std::vector<FBXBone*> SonBone;
+			std::string           BoneName;
+		public:
+			
+		public:
+			FBXBone() {
+			
+			}
+		};
+
 		class FBXModel :public ASNET::Graph::Direct3D::Model {
 			friend class FBXLoader;
 			friend class FBXSDKPage;
 
-			std::map<std::wstring, int> FileNameIndex;
-			
+			std::map<std::wstring, int>      FileNameIndex;
+			std::map<std::string, FBXBone*>  BoneNameIndex;
+
 			DirectX::XMFLOAT3 MaxPos;
 			DirectX::XMFLOAT3 MinPos;
 			DirectX::XMFLOAT3 CenterPos;
+
+			
+
+			FBXBone* root;
 		public:
 			FBXModel(ASNET::Graph::Direct3D::GraphDirect3D* graph) {
 				ParentGraph = graph;
@@ -38,6 +57,9 @@ namespace ASNET {
 
 		};
 
+		
+
+		
 		
 
 		
@@ -90,7 +112,7 @@ namespace ASNET {
 
 		
 
-
+		
 
 
 		class FBXLoader {

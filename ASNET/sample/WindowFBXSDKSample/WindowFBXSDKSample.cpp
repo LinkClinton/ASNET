@@ -66,10 +66,10 @@ namespace ASNET {
 
 			world = world*DirectX::XMMatrixRotationY(ModelAngleY);
 
-		//	world = world*DirectX::XMMatrixRotationX(ModelAngleX);
+		//	world = world*DirectX::XMMatrixRotationX(ModelAngleX);			
 
 			world = world*(Model->FromCenterToOrigin());
-
+			
 			effect->SetWorldMatrix(world);
 
 			effect->Enable(ASNET::Graph::Direct3D::Enable::Texture);

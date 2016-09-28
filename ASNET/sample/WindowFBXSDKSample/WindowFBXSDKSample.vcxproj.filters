@@ -31,11 +31,11 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="ASNET.Effect.Pixel.cso">
+    <FxCompile Include="ASNET.Effect.Pixel.hlsl">
       <Filter>资源文件</Filter>
-    </None>
-    <None Include="ASNET.Effect.Vertex.cso">
+    </FxCompile>
+    <FxCompile Include="ASNET.Effect.Vertex.hlsl">
       <Filter>资源文件</Filter>
-    </None>
+    </FxCompile>
   </ItemGroup>
 </Project>
