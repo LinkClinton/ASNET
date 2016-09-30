@@ -56,7 +56,7 @@ namespace ASNET {
 		}
 
 		void FBXSDKPage::OnDraw(void * sender, ASNET::Graph::Direct3D::GraphDirect3D * graph) {
-			graph->Clear(ASNET::Graph::Color::Black);
+			graph->Clear(ASNET::Graph::Color::White);
 
 			//graph->SetFillMode(ASNET::Graph::Direct3D::FillMode::FillWireFrame);
 
@@ -72,10 +72,11 @@ namespace ASNET {
 			
 			effect->SetWorldMatrix(world);
 
-			effect->Enable(ASNET::Graph::Direct3D::Enable::Texture);
+			//effect->Enable(ASNET::Graph::Direct3D::Enable::Texture);
 
 			effect->EffectBegin();
-			Model->Draw(effect);
+			Model->DrawAnimation(0);
+			Model->Draw(effect, false);
 			effect->EffectEnd();
 		}
 
@@ -84,7 +85,7 @@ namespace ASNET {
 
 			Loader->LoadFbxSence("Model/lich_King/lich_King.fbx", Model, ParentGraph);
 
-			//Loader->LoadFbxSence("Model/pika.fbx", Model, ParentGraph);
+			//Loader->LoadFbxSence("Model/PikachuM.fbx", Model, ParentGraph);
 
 			effect = new ASNET::Graph::Direct3D::BasicEffect(ParentGraph);
 
@@ -95,7 +96,7 @@ namespace ASNET {
 
 			effect->SetProjMatrix(proj);
 
-
+			ParentGraph->SetFillMode(ASNET::Graph::Direct3D::FillMode::FillWireFrame);
 		}
 
 		FBXSDKPage::FBXSDKPage()

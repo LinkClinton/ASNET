@@ -9,6 +9,55 @@
 
 
 
+/*
+FBX格式的骨骼动画的理解
+简直和其他方法有很大区别,他可以设置使用什么动画
+然后就可以直接通过某些方法计算出矩阵了，虽然方便了些
+首先有两种算法，要根据模型格式去选择
+Linear Way
+似乎就是对于每个骨骼的变换，可以通过计算直接获得矩阵
+
+*/
+
+void ASNET::Sample::FBXLoader::ProcessBoneName(FbxNode * pNode, ASNET::Sample::FBXModel* model, Bone* parent)
+{
+	std::string BoneName = pNode->GetName();
+
+	std::map<std::string, Bone*>::iterator it = model->BoneNameIndex.find(BoneName);
+
+	if (it == model->BoneNameIndex.end() && BoneName != "RootNode") {
+		Bone* bone = new Bone(Model->BoneCount, parent);
+		if (parent = nullptr)
+			model->root = bone;
+		model->BoneNameIndex.insert(std::pair<std::string, Bone*>(BoneName, bone));
+		model->BoneCount++;
+	}
+
+	it = model->BoneNameIndex.find(BoneName);
+
+	for (int i = 0; i < pNode->GetChildCount(); i++)
+		if (it != model->BoneNameIndex.end())
+			ProcessBoneName(pNode->GetChild(i), model, it->second);
+		else ProcessBoneName(pNode->GetChild(i), model, nullptr);
+}
+
+void ASNET::Sample::FBXLoader::HashBoneName(FbxScene * pScene, FbxNode * pNode, ASNET::Sample::FBXModel * model)
+{
+	pNode = pScene->GetRootNode();
+
+	Model->Animations.resize(pScene->GetSrcObjectCount<FbxAnimStack>());
+
+	for (int i = 0; i < pScene->GetSrcObjectCount<FbxAnimStack>(); i++) {
+		FbxAnimStack* AnimStack = pScene->GetSrcObject<FbxAnimStack>(i);
+		for (int j = 0; j < AnimStack->GetMemberCount<FbxAnimLayer>(); j++) {
+			FbxAnimLayer* AnimLayer = AnimStack->GetMember<FbxAnimLayer>(j);
+			//ProcessBoneName()
+			ProcessBoneName(pNode, model, nullptr);
+		}
+
+	}
+}
+
 void ASNET::Sample::FBXLoader::ReadVertex(FbxMesh * mesh,
 	int index, FbxVertex * vertex){
 	FbxVector4 Point = mesh->GetControlPointAt(index);
@@ -23,7 +72,7 @@ void ASNET::Sample::FBXLoader::ReadVertex(FbxMesh * mesh,
 
 void ASNET::Sample::FBXLoader::ReadColor(FbxMesh * mesh, 
 	int index, int indexcount, FbxVertex * vertex){
-
+	
 	if (mesh->GetElementVertexColorCount() < 1) return; //if no color return 
 
 	FbxGeometryElementVertexColor* pVertexColor = mesh->GetElementVertexColor();  //Color Set
@@ -85,7 +134,7 @@ void ASNET::Sample::FBXLoader::ReadColor(FbxMesh * mesh,
 
 void ASNET::Sample::FBXLoader::ReadTextureUV(FbxMesh * mesh, 
 	int index, int textureindex, FbxVertex * vertex){
-	
+
 	if (mesh->GetElementUVCount() < 1) return; 
 
 	FbxGeometryElementUV* pTextureUV = mesh->GetElementUV(); //the first layer
@@ -303,6 +352,38 @@ void ASNET::Sample::FBXLoader::ReadTextureName(FbxMesh * mesh,
 		}
 }
 
+void ASNET::Sample::FBXLoader::ReadWeightsAndBoneIndex(
+	FbxMesh * mesh, ASNET::Sample::FBXModel * model)
+{
+	std::vector<int> VertexCounter;
+	VertexCounter.resize(model->VertexCount);
+
+	size_t SkinCount = mesh->GetDeformerCount(FbxDeformer::eSkin);
+	for (size_t Skin_i = 0; Skin_i < SkinCount; Skin_i++) {
+		FbxSkin* Skin = (FbxSkin*)mesh->GetDeformer(Skin_i, FbxDeformer::eSkin);
+		FbxSkin::EType Type = Skin->GetSkinningType();
+		size_t ClusterCount = Skin->GetClusterCount();
+		for (size_t Cluster_i = 0; Cluster_i < ClusterCount; Cluster_i++) {
+			FbxCluster* pCluster = Skin->GetCluster(Cluster_i);
+			FbxNode*    pBone = pCluster->GetLink();
+			std::string BoneName = pBone->GetName();
+			size_t Count = pCluster->GetControlPointIndicesCount();
+			double* pWeights = pCluster->GetControlPointWeights();
+			int* pIndex = pCluster->GetControlPointIndices();
+			for (size_t i = 0; i < Count; i++) {
+				model->vertices[pIndex[i]].Weight((float)pWeights[i], VertexCounter[pIndex[i]]);
+				std::map<std::string, Bone*>::iterator it = model->BoneNameIndex.find(BoneName);
+				model->vertices[pIndex[i]].BoneIndices[VertexCounter[pIndex[i]]] = (byte)it->second->id;
+				VertexCounter[pIndex[i]]++;
+			}
+		}
+	}
+
+
+	
+
+}
+
 
 
 void ASNET::Sample::FBXLoader::LoadMaterialAndTexture(
@@ -338,6 +419,7 @@ void ASNET::Sample::FBXLoader::LoadMaterialAndTexture(
 					model->MeshParts[MaterialIndex].EffectCount += 3;
 				}
 			}
+
 			int StartFace = 0;
 			for (size_t i = 0; i < model->MeshPartCount; i++) {
 				model->MeshParts[i].StartFace = StartFace;
@@ -373,6 +455,132 @@ void ASNET::Sample::FBXLoader::LoadMaterialAndTexture(
 	
 }
 
+void ASNET::Sample::FBXLoader::LoadAnimationLayer(FbxAnimLayer * layer, FbxNode * pNode,
+	int animation_id)
+{
+	std::string BoneName = pNode->GetName();
+	std::map<std::string, Bone*>::iterator it = Model->BoneNameIndex.find(BoneName);
+	if (it != Model->BoneNameIndex.end()) {
+		ASNET::Sample::BoneAnimation* BoneAnimation = &Model->Animations[animation_id].BoneAnimations[it->second->id];
+		FbxAnimCurve* pAnimCurve = nullptr;
+
+		pAnimCurve = pNode->LclTranslation.GetCurve(layer, FBXSDK_CURVENODE_COMPONENT_X);
+		if (pAnimCurve) {
+			if (BoneAnimation->KeyFrames.empty())
+				BoneAnimation->KeyFrames.resize(pAnimCurve->KeyGetCount());
+			for (int i = 0; i < pAnimCurve->KeyGetCount(); i++) {
+				BoneAnimation->KeyFrames[i].TimePos = (float)pAnimCurve->KeyGetTime(i).GetMilliSeconds() / 1000.f;
+				BoneAnimation->KeyFrames[i].Translation.x = pAnimCurve->KeyGetValue(i);
+			}
+		}
+
+		pAnimCurve = pNode->LclTranslation.GetCurve(layer, FBXSDK_CURVENODE_COMPONENT_Y);
+		if (pAnimCurve) {
+			if (BoneAnimation->KeyFrames.empty())
+				BoneAnimation->KeyFrames.resize(pAnimCurve->KeyGetCount());
+			for (int i = 0; i < pAnimCurve->KeyGetCount(); i++) {
+				BoneAnimation->KeyFrames[i].TimePos = (float)pAnimCurve->KeyGetTime(i).GetMilliSeconds() / 1000.f;
+				BoneAnimation->KeyFrames[i].Translation.y = pAnimCurve->KeyGetValue(i);
+			}
+		}
+
+		pAnimCurve = pNode->LclTranslation.GetCurve(layer, FBXSDK_CURVENODE_COMPONENT_Z);
+		if (pAnimCurve) {
+			if (BoneAnimation->KeyFrames.empty())
+				BoneAnimation->KeyFrames.resize(pAnimCurve->KeyGetCount());
+			for (int i = 0; i < pAnimCurve->KeyGetCount(); i++) {
+				BoneAnimation->KeyFrames[i].TimePos = (float)pAnimCurve->KeyGetTime(i).GetMilliSeconds() / 1000.f;
+				BoneAnimation->KeyFrames[i].Translation.z = pAnimCurve->KeyGetValue(i);
+			}
+		}
+
+		pAnimCurve = pNode->LclRotation.GetCurve(layer, FBXSDK_CURVENODE_COMPONENT_X);
+		if (pAnimCurve) {
+			if (BoneAnimation->KeyFrames.empty())
+				BoneAnimation->KeyFrames.resize(pAnimCurve->KeyGetCount());
+			for (int i = 0; i < pAnimCurve->KeyGetCount(); i++) {
+				BoneAnimation->KeyFrames[i].TimePos = (float)pAnimCurve->KeyGetTime(i).GetMilliSeconds() / 1000.f;
+				BoneAnimation->KeyFrames[i].RotationQuat.x = pAnimCurve->KeyGetValue(i);
+			}
+		}
+
+		pAnimCurve = pNode->LclRotation.GetCurve(layer, FBXSDK_CURVENODE_COMPONENT_Y);
+		if (pAnimCurve) {
+			if (BoneAnimation->KeyFrames.empty())
+				BoneAnimation->KeyFrames.resize(pAnimCurve->KeyGetCount());
+			for (int i = 0; i < pAnimCurve->KeyGetCount(); i++) {
+				BoneAnimation->KeyFrames[i].TimePos = (float)pAnimCurve->KeyGetTime(i).GetMilliSeconds() / 1000.f;
+				BoneAnimation->KeyFrames[i].RotationQuat.y = pAnimCurve->KeyGetValue(i);
+			}
+		}
+
+		pAnimCurve = pNode->LclRotation.GetCurve(layer, FBXSDK_CURVENODE_COMPONENT_Z);
+		if (pAnimCurve) {
+			if (BoneAnimation->KeyFrames.empty())
+				BoneAnimation->KeyFrames.resize(pAnimCurve->KeyGetCount());
+			for (int i = 0; i < pAnimCurve->KeyGetCount(); i++) {
+				BoneAnimation->KeyFrames[i].TimePos = (float)pAnimCurve->KeyGetTime(i).GetMilliSeconds() / 1000.f;
+				BoneAnimation->KeyFrames[i].RotationQuat.z = pAnimCurve->KeyGetValue(i);
+			}
+		}
+
+		pAnimCurve = pNode->LclScaling.GetCurve(layer, FBXSDK_CURVENODE_COMPONENT_X);
+		if (pAnimCurve) {
+			if (BoneAnimation->KeyFrames.empty())
+				BoneAnimation->KeyFrames.resize(pAnimCurve->KeyGetCount());
+			for (int i = 0; i < pAnimCurve->KeyGetCount(); i++) {
+				BoneAnimation->KeyFrames[i].TimePos = (float)pAnimCurve->KeyGetTime(i).GetMilliSeconds() / 1000.f;
+				BoneAnimation->KeyFrames[i].Scale.x = pAnimCurve->KeyGetValue(i);
+			}
+		}
+
+		pAnimCurve = pNode->LclScaling.GetCurve(layer, FBXSDK_CURVENODE_COMPONENT_Y);
+		if (pAnimCurve) {
+			if (BoneAnimation->KeyFrames.empty())
+				BoneAnimation->KeyFrames.resize(pAnimCurve->KeyGetCount());
+			for (int i = 0; i < pAnimCurve->KeyGetCount(); i++) {
+				BoneAnimation->KeyFrames[i].TimePos = (float)pAnimCurve->KeyGetTime(i).GetMilliSeconds() / 1000.f;
+				BoneAnimation->KeyFrames[i].Scale.y = pAnimCurve->KeyGetValue(i);
+			}
+		}
+
+		pAnimCurve = pNode->LclScaling.GetCurve(layer, FBXSDK_CURVENODE_COMPONENT_Z);
+		if (pAnimCurve) {
+			if (BoneAnimation->KeyFrames.empty())
+				BoneAnimation->KeyFrames.resize(pAnimCurve->KeyGetCount());
+			for (int i = 0; i < pAnimCurve->KeyGetCount(); i++) {
+				BoneAnimation->KeyFrames[i].TimePos = (float)pAnimCurve->KeyGetTime(i).GetMilliSeconds() / 1000.f;
+				BoneAnimation->KeyFrames[i].Scale.z = pAnimCurve->KeyGetValue(i);
+			}
+		}
+		
+	}
+	
+
+	for (int i = 0; i < pNode->GetChildCount(); i++)
+		LoadAnimationLayer(layer, pNode->GetChild(i), animation_id);
+	
+}
+
+
+
+void ASNET::Sample::FBXLoader::LoadAnimation(FbxScene * pScene)
+{
+	FbxNode* pNode = pScene->GetRootNode();
+
+	Model->Animations.resize(pScene->GetSrcObjectCount<FbxAnimStack>());
+	
+	for (int i = 0; i < pScene->GetSrcObjectCount<FbxAnimStack>(); i++) {
+		FbxAnimStack* AnimStack = pScene->GetSrcObject<FbxAnimStack>(i);
+		Model->Animations[i].BoneAnimations.resize(Model->BoneCount);
+		for (int j = 0; j < AnimStack->GetMemberCount<FbxAnimLayer>(); j++) {
+			FbxAnimLayer* AnimLayer = AnimStack->GetMember<FbxAnimLayer>(j);
+			LoadAnimationLayer(AnimLayer, pNode, i);
+		}
+
+	}
+}
+
 
 
 
@@ -405,9 +613,8 @@ void ASNET::Sample::FBXLoader::ProcessNode(FbxNode * node){
 void ASNET::Sample::FBXLoader::ProcessMesh(FbxNode * node){
 	if (Once) return;
 	FbxMesh* mesh = node->GetMesh();
-
 	if (!mesh) return;
-	
+
 	Model->vertices.clear();
 	Model->indices.clear();
 
@@ -419,7 +626,6 @@ void ASNET::Sample::FBXLoader::ProcessMesh(FbxNode * node){
 	int IndexCount = 0;
 	
 	std::vector<bool> Visited;
-
 
 	Model->vertices.resize(Model->VertexCount);
 	Visited.resize(Model->VertexCount);
@@ -437,19 +643,15 @@ void ASNET::Sample::FBXLoader::ProcessMesh(FbxNode * node){
 				ReadColor(mesh, index, IndexCount, &Model->vertices[index]);
 				
 				ReadNormal(mesh, index, IndexCount, &Model->vertices[index]);
-				//ReadTextureUV(mesh, index, mesh->GetTextureUVIndex(i, j), &Model->vertices[index]);
+				
 				ReadTextureUV(mesh, index, IndexCount, &Model->vertices[index]);
-				/*int u = (float)Model->vertices[index].u;
-				int v = (float)Model->vertices[index].v;
-				Model->vertices[index].u -= u;
-				Model->vertices[index].v -= v;*/
+		
 				Model->vertices[index].v = (1.f - Model->vertices[index].v);
 				Model->UpDataCenterPos(Model->vertices[index]);
 				//std::swap(Model->vertices[index].u, Model->vertices[index].v);
 				Visited[index] = true;
 			}
 		
-			
 			//std::cout << Model->vertices[index].u << ", " << Model->vertices[index].v << std::endl;
 			IndexCount++;
 		}
@@ -459,7 +661,7 @@ void ASNET::Sample::FBXLoader::ProcessMesh(FbxNode * node){
 
 	LoadMaterialAndTexture(mesh, Model);
 	
-
+	ReadWeightsAndBoneIndex(mesh, Model);
 
 }
 
@@ -471,25 +673,8 @@ void ASNET::Sample::FBXLoader::ProcessLight(FbxNode * node)
 
 void ASNET::Sample::FBXLoader::ProcessSkeleton(FbxNode * node)
 {
-	FbxSkeleton* Skeleton = (FbxSkeleton*)node->GetNodeAttribute();
-
-	if (node->GetParent() && node->GetParent()->GetNodeAttribute() &&
-		node->GetParent()->GetNodeAttribute()->GetAttributeType() == FbxNodeAttribute::eSkeleton) {
-		FbxNode* pNode = node->GetParent();
-		FBXBone* parent = nullptr;
-		FBXBone* BoneNode = new FBXBone();
-		std::string ParentBoneName = pNode->GetName();
-		parent = Model->BoneNameIndex.find(ParentBoneName)->second;
-		BoneNode->ParentBone = parent;
-		BoneNode->BoneName = node->GetName();
-		parent->SonBone.push_back(BoneNode);
-		Model->BoneNameIndex.insert(std::pair<std::string, FBXBone*>(BoneNode->BoneName, BoneNode));
-	}
-	else {
-		Model->root = new FBXBone();
-		Model->root->BoneName = node->GetName();
-		Model->BoneNameIndex.insert(std::pair<std::string, FBXBone*>(Model->root->BoneName, Model->root));
-	}
+	
+	
 	
 }
 
@@ -530,13 +715,22 @@ void ASNET::Sample::FBXLoader::LoadFbxSence(char * filename,
 
 	Importer->Import(Scene);
 
+	HashBoneName(Scene, nullptr, Model);
+
+	model->Parent.resize(model->BoneCount);
+
+	for (std::map<std::string, Bone*>::iterator it = model->BoneNameIndex.begin(); it != model->BoneNameIndex.end(); it++){
+		model->Parent[it->second->id] = it->second->parent;
+	}
+
 	FbxNode* root = Scene->GetRootNode();
 
 	for (int i = 0; i < root->GetChildCount(); i++)
 		ProcessNode(root->GetChild(i));
 
-	graph->LoadBuffer(Model->Buffer, Model->vertices, Model->indices);
+	LoadAnimation(Scene);
 
+	graph->LoadBuffer(Model->Buffer, Model->vertices, Model->indices, true);
 	
 
 	Model = nullptr;
@@ -547,6 +741,54 @@ void ASNET::Sample::FBXLoader::LoadFbxSence(char * filename,
 
 	
 
+
+}
+
+void ASNET::Sample::FBXModel::UpDataFrame(float time, int animation)
+{
+	std::vector<DirectX::XMFLOAT4X4> matrix;
+	GetFinalTransform(time, animation, matrix);
+
+	std::vector<FbxVertex> vertex(VertexCount);
+
+	for (size_t i = 0; i < VertexCount; i++) {
+		float weights[4];
+		weights[0] = vertices[i].wx;
+		weights[1] = vertices[i].wy;
+		weights[2] = vertices[i].wz;
+		weights[3] = 1 - weights[0] - weights[1] - weights[2];
+		DirectX::XMFLOAT4 pos = DirectX::XMFLOAT4(vertices[i].x, vertices[i].y, vertices[i].z, 1.0f);
+		DirectX::XMFLOAT4 posl = DirectX::XMFLOAT4(0, 0, 0, 0);
+		for (int j = 0; j < 4; j++) {
+			posl = Add(posl, Mul(Mul(pos, matrix[vertices[i].BoneIndices[j]]), weights[j]));
+		}
+		vertex[i] = vertices[i];
+		vertex[i].x = posl.x;
+		vertex[i].y = posl.y;
+		vertex[i].z = posl.z;
+	}
+
+	Buffer->reset(vertex, indices);
+	
+}
+
+void ASNET::Sample::FBXModel::DrawAnimation(int animation)
+{
+	if (!IsFrame) {
+		Time = Animations[animation].GetStartKeyFrame();
+		IsFrame = true;
+	}
+
+	UpDataFrame(Time, animation);
+
+	if (Time >= Animations[animation].GetEndKeyFrame()) {
+		IsFrame = false;
+		Buffer->reset(vertices, indices);
+		return;
+	}
+
+	Time += ParentGraph->RenderTime();
+	
 
 }
 
@@ -561,6 +803,30 @@ void ASNET::Sample::FBXModel::UpDataCenterPos(
 	CenterPos.x = (MaxPos.x + MinPos.x) / 2.f;
 	CenterPos.y = (MaxPos.y + MinPos.y) / 2.f;
 	CenterPos.z = (MaxPos.z + MinPos.z) / 2.f;
+}
+
+void ASNET::Sample::FBXModel::GetFinalTransform(float time, int animation, std::vector<DirectX::XMFLOAT4X4> &matrix)
+{
+	std::vector<DirectX::XMFLOAT4X4> toParentMatrix;
+	std::vector<DirectX::XMFLOAT4X4> toRootMatrix(BoneCount);
+	matrix.resize(BoneCount);
+
+	Animations[animation].GetKeyFrame(time, toParentMatrix);
+
+	toRootMatrix[0] = toParentMatrix[0];
+
+	DirectX::XMMATRIX toRoot = DirectX::XMLoadFloat4x4(&toRootMatrix[0]);
+	DirectX::XMStoreFloat4x4(&matrix[0], toRoot);
+
+	for (int i = 1; i < BoneCount; i++) {
+		DirectX::XMMATRIX toParent = DirectX::XMLoadFloat4x4(&toParentMatrix[i]);
+		Bone* parent = Parent[i];
+		DirectX::XMMATRIX parentToRoot = DirectX::XMLoadFloat4x4(&toRootMatrix[parent->id]);
+		toRoot = DirectX::XMMatrixMultiply(toParent, parentToRoot);
+		DirectX::XMStoreFloat4x4(&toRootMatrix[i], toRoot);
+		DirectX::XMStoreFloat4x4(&matrix[i], toRoot);
+	}
+
 }
 
 DirectX::XMMATRIX ASNET::Sample::FBXModel::FromCenterToOrigin()

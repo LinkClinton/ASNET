@@ -29,6 +29,9 @@
     <ClInclude Include="WindowFBXSDKSample.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="FBXAnimation.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="ASNET.Effect.Pixel.hlsl">

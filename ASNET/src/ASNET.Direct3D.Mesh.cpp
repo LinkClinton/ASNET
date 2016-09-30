@@ -82,14 +82,17 @@ void ASNET::Graph::Direct3D::Mesh::Draw(UINT texture_id){
 }
 
 void ASNET::Graph::Direct3D::Mesh::Draw(
-	ASNET::Graph::Direct3D::BasicEffect * effect){
+	ASNET::Graph::Direct3D::BasicEffect * effect,
+	bool TextureEnable) {
 	PrepareDraw();
- 	for (UINT i = 0; i < MeshPartCount; i++) {
-		if (MeshParts[i].Texture) {
-			effect->Enable(ASNET::Graph::Direct3D::Enable::Texture);
-			effect->SetTexture(MeshParts[i].Texture);
+	for (UINT i = 0; i < MeshPartCount; i++) {
+		if (TextureEnable) {
+			if (MeshParts[i].Texture) {
+				effect->Enable(ASNET::Graph::Direct3D::Enable::Texture);
+				effect->SetTexture(MeshParts[i].Texture);
+			}
+			else effect->UnEnable(ASNET::Graph::Direct3D::UnEnable::Texture);
 		}
-		else effect->UnEnable(ASNET::Graph::Direct3D::UnEnable::Texture);
 		effect->SetMaterial(MeshParts[i].Material);
 		DrawPart(i);
 	}

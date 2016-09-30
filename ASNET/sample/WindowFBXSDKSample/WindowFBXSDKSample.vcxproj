@@ -153,6 +153,7 @@
     <ClCompile Include="WindowFBXSDKSample.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="FBXAnimation.h" />
     <ClInclude Include="FBXLoader.h" />
     <ClInclude Include="WindowFBXSDKSample.h" />
   </ItemGroup>

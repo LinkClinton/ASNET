@@ -27,6 +27,13 @@ ASNET::Graph::Direct3D::Vertex::Vertex(){
 	nx = 0;
 	ny = 0;
 	nz = 0;
+	wx = 0;
+	wy = 0;
+	wz = 0;
+	BoneIndices[0] = (byte)0;
+	BoneIndices[1] = (byte)0;
+	BoneIndices[2] = (byte)0;
+	BoneIndices[3] = (byte)0;
 }
 
 ASNET::Graph::Direct3D::Vertex::Vertex(float _x, float _y, float _z,
@@ -43,6 +50,13 @@ ASNET::Graph::Direct3D::Vertex::Vertex(float _x, float _y, float _z,
 	nx = 0;
 	ny = 0;
 	nz = 0;
+	wx = 0;
+	wy = 0;
+	wz = 0;
+	BoneIndices[0] = (byte)0;
+	BoneIndices[1] = (byte)0;
+	BoneIndices[2] = (byte)0;
+	BoneIndices[3] = (byte)0;
 }
 
 void ASNET::Graph::Direct3D::Vertex::Normal(
@@ -58,6 +72,24 @@ void ASNET::Graph::Direct3D::Vertex::Color(
 	g = _g;
 	b = _b;
 	a = _a;
+}
+
+void ASNET::Graph::Direct3D::Vertex::Weight(float weight,int count)
+{
+	switch (count)
+	{
+	case 0:
+		wx = weight;
+		break;
+	case 1:
+		wy = weight;
+		break;
+	case 2:
+		wz = weight;
+		break;
+	default:
+		break;
+	}
 }
 
 ASNET::Graph::Direct3D::Buffer::Buffer(ASNET::Graph::Direct3D::GraphDirect3D* Graph){
@@ -353,23 +385,23 @@ void ASNET::Graph::Direct3D::GraphDirect3D::LoadShader(
 void ASNET::Graph::Direct3D::GraphDirect3D::UpDateInputLayout(Shader * shader){
 	release(InputLayout);
 
-	D3D11_INPUT_ELEMENT_DESC InputDesc[4];
+	D3D11_INPUT_ELEMENT_DESC InputDesc[6];
 
 	InputDesc[0] = { "POSITION",0,DXGI_FORMAT_R32G32B32_FLOAT,0, 0, D3D11_INPUT_PER_VERTEX_DATA,0 };
 	InputDesc[1] = { "COLOR",   0,DXGI_FORMAT_R32G32B32A32_FLOAT, 0,12, D3D11_INPUT_PER_VERTEX_DATA ,0 };
 	InputDesc[2] = { "TEXCOORD",0,DXGI_FORMAT_R32G32_FLOAT,   0,28,D3D11_INPUT_PER_VERTEX_DATA,0 };
 	InputDesc[3] = { "NORMAL",  0,DXGI_FORMAT_R32G32B32_FLOAT,0,36,D3D11_INPUT_PER_VERTEX_DATA,0 };
-	//InputDesc[4] = { "WEIGHTS", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 48, D3D11_INPUT_PER_VERTEX_DATA, 0 };
-	//InputDesc[5] = { "BONEINDICES",  0, DXGI_FORMAT_R8G8B8A8_UINT,   0, 60, D3D11_INPUT_PER_VERTEX_DATA, 0 };
+	InputDesc[4] = { "WEIGHTS", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 48, D3D11_INPUT_PER_VERTEX_DATA, 0 };
+	InputDesc[5] = { "BONEINDICES",  0, DXGI_FORMAT_R8G8B8A8_UINT,   0, 60, D3D11_INPUT_PER_VERTEX_DATA, 0 };
 	
 
 	if (!shader->IsCompile)
-		g_device3d->CreateInputLayout(InputDesc, 4,
+		g_device3d->CreateInputLayout(InputDesc, 6,
 			shader->VertexShaderBlob->GetBufferPointer(),
 			shader->VertexShaderBlob->GetBufferSize(),
 			&InputLayout);
 	else
-		g_device3d->CreateInputLayout(InputDesc, 4,
+		g_device3d->CreateInputLayout(InputDesc, 6,
 			&shader->VertexShaderCode[0],
 			shader->VertexShaderCode.size(),
 			&InputLayout);

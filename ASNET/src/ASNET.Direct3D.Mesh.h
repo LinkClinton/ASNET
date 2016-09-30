@@ -67,7 +67,7 @@ namespace ASNET {
 				//绘制这个模型
 				void Draw(UINT texture_id = 0); //the used texture_id in the shader
 				//通过使用Effect绘制这个模型
-				void Draw(ASNET::Graph::Direct3D::BasicEffect* effect);
+				void Draw(ASNET::Graph::Direct3D::BasicEffect* effect, bool TextureEnable = true);
 				//绘制模型要做的准备
 				void PrepareDraw(); 
 				//绘制模型的某个部分

@@ -37,8 +37,8 @@ namespace ASNET {
 				float r, g, b, a; //颜色
 				float u, v; //贴图坐标
 				float nx, ny, nz; //法线
-				//float wx, wy, wz; //骨骼权重
-				//byte  BoneIndices[4];
+				float wx, wy, wz; //骨骼权重
+				byte  BoneIndices[4];
 				//构造函数
 				Vertex();
 				//构造函数
@@ -48,6 +48,8 @@ namespace ASNET {
 				void Normal(float _nx, float _ny, float _nz);
 				//设置颜色
 				void Color(float _r, float _g, float _b, float _a);
+				//加入一个weight值,依次填充x,y,z
+				void Weight(float weight, int count);
 			};
 
 			//顶点索引
