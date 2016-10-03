@@ -75,7 +75,7 @@ namespace ASNET {
 			//effect->Enable(ASNET::Graph::Direct3D::Enable::Texture);
 
 			effect->EffectBegin();
-			Model->DrawAnimation();
+			Model->DrawAnimation(effect);
 			Model->Draw(effect);
 			effect->EffectEnd();
 		}
@@ -87,10 +87,13 @@ namespace ASNET {
 
 			Model->SetCurrentAnimation(0);
 			Model->SetCurrentPose(0);
+			
 
 			//Loader->LoadFbxSence("Model/PikachuM.fbx", Model, ParentGraph);
 
 			effect = new ASNET::Graph::Direct3D::BasicEffect(ParentGraph);
+
+			effect->Enable(ASNET::Graph::Direct3D::Enable::Animation);
 
 			effect->SetViewMatrix(DirectX::XMVectorSet(35, 15, -1, 1),
 				DirectX::XMVectorSet(0, 20, 0, 1));

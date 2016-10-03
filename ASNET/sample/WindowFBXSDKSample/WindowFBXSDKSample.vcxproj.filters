@@ -33,4 +33,17 @@
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="ASNET.Effect.Pixel.hlsl">
+      <Filter>资源文件</Filter>
+    </FxCompile>
+    <FxCompile Include="ASNET.Effect.Vertex.hlsl">
+      <Filter>资源文件</Filter>
+    </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ASNET.Effect.hlsli">
+      <Filter>资源文件</Filter>
+    </None>
+  </ItemGroup>
 </Project>

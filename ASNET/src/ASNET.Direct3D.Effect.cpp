@@ -12,16 +12,18 @@ const int SpotLightsBufferID = 3;
 const int PointLightsBufferID = 4;
 const int MaterialBufferID = 5;
 const int EyePosBufferID = 6;
-const int TextureId = 0;
+const int TextureID = 0;
 
-const int ProjMatrixBufferID = 0;
-const int ViewMatrixBufferID = 1;
-const int WorldMatrixBufferID = 2;
-const int NormalMatrixBufferID = 3;
-const int BoneAnimationMatrixBufferID = 4;
+
+const int ProjMatrixBufferID = 1;
+const int ViewMatrixBufferID = 2;
+const int WorldMatrixBufferID = 3;
+const int NormalMatrixBufferID = 4;
+const int BoneAnimationMatrixBufferID = 5;
 
 void ASNET::Graph::Direct3D::BasicEffect::UpdateBufferToShader(){
 
+	EffectShader->SendBufferToVertexShader(EffectBufferID, EffectStateBuffer);
 	EffectShader->SendBufferToVertexShader(ProjMatrixBufferID, ProjMatrixBuffer);
 	EffectShader->SendBufferToVertexShader(ViewMatrixBufferID, ViewMatrixBuffer);
 	EffectShader->SendBufferToVertexShader(WorldMatrixBufferID, WorldMatrixBuffer);
@@ -67,6 +69,9 @@ ASNET::Graph::Direct3D::BasicEffect::BasicEffect(
 
 	EffectShader->ParentGraph = graph;
 	//need change the shader 
+
+	for (int i = 0; i < MaxBoneAnimationMatrix; i++)
+		BoneAnimationMatrix[i] = { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 };
 
 	ParentGraph->LoadShaderDataBuffer(&EffectState, sizeof(EffectState), EffectStateBuffer);
 	ParentGraph->LoadShaderDataBuffer(&LightsState, sizeof(LightsState), LightsStateBuffer);
@@ -129,7 +134,8 @@ void ASNET::Graph::Direct3D::BasicEffect::Enable(
 	EffectStateBuffer->UpDateBuffer();
 
 	if (EffectIsBegin)
-		EffectShader->SendBufferToPixelShader(EffectBufferID, EffectStateBuffer);
+		EffectShader->SendBufferToPixelShader(EffectBufferID, EffectStateBuffer),
+		EffectShader->SendBufferToVertexShader(EffectBufferID, EffectStateBuffer);
 }
 
 void ASNET::Graph::Direct3D::BasicEffect::UnEnable(
@@ -157,7 +163,8 @@ void ASNET::Graph::Direct3D::BasicEffect::UnEnable(
 	EffectStateBuffer->UpDateBuffer();
 
 	if (EffectIsBegin)
-		EffectShader->SendBufferToPixelShader(EffectBufferID, EffectStateBuffer);
+		EffectShader->SendBufferToPixelShader(EffectBufferID, EffectStateBuffer),
+		EffectShader->SendBufferToVertexShader(EffectBufferID, EffectStateBuffer);
 }
 
 void ASNET::Graph::Direct3D::BasicEffect::DirLightOn(int which,
@@ -240,7 +247,7 @@ void ASNET::Graph::Direct3D::BasicEffect::SetMaterial(
 void ASNET::Graph::Direct3D::BasicEffect::SetTexture(
 	ASNET::Graph::Direct3D::Texture * texture){
 	if (EffectIsBegin)
-		EffectShader->SendTextureToShader(TextureId, texture);
+		EffectShader->SendTextureToShader(TextureID, texture);
 }
 
 void ASNET::Graph::Direct3D::BasicEffect::SetProjMatrix(

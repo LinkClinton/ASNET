@@ -19,7 +19,7 @@ namespace ASNET {
 			//最大的光源数
 			static const int MaxLights = 16;
 			//最大的矩阵数量
-			static const int MaxBoneAnimationMatrix = 60;
+			static const int MaxBoneAnimationMatrix = 200;
 
 
 			//平行光

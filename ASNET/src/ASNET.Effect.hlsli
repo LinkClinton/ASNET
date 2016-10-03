@@ -51,6 +51,8 @@ struct EffectStates {
 	int EnableSpotLight;
 	int EnablePointLight;
 	int EnableTexture;
+	int EnableAnimation;
+	int unused[3];
 };
 struct EffectLights_ {
 	int DirLightsState;
@@ -58,32 +60,20 @@ struct EffectLights_ {
 	int PointLightsState;
 	int unused;
 };
-cbuffer _EffectState:register(b0) {
-	EffectStates EffectState;
-}
-cbuffer _EffectLights : register(b1) {
-	EffectLights_ EffectLights[16];
-}
-cbuffer EffectDirLights : register(b2) {
-	DirLight DirLights[16];
-}
-cbuffer EffectSpotLights : register(b3) {
-	SpotLight SpotLights[16];
-}
-cbuffer EffectPointLights : register(b4) {
-	PointLight PointLights[16];
-}
-cbuffer EffectMaterial : register(b5) {
-	Material material;
-}
-cbuffer EffectEyePos : register(b6) {
-	float4 EyePos;
-}
-Texture2D Tex : register(s0);
-SamplerState samTex {
-	Filter = MIN_MAG_MIP_LINEAR;
-	AddressU = CLAMP;
-	AddressV = CLAMP;
+struct VertexIn {
+	float3 pos:POSITION;
+	float3 normal:NORMAL;
+	float2 tex:TEXCOORD;
+	float4 Color:COLOR;
+	float3 weights:WEIGHTS;
+	uint4  BoneIndices:BONEINDICES;
+};
+struct VertexOut {
+	float4 posH: SV_POSITION;
+	float3 pos: POSITION;
+	float2 tex: TEXCOORD;
+	float3 normal: NORMAL;
+	float4 Color:COLOR;
 };
 void ComputeDirLight(Material mat,
 	DirLight dirLight, float3 normal, float3 toEye,

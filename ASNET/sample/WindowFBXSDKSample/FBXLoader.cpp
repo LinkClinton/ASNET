@@ -370,9 +370,10 @@ void ASNET::Sample::FBXLoader::ReadWeightsAndBoneIndex(
 			size_t Count = pCluster->GetControlPointIndicesCount();
 			double* pWeights = pCluster->GetControlPointWeights();
 			int* pIndex = pCluster->GetControlPointIndices();
+			std::map<std::string, Bone*>::iterator it = model->BoneNameIndex.find(BoneName);
+			it->second->pCluster = pCluster;
 			for (size_t i = 0; i < Count; i++) {
 				model->vertices[pIndex[i]].Weight((float)pWeights[i], VertexCounter[pIndex[i]]);
-				std::map<std::string, Bone*>::iterator it = model->BoneNameIndex.find(BoneName);
 				model->vertices[pIndex[i]].BoneIndices[VertexCounter[pIndex[i]]] = (byte)it->second->id;
 				VertexCounter[pIndex[i]]++;
 			}
@@ -583,12 +584,6 @@ void ASNET::Sample::FBXLoader::LoadAnimation(FbxScene * pScene)
 
 
 
-
-
-
-
-
-
 void ASNET::Sample::FBXLoader::ProcessNode(FbxNode * node){
 	if (node->GetNodeAttribute()) { //是否存在？
 		switch (node->GetNodeAttribute()->GetAttributeType()) //类型？
@@ -718,10 +713,10 @@ void ASNET::Sample::FBXLoader::LoadFbxSence(char * filename,
 
 	HashBoneName(model->Scene, nullptr, Model);
 
-	model->Parent.resize(model->BoneCount);
+	model->ModelBone.resize(model->BoneCount);
 
 	for (std::map<std::string, Bone*>::iterator it = model->BoneNameIndex.begin(); it != model->BoneNameIndex.end(); it++){
-		model->Parent[it->second->id] = it->second->parent;
+		model->ModelBone[it->second->id] = it->second;
 	}
 
 	FbxNode* root = model->Scene->GetRootNode();
@@ -1100,26 +1095,7 @@ void ASNET::Sample::FBXModel::UpDataCenterPos(
 
 void ASNET::Sample::FBXModel::GetFinalTransform(float time, int animation, std::vector<DirectX::XMFLOAT4X4> &matrix)
 {
-	std::vector<DirectX::XMFLOAT4X4> toParentMatrix;
-	std::vector<DirectX::XMFLOAT4X4> toRootMatrix(BoneCount);
-	matrix.resize(BoneCount);
-
-	Animations[animation].GetKeyFrame(time, toParentMatrix);
-
-	toRootMatrix[0] = toParentMatrix[0];
-
-	DirectX::XMMATRIX toRoot = DirectX::XMLoadFloat4x4(&toRootMatrix[0]);
-	DirectX::XMStoreFloat4x4(&matrix[0], toRoot);
-
-	for (int i = 1; i < BoneCount; i++) {
-		DirectX::XMMATRIX toParent = DirectX::XMLoadFloat4x4(&toParentMatrix[i]);
-		Bone* parent = Parent[i];
-		DirectX::XMMATRIX parentToRoot = DirectX::XMLoadFloat4x4(&toRootMatrix[parent->id]);
-		toRoot = DirectX::XMMatrixMultiply(toParent, parentToRoot);
-		DirectX::XMStoreFloat4x4(&toRootMatrix[i], toRoot);
-		DirectX::XMStoreFloat4x4(&matrix[i], toRoot);
-	}
-
+	
 }
 
 void ASNET::Sample::FBXModel::SetCurrentPose(int index)
@@ -1159,7 +1135,7 @@ void ASNET::Sample::FBXModel::SetCurrentAnimation(int index)
 	
 }
 
-void ASNET::Sample::FBXModel::DrawAnimation()
+void ASNET::Sample::FBXModel::DrawAnimation(ASNET::Graph::Direct3D::BasicEffect* effect)
 {
 	if (!IsFrame) {
 		FrameTime = FrameStartTime;
@@ -1168,7 +1144,9 @@ void ASNET::Sample::FBXModel::DrawAnimation()
 	
 	FbxAMatrix World;
 
-	//FbxVector4* Vertex = new FbxVector4[VertexCount];
+	std::vector<FbxAMatrix> matrix(BoneCount);
+
+	/*//FbxVector4* Vertex = new FbxVector4[VertexCount];
 	std::vector<FbxVector4> Vertex(VertexCount);
 	std::vector<FbxVertex> vertex(VertexCount);
 	for (size_t i = 0; i < VertexCount; i++) {
@@ -1176,25 +1154,53 @@ void ASNET::Sample::FBXModel::DrawAnimation()
 		Vertex[i][1] = vertices[i].y;
 		Vertex[i][2] = vertices[i].z;
 		Vertex[i][3] = 1;
-	}
+	}*/
 	
 
-	ComputeLinearDeformation(World, Mesh, FrameTime, &Vertex[0], Pose);
+	for (int i = 0; i < BoneCount; i++) {
+		if (ModelBone[i]->pCluster) {
+			ComputeClusterDeformation(World, Mesh, ModelBone[i]->pCluster, matrix[i], FrameTime, Pose);
+			effect->SetBoneAnimationMatrix(i, LoadFbxMatrix(matrix[i]));
+		}
+	}
 
-	for (size_t i = 0; i < VertexCount; i++) {
+	std::vector<FbxVertex> vertex(VertexCount);
+	/*for (size_t i = 0; i < VertexCount; i++) {
+		vertex[i] = vertices[i];
+		float weights[4];
+		DirectX::XMFLOAT4 posL = { 0,0,0,0 };
+		DirectX::XMFLOAT4 pos = { vertices[i].x,vertices[i].y,vertices[i].z,1.0f };
+		weights[0] = vertex[i].wx;
+		weights[1] = vertex[i].wy;
+		weights[2] = vertex[i].wz;
+		weights[3] = 1.0f - weights[0] - weights[1] - weights[2];
+		for (int j = 0; j < 4; j++) {
+			DirectX::XMFLOAT4X4 Matrix = LoadFbxMatrix4X4(matrix[vertices[i].BoneIndices[j]]);
+			DirectX::XMFLOAT4 Pos = Mul(Mul(pos, Matrix), weights[j]);
+			posL = Add(posL, Pos);
+		}
+		vertex[i].x = posL.x;
+		vertex[i].y = posL.y;
+		vertex[i].z = posL.z;
+	}*/
+
+
+	//ComputeLinearDeformation(World, Mesh, FrameTime, &Vertex[0], Pose);
+
+	/*for (size_t i = 0; i < VertexCount; i++) {
 		vertex[i] = vertices[i];
 		vertex[i].x = (float)Vertex[i][0];
 		vertex[i].y = (float)Vertex[i][1];
 		vertex[i].z = (float)Vertex[i][2];
 	}
-	
+	*/
 
 	if (FrameTime >= FrameEndTime) {
 		IsFrame = false;
 		return;
 	}
 
-	Buffer->reset(vertex, indices);
+	//Buffer->reset(vertex, indices);
 
 	double render_time = ParentGraph->RenderTime();
 

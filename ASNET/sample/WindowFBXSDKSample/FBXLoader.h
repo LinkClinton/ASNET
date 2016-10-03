@@ -23,6 +23,7 @@ namespace ASNET {
 		public:
 			int   id;
 			Bone* parent;
+			FbxCluster* pCluster;
 		public:
 			Bone(int _id, Bone* _parent) {
 				id = _id;
@@ -39,7 +40,7 @@ namespace ASNET {
 
 			std::map<std::wstring, int>      FileNameIndex;
 			std::map<std::string, Bone*>     BoneNameIndex;
-			std::vector<Bone*>				 Parent;
+			std::vector<Bone*>				 ModelBone;
 			int								 BoneCount;
 			Bone*                            root;
 			bool                             IsFrame;
@@ -83,7 +84,22 @@ namespace ASNET {
 				out.w = a.w + m.w;
 				return out;
 			}
-
+			static DirectX::XMMATRIX LoadFbxMatrix(FbxMatrix matrix) {
+				float m[4][4];
+				for (int i = 0; i < 4; i++)
+					for (int j = 0; j < 4; j++)
+						m[i][j] = (float)matrix[i][j];
+				return DirectX::XMMATRIX(m[0][0], m[0][1], m[0][2], m[0][3], m[1][0], m[1][1], m[1][2], m[1][3],
+					m[2][0], m[2][1], m[2][2], m[2][3], m[3][0], m[3][1], m[3][2], m[3][3]);
+			}
+			static DirectX::XMFLOAT4X4 LoadFbxMatrix4X4(FbxMatrix matrix) {
+				float m[4][4];
+				for (int i = 0; i < 4; i++)
+					for (int j = 0; j < 4; j++)
+						m[i][j] = (float)matrix[i][j];
+				return DirectX::XMFLOAT4X4(m[0][0], m[0][1], m[0][2], m[0][3], m[1][0], m[1][1], m[1][2], m[1][3],
+					m[2][0], m[2][1], m[2][2], m[2][3], m[3][0], m[3][1], m[3][2], m[3][3]);
+			}
 
 			void MatrixAdd(FbxAMatrix& pDstMatrix, FbxAMatrix& pSrcMatrix);
 			void MatrixAddToDiagonal(FbxAMatrix& pMatrix, double pValue);
@@ -121,7 +137,7 @@ namespace ASNET {
 
 			void SetCurrentAnimation(int index);
 			
-			void DrawAnimation();
+			void DrawAnimation(ASNET::Graph::Direct3D::BasicEffect* effect);
 
 			DirectX::XMMATRIX FromCenterToOrigin();
 
