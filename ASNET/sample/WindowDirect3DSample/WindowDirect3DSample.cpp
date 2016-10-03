@@ -35,36 +35,9 @@ ASNET::Sample::Direct3DWindow::~Direct3DWindow(){
 
 void ASNET::Sample::Direct3DMainPage::OnLoading(void * sender, void * any){
 	ASNET::Sample::Direct3DWindow* Window = (ASNET::Sample::Direct3DWindow*)sender;
-	Direct3DShader = Window->shader;
-	
-	ASNET::Graph::Direct3D::GeometryMaker::CreateGrid(Direct3DMesh, 100, 100, 200, 200);
 
-
-
-	ASNET::Graph::Direct3D::Direct3DModelLoader::LoadPMXModel(ParentGraph, L"model/Ysna.pmx",
-		Direct3DModel);
-
-	//RegisterControl(Direct3DLabel);
-
-	//Direct3DRender->LoadTexture(Direct3DTexture, L"model.te4.png");
-	
-	ParentGraph->LoadBuffer(Direct3DMesh, Direct3DMesh.vertices, Direct3DMesh.indices, true);
 
 	Direct3DEffect = new ASNET::Graph::Direct3D::BasicEffect(ParentGraph);
-
-	//ParentGraph->SetCullMode(ASNET::Graph::Direct3D::CullMode::CullNone);
-
-//	ParentGraph->SetFillMode(ASNET::Graph::Direct3D::FillMode::FillWireFrame);
-
-	//Direct3DRender->SetFillMode(ASNET::Graph::Direct3D::FillMode::FillWireFrame);
-//	Direct3DShader->SendTextureToShader(0, Direct3DTexture);
-
-	//std::vector<ASNET::Graph::Direct3D::Vertex> vertex;
-	//std::vector<ASNET::Graph::Direct3D::Index>  index;
-
-	//CreateCubeVertex(vertex, index);
-
-	//Direct3DRender->LoadBuffer(Direct3DCubeBuffer, vertex, index);
 
 	Direct3DDirLight.ambient = { 0.2f,0.2f,0.2f,0.2f };
 	Direct3DDirLight.dir = { 0,0,15 };
@@ -72,16 +45,10 @@ void ASNET::Sample::Direct3DMainPage::OnLoading(void * sender, void * any){
 
 	
 	//Direct3DModel->Draw(eff)
-	Direct3DEffect->Enable(ASNET::Graph::Direct3D::Enable::DirLight);
+	//Direct3DEffect->Enable(ASNET::Graph::Direct3D::Enable::DirLight);
 	Direct3DEffect->Enable(ASNET::Graph::Direct3D::Enable::Texture);
 
 
-	Direct3DEffect->DirLightOn(0, Direct3DDirLight);
-	//Direct3DEffect->PointLightOn(0, Direct3DPointLight);
-
-
-
-	//ASNET::Graph::Direct3D::Direct3DModelLoader::LoadPMDModel(Direct3DRender, L"model/remu.pmd", Direct3DPMDModel);
 	
 }
 
@@ -108,8 +75,7 @@ void ASNET::Sample::Direct3DMainPage::OnDraw(void * sender, ASNET::Graph::Direct
 	
 
 	Direct3DEffect->EffectBegin();
-	//render->DrawBuffer(Direct3DMesh);
-	Direct3DModel->Draw(Direct3DEffect);
+
 	Direct3DEffect->EffectEnd();
 
 

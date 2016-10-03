@@ -23,18 +23,7 @@ namespace ASNET {
 
 		class Direct3DMainPage :public ASNET::Page::Page {
 		private:
-			ASNET::Graph::Direct3D::Shader*			  Direct3DShader;
-			ASNET::Graph::Direct3D::ShaderDataBuffer* Direct3DProj;
-			ASNET::Graph::Direct3D::ShaderDataBuffer* Direct3DView;
-			ASNET::Graph::Direct3D::ShaderDataBuffer* Direct3DWorld;
-			ASNET::Graph::Direct3D::Texture*		  Direct3DTexture;
 			
-			ASNET::Graph::Direct3D::Buffer*			  Direct3DCubeBuffer;
-
-			ASNET::Graph::Direct3D::GeometryMesh	  Direct3DMesh;
-		
-			
-			ASNET::Graph::Direct3D::Model*            Direct3DModel;
 			ASNET::Graph::Direct3D::DirLight		  Direct3DDirLight;
 			ASNET::Graph::Direct3D::PointLight        Direct3DPointLight;
 			ASNET::Graph::Direct3D::BasicEffect*      Direct3DEffect;

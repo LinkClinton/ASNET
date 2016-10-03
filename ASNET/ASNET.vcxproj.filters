@@ -140,4 +140,9 @@
       <Filter>资源文件</Filter>
     </FxCompile>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="src\ASNET.Effect.Pixel.hlsli">
+      <Filter>资源文件</Filter>
+    </None>
+  </ItemGroup>
 </Project>

@@ -18,6 +18,8 @@ namespace ASNET {
 
 			//最大的光源数
 			static const int MaxLights = 16;
+			//最大的矩阵数量
+			static const int MaxBoneAnimationMatrix = 60;
 
 
 			//平行光
@@ -81,7 +83,8 @@ namespace ASNET {
 				DirLight, 
 				SpotLight,
 				PointLight,
-				Texture
+				Texture,
+				Animation
 			};
 
 			//不允许某种Effect使用
@@ -89,7 +92,8 @@ namespace ASNET {
 				DirLight,
 				SpotLight,
 				PointLight,
-				Texture
+				Texture,
+				Animaton
 			};
 
 			//简单的Effect类
@@ -101,7 +105,8 @@ namespace ASNET {
 					int EnableSpotLight; //聚光灯
 					int EnablePointLight; //点光源
 					int EnableTexture; //贴图
-					
+					int EnableAnimation; //是否支持动画
+					int unused[3]; //内存对齐
 					//构造函数
 					StateEnable(); 
 				};
@@ -142,7 +147,10 @@ namespace ASNET {
 				Direct3D::ShaderDataBuffer*             ViewMatrixBuffer; //视角矩阵缓存
 				Direct3D::ShaderDataBuffer*				WorldMatrixBuffer; //世界矩阵缓存
 				Direct3D::ShaderDataBuffer*             NormalMatrixBuffer; //法线变换矩阵缓存
-			
+				Direct3D::ShaderDataBuffer*             BoneAnimationMatrixBuffer; //骨骼动画变换矩阵缓存
+				
+				DirectX::XMFLOAT4X4                     BoneAnimationMatrix[MaxBoneAnimationMatrix]; //骨骼动画变换矩阵
+
 				static DirectX::XMMATRIX Transpose(DirectX::CXMMATRIX matrix); //转置矩阵
 				static DirectX::XMMATRIX InverseTranspose(DirectX::CXMMATRIX matrix); //逆反矩阵
 			public:
@@ -179,11 +187,15 @@ namespace ASNET {
 				void SetViewMatrix(DirectX::XMVECTOR eyepos, DirectX::XMVECTOR lookat);
 				//设置世界变换矩阵
 				void SetWorldMatrix(DirectX::CXMMATRIX matrix);
+				//设置某个骨骼的动画矩阵
+				void SetBoneAnimationMatrix(int which, DirectX::CXMMATRIX matrix);
 				//开始使用，在使用之后着色器会被设置为Effect自带的着色器
 				void EffectBegin(); //used the effect in this ,but the old shader can't be used
 				//结束使用，在使用之后着色器会被设置为原本的着色器
 				void EffectEnd(); //the old shader will be reused
 			};
+			
+		
 
 
 		}

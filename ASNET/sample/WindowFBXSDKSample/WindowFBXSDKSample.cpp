@@ -68,15 +68,15 @@ namespace ASNET {
 
 		//	world = world*DirectX::XMMatrixRotationX(ModelAngleX);			
 
-			world = world*(Model->FromCenterToOrigin());
+			//world = world*(Model->FromCenterToOrigin());
 			
 			effect->SetWorldMatrix(world);
 
 			//effect->Enable(ASNET::Graph::Direct3D::Enable::Texture);
 
 			effect->EffectBegin();
-			Model->DrawAnimation(0);
-			Model->Draw(effect, false);
+			Model->DrawAnimation();
+			Model->Draw(effect);
 			effect->EffectEnd();
 		}
 
@@ -85,18 +85,21 @@ namespace ASNET {
 
 			Loader->LoadFbxSence("Model/lich_King/lich_King.fbx", Model, ParentGraph);
 
+			Model->SetCurrentAnimation(0);
+			Model->SetCurrentPose(0);
+
 			//Loader->LoadFbxSence("Model/PikachuM.fbx", Model, ParentGraph);
 
 			effect = new ASNET::Graph::Direct3D::BasicEffect(ParentGraph);
 
-			effect->SetViewMatrix(DirectX::XMVectorSet(70, 0, -1, 1),
-				DirectX::XMVectorSet(0, 0, 0, 1));
+			effect->SetViewMatrix(DirectX::XMVectorSet(35, 15, -1, 1),
+				DirectX::XMVectorSet(0, 20, 0, 1));
 
 			effect->SetWorldMatrix(DirectX::XMMatrixIdentity());
 
 			effect->SetProjMatrix(proj);
 
-			ParentGraph->SetFillMode(ASNET::Graph::Direct3D::FillMode::FillWireFrame);
+			//ParentGraph->SetFillMode(ASNET::Graph::Direct3D::FillMode::FillWireFrame);
 		}
 
 		FBXSDKPage::FBXSDKPage()

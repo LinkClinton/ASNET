@@ -18,7 +18,7 @@ const int ProjMatrixBufferID = 0;
 const int ViewMatrixBufferID = 1;
 const int WorldMatrixBufferID = 2;
 const int NormalMatrixBufferID = 3;
-
+const int BoneAnimationMatrixBufferID = 4;
 
 void ASNET::Graph::Direct3D::BasicEffect::UpdateBufferToShader(){
 
@@ -26,10 +26,11 @@ void ASNET::Graph::Direct3D::BasicEffect::UpdateBufferToShader(){
 	EffectShader->SendBufferToVertexShader(ViewMatrixBufferID, ViewMatrixBuffer);
 	EffectShader->SendBufferToVertexShader(WorldMatrixBufferID, WorldMatrixBuffer);
 	EffectShader->SendBufferToVertexShader(NormalMatrixBufferID, NormalMatrixBuffer);
-	
+	EffectShader->SendBufferToVertexShader(BoneAnimationMatrixBufferID, BoneAnimationMatrixBuffer);
+
 	EffectShader->SendBufferToPixelShader(EffectBufferID, EffectStateBuffer);
 	EffectShader->SendBufferToPixelShader(LightsBufferID, LightsStateBuffer);
-
+	
 
 	EffectShader->SendBufferToPixelShader(MaterialBufferID, MaterialBuffer);
 	EffectShader->SendBufferToPixelShader(DirLightsBufferID, DirLightsBuffer);
@@ -75,25 +76,15 @@ ASNET::Graph::Direct3D::BasicEffect::BasicEffect(
 	ParentGraph->LoadShaderDataBuffer(&SpotLights, sizeof(SpotLights), SpotLightsBuffer);
 	ParentGraph->LoadShaderDataBuffer(&PointLights, sizeof(PointLights), PointLightsBuffer);
 
+	ParentGraph->LoadShaderDataBuffer(&BoneAnimationMatrix, sizeof(BoneAnimationMatrix), BoneAnimationMatrixBuffer);
+
 	ParentGraph->LoadShaderDataBuffer(nullptr, 64, ProjMatrixBuffer);
 	ParentGraph->LoadShaderDataBuffer(nullptr, 64, ViewMatrixBuffer);
 	ParentGraph->LoadShaderDataBuffer(nullptr, 64, WorldMatrixBuffer);
 	ParentGraph->LoadShaderDataBuffer(nullptr, 64, NormalMatrixBuffer);
 	ParentGraph->LoadShaderDataBuffer(nullptr, 16, EyePosBuffer);
 
-	/*EffectShader->SendBufferToVertexShader(ProjMatrixBufferID, ProjMatrixBuffer);
-	EffectShader->SendBufferToVertexShader(ViewMatrixBufferID, ViewMatrixBuffer);
-	EffectShader->SendBufferToVertexShader(WorldMatrixBufferID, WorldMatrixBuffer);
-	EffectShader->SendBufferToVertexShader(NormalMatrixBufferID, NormalMatrixBuffer);
 
-	EffectShader->SendBufferToPixelShader(EffectBufferID, EffectStateBuffer);
-	EffectShader->SendBufferToPixelShader(LightsBufferID, LightsStateBuffer);
-
-	EffectShader->SendBufferToPixelShader(DirLightsBufferID, DirLightsBuffer);
-	EffectShader->SendBufferToPixelShader(SpotLightsBufferID, SpotLightsBuffer);
-	EffectShader->SendBufferToPixelShader(PointLightsBufferID, PointLightsBuffer);*/
-
-	
 
 }
 
@@ -110,6 +101,7 @@ ASNET::Graph::Direct3D::BasicEffect::~BasicEffect(){
 	delete WorldMatrixBuffer;
 	delete NormalMatrixBuffer;
 	delete EyePosBuffer;
+	delete BoneAnimationMatrixBuffer;
 }
 
 void ASNET::Graph::Direct3D::BasicEffect::Enable(
@@ -127,6 +119,9 @@ void ASNET::Graph::Direct3D::BasicEffect::Enable(
 		break;
 	case ASNET::Graph::Direct3D::Enable::Texture:
 		EffectState.EnableTexture = true;
+		break;
+	case ASNET::Graph::Direct3D::Enable::Animation:
+		EffectState.EnableAnimation = true;
 		break;
 	default:
 		break;
@@ -152,6 +147,9 @@ void ASNET::Graph::Direct3D::BasicEffect::UnEnable(
 		break;
 	case ASNET::Graph::Direct3D::UnEnable::Texture:
 		EffectState.EnableTexture = false;
+		break;
+	case ASNET::Graph::Direct3D::UnEnable::Animaton:
+		EffectState.EnableAnimation = false;
 		break;
 	default:
 		break;
@@ -284,6 +282,17 @@ void ASNET::Graph::Direct3D::BasicEffect::SetWorldMatrix(
 		EffectShader->SendBufferToVertexShader(NormalMatrixBufferID, NormalMatrixBuffer);
 	}
 
+}
+
+void ASNET::Graph::Direct3D::BasicEffect::SetBoneAnimationMatrix(int which,
+	DirectX::CXMMATRIX matrix)
+{
+	DirectX::XMStoreFloat4x4(&BoneAnimationMatrix[which], matrix);
+
+	if (EffectIsBegin) {
+		BoneAnimationMatrixBuffer->UpDateBuffer();
+		EffectShader->SendBufferToVertexShader(BoneAnimationMatrixBufferID, BoneAnimationMatrixBuffer);
+	}
 }
 
 void ASNET::Graph::Direct3D::BasicEffect::EffectBegin(){

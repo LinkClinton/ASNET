@@ -51,6 +51,14 @@ namespace ASNET {
 
 			std::vector<ASNET::Sample::BoneAnimationGroup> Animations;
 
+
+			FbxScene*						 Scene;
+			FbxPose*                         Pose;
+			FbxMesh*                         Mesh;
+			FbxAnimLayer*                    AnimLayer;
+			FbxTime                          FrameStartTime;
+			FbxTime                          FrameEndTime;
+			FbxTime                          FrameTime;
 			static DirectX::XMFLOAT4 Mul(DirectX::XMFLOAT4 a, DirectX::XMFLOAT4X4 m) {
 				DirectX::XMFLOAT4 out;
 				out.x = a.x*m._11 + a.y*m._12 + a.z*m._13 + a.w*m._14;
@@ -75,6 +83,27 @@ namespace ASNET {
 				out.w = a.w + m.w;
 				return out;
 			}
+
+
+			void MatrixAdd(FbxAMatrix& pDstMatrix, FbxAMatrix& pSrcMatrix);
+			void MatrixAddToDiagonal(FbxAMatrix& pMatrix, double pValue);
+			void MatrixScale(FbxAMatrix& pMatrix, double pValue);
+			FbxAMatrix GetGeometry(FbxNode* pNode);
+			FbxAMatrix GetPoseMatrix(FbxPose* pPose, int pNodeIndex);
+			FbxAMatrix GetGlobalPosition(FbxNode* pNode,
+				const FbxTime& pTime,
+				FbxPose* pPose, FbxAMatrix* pParentGlobalPosition = nullptr);
+			void ComputeClusterDeformation(FbxAMatrix& pGlobalPosition,
+				FbxMesh* pMesh,
+				FbxCluster* pCluster,
+				FbxAMatrix& pVertexTransformMatrix,
+				FbxTime pTime,
+				FbxPose* pPose);
+			void ComputeLinearDeformation(FbxAMatrix& pGlobalPosition,
+				FbxMesh* pMesh,
+				FbxTime& pTime,
+				FbxVector4* pVertexArray,
+				FbxPose* pPose);
 		public:
 			FBXModel(ASNET::Graph::Direct3D::GraphDirect3D* graph) {
 				ParentGraph = graph;
@@ -87,6 +116,13 @@ namespace ASNET {
 			void UpDataCenterPos(ASNET::Sample::FbxVertex vertex);
 			void GetFinalTransform(float time, int animation, std::vector<DirectX::XMFLOAT4X4> &matrix);
 			
+
+			void SetCurrentPose(int index);
+
+			void SetCurrentAnimation(int index);
+			
+			void DrawAnimation();
+
 			DirectX::XMMATRIX FromCenterToOrigin();
 
 		};
