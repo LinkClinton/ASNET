@@ -189,6 +189,8 @@ namespace ASNET {
 				void SetWorldMatrix(DirectX::CXMMATRIX matrix);
 				//设置某个骨骼的动画矩阵
 				void SetBoneAnimationMatrix(int which, DirectX::CXMMATRIX matrix);
+				//设置所有的骨骼的动画矩阵
+				void SetBoneAnimationMatrix(int start, std::vector<DirectX::XMFLOAT4X4> matrix);
 				//开始使用，在使用之后着色器会被设置为Effect自带的着色器
 				void EffectBegin(); //used the effect in this ,but the old shader can't be used
 				//结束使用，在使用之后着色器会被设置为原本的着色器

@@ -20,7 +20,8 @@ cbuffer BoneAnimationMatrix : register(b5) {
 }
 VertexOut main(VertexIn In) {
 	VertexOut Out;
-	/*if (EffectState.EnableAnimation) {
+	if (EffectState.EnableAnimation) {
+		matrix Matrix = { 1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1 };
 		float weights[4] = { 0.0f, 0.0f, 0.0f, 0.0f };
 		float3 posL = float3(0.0f, 0.0f, 0.0f);
 		float3 normalL = float3(0.0f, 0.0f, 0.0f);
@@ -32,9 +33,9 @@ VertexOut main(VertexIn In) {
 		//blend skin vertex
 		[unroll]
 		for (int i = 0; i < 4; ++i) {
-			if (weights[i] != 0.0)
-			posL += weights[i] * mul(float4(In.pos, 1.0f), BoneMatrix[In.BoneIndices[i]]).xyz;
-			//normalL += weights[i] * mul(vin.NormalL, (float3x3)gBoneTransforms[vin.BoneIndices[i]]);
+			if (weights[i] == 0.0) continue;
+			posL += weights[i] * mul(float4(In.pos,1.0f), BoneMatrix[In.BoneIndices[i]]).xyz;
+			normalL += weights[i] * mul(In.normal, (float3x3)BoneMatrix[In.BoneIndices[i]]);
 		}
 		Out.pos = mul(float4(posL, 1.f), world).xyz;
 		Out.posH = mul(float4(posL, 1.f), world);
@@ -44,7 +45,7 @@ VertexOut main(VertexIn In) {
 		Out.normal = mul(float4(In.normal, 1.f), normal).xyz;
 		Out.Color = In.Color;
 		return Out;
-	}*/
+	}
 
 	Out.pos = mul(float4(In.pos, 1.f), world).xyz;
 	Out.posH = mul(float4(In.pos, 1.f), world);

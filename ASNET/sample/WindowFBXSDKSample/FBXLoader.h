@@ -68,6 +68,14 @@ namespace ASNET {
 				out.w = a.x*m._41 + a.y*m._42 + a.z*m._43 + a.w*m._44;
 				return out;
 			}
+			static FbxVector4 Mul(FbxVector4 a, FbxMatrix m) {
+				FbxVector4 out;
+				out[0] = a[0] * m[0][0] + a[1] * m[0][1] + a[2] * m[0][2] + a[3] * m[0][3];
+				out[1] = a[0] * m[1][0] + a[1] * m[1][1] + a[2] * m[1][2] + a[3] * m[1][3];
+				out[2] = a[0] * m[2][0] + a[1] * m[2][1] + a[2] * m[2][2] + a[3] * m[2][3];
+				out[3] = a[0] * m[3][0] + a[1] * m[3][1] + a[2] * m[3][2] + a[3] * m[3][3];
+				return out;
+			}
 			static DirectX::XMFLOAT4 Mul(DirectX::XMFLOAT4 a, float m) {
 				DirectX::XMFLOAT4 out;
 				out.x = a.x*m;

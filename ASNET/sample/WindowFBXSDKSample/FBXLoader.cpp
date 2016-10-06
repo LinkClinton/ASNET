@@ -11,7 +11,6 @@
 
 /*
 FBX格式的骨骼动画的理解
-简直和其他方法有很大区别,他可以设置使用什么动画
 然后就可以直接通过某些方法计算出矩阵了，虽然方便了些
 首先有两种算法，要根据模型格式去选择
 Linear Way
@@ -724,7 +723,7 @@ void ASNET::Sample::FBXLoader::LoadFbxSence(char * filename,
 	for (int i = 0; i < root->GetChildCount(); i++)
 		ProcessNode(root->GetChild(i));
 
-	LoadAnimation(model->Scene);
+	//LoadAnimation(model->Scene);
 
 	graph->LoadBuffer(Model->Buffer, Model->vertices, Model->indices, true);
 	
@@ -1145,62 +1144,24 @@ void ASNET::Sample::FBXModel::DrawAnimation(ASNET::Graph::Direct3D::BasicEffect*
 	FbxAMatrix World;
 
 	std::vector<FbxAMatrix> matrix(BoneCount);
-
-	/*//FbxVector4* Vertex = new FbxVector4[VertexCount];
-	std::vector<FbxVector4> Vertex(VertexCount);
-	std::vector<FbxVertex> vertex(VertexCount);
-	for (size_t i = 0; i < VertexCount; i++) {
-		Vertex[i][0] = vertices[i].x;
-		Vertex[i][1] = vertices[i].y;
-		Vertex[i][2] = vertices[i].z;
-		Vertex[i][3] = 1;
-	}*/
+	std::vector<FbxAMatrix> vmatrix(VertexCount);
+	//std::vector<FbxVertex>  vertex(VertexCount);
 	
-
 	for (int i = 0; i < BoneCount; i++) {
 		if (ModelBone[i]->pCluster) {
+			if (!ModelBone[i]->pCluster->GetLink()) continue;
 			ComputeClusterDeformation(World, Mesh, ModelBone[i]->pCluster, matrix[i], FrameTime, Pose);
-			effect->SetBoneAnimationMatrix(i, LoadFbxMatrix(matrix[i]));
+			effect->SetBoneAnimationMatrix(i, DirectX::XMMatrixTranspose(LoadFbxMatrix(matrix[i])));
 		}
 	}
 
-	std::vector<FbxVertex> vertex(VertexCount);
-	/*for (size_t i = 0; i < VertexCount; i++) {
-		vertex[i] = vertices[i];
-		float weights[4];
-		DirectX::XMFLOAT4 posL = { 0,0,0,0 };
-		DirectX::XMFLOAT4 pos = { vertices[i].x,vertices[i].y,vertices[i].z,1.0f };
-		weights[0] = vertex[i].wx;
-		weights[1] = vertex[i].wy;
-		weights[2] = vertex[i].wz;
-		weights[3] = 1.0f - weights[0] - weights[1] - weights[2];
-		for (int j = 0; j < 4; j++) {
-			DirectX::XMFLOAT4X4 Matrix = LoadFbxMatrix4X4(matrix[vertices[i].BoneIndices[j]]);
-			DirectX::XMFLOAT4 Pos = Mul(Mul(pos, Matrix), weights[j]);
-			posL = Add(posL, Pos);
-		}
-		vertex[i].x = posL.x;
-		vertex[i].y = posL.y;
-		vertex[i].z = posL.z;
-	}*/
 
-
-	//ComputeLinearDeformation(World, Mesh, FrameTime, &Vertex[0], Pose);
-
-	/*for (size_t i = 0; i < VertexCount; i++) {
-		vertex[i] = vertices[i];
-		vertex[i].x = (float)Vertex[i][0];
-		vertex[i].y = (float)Vertex[i][1];
-		vertex[i].z = (float)Vertex[i][2];
-	}
-	*/
 
 	if (FrameTime >= FrameEndTime) {
 		IsFrame = false;
 		return;
 	}
-
-	//Buffer->reset(vertex, indices);
+	
 
 	double render_time = ParentGraph->RenderTime();
 

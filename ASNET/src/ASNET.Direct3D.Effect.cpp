@@ -302,6 +302,18 @@ void ASNET::Graph::Direct3D::BasicEffect::SetBoneAnimationMatrix(int which,
 	}
 }
 
+void ASNET::Graph::Direct3D::BasicEffect::SetBoneAnimationMatrix(int start, std::vector<DirectX::XMFLOAT4X4> matrix)
+{
+	for (size_t i = 0; i < matrix.size(); i++)
+		BoneAnimationMatrix[i + start] = matrix[i];
+
+	if (EffectIsBegin) {
+		BoneAnimationMatrixBuffer->UpDateBuffer();
+		EffectShader->SendBufferToVertexShader(BoneAnimationMatrixBufferID, BoneAnimationMatrixBuffer);
+	}
+	
+}
+
 void ASNET::Graph::Direct3D::BasicEffect::EffectBegin(){
 	EffectIsBegin = true;
 
