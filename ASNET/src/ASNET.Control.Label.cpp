@@ -3,12 +3,7 @@
 void ASNET::Control::Label::OnDraw(void * sender, ASNET::Graph::Direct3D::GraphDirect3D * render){
 	if (!Visibility) return; 
 
-	
-
-
 	OnStdDraw(sender, render);
-
-
 
 	render->DrawWord(Text,
 		D2D1::RectF(Left, Top, Right, Bottom),

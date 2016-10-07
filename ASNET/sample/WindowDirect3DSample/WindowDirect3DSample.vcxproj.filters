@@ -18,15 +18,9 @@
     <ClInclude Include="WindowDirect3DSample.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Direct3DAnimation.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WindowDirect3DSample.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Direct3DAnimation.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

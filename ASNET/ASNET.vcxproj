@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\ASNET.Control.Animation.h" />
     <ClInclude Include="src\ASNET.Control.Button.h" />
     <ClInclude Include="src\ASNET.Control.h" />
     <ClInclude Include="src\ASNET.Control.Label.h" />
@@ -27,6 +28,7 @@
     <ClInclude Include="src\ASNET.Direct3D.Geometry.h" />
     <ClInclude Include="src\ASNET.Direct3D.Mesh.h" />
     <ClInclude Include="src\ASNET.Direct3D.Model.h" />
+    <ClInclude Include="src\ASNET.Graph.Animation.h" />
     <ClInclude Include="src\ASNET.h" />
     <ClInclude Include="src\ASNET.Window.Event.h" />
     <ClInclude Include="src\ASNET.Graph.Direct3D.h" />
@@ -36,6 +38,7 @@
     <ClInclude Include="src\ASNET.Window.Page.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\ASNET.Control.Animation.cpp" />
     <ClCompile Include="src\ASNET.Control.Button.cpp" />
     <ClCompile Include="src\ASNET.Control.cpp" />
     <ClCompile Include="src\ASNET.Control.Label.cpp" />
@@ -69,7 +72,7 @@
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="src\ASNET.Effect.Pixel.hlsli" />
+    <None Include="src\ASNET.Effect.hlsli" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{CAB55DFD-6B79-4990-BD6D-5879FE6E14E7}</ProjectGuid>

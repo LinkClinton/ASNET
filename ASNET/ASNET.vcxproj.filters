@@ -90,6 +90,12 @@
     <ClInclude Include="src\ASNET.Control.Button.h">
       <Filter>头文件\Control</Filter>
     </ClInclude>
+    <ClInclude Include="src\ASNET.Graph.Animation.h">
+      <Filter>头文件\Graph</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ASNET.Control.Animation.h">
+      <Filter>头文件\Control</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\ASNET.Window.cpp">
@@ -131,6 +137,9 @@
     <ClCompile Include="src\ASNET.Control.Button.cpp">
       <Filter>源文件\Control</Filter>
     </ClCompile>
+    <ClCompile Include="src\ASNET.Control.Animation.cpp">
+      <Filter>源文件\Control</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="src\ASNET.Effect.Vertex.hlsl">
@@ -141,7 +150,7 @@
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="src\ASNET.Effect.Pixel.hlsli">
+    <None Include="src\ASNET.Effect.hlsli">
       <Filter>资源文件</Filter>
     </None>
   </ItemGroup>

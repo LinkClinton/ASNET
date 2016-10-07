@@ -155,11 +155,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Direct3DAnimation.h" />
     <ClInclude Include="WindowDirect3DSample.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Direct3DAnimation.cpp" />
     <ClCompile Include="WindowDirect3DSample.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -74,7 +74,7 @@ float4 main(PixelIn In): SV_TARGET{
 		}
 		else {
 			float4 texColor = Tex.Sample(samTex, In.tex);
-			return Tex.Sample(samTex, In.tex);
+			return texColor;
 		}
 		
 	}
