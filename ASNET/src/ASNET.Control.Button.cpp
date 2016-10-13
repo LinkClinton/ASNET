@@ -9,10 +9,10 @@ void ASNET::Control::Button::SimpleDraw(void * sender,
 		render->DrawWord(Text,
 			D2D1::RectF(Left, Top, Right, Bottom),
 			TextFont, Color(TextColor, TextColor.a*ControlColorAlpha), Horizontal, Vertical);
-	else 
+	else
 		render->DrawWord(Text,
-		D2D1::RectF(Left, Top, Right, Bottom),
-		TextFont, TextColor, Horizontal, Vertical);
+			D2D1::RectF(Left, Top, Right, Bottom),
+			TextFont, TextColor, Horizontal, Vertical);
 
 }
 
@@ -58,6 +58,13 @@ void ASNET::Control::Button::OnKeyUp(void * sender, ASNET::Event::EventBoardClic
 	}
 }
 
+void ASNET::Control::Button::OnStoping()
+{
+	IsKeyDown = false;
+	IsMouseDown = false;
+	MouseIn = false;
+}
+
 ASNET::Control::Button::Button(
 	ASNET::Graph::Graph * graph,
 	float left, float right,
@@ -86,7 +93,7 @@ ASNET::Control::Button::Button(
 
 	BackImage = nullptr;
 
-	Selectibility = false;
+	Selectibility = true;
 
 	Visibility = true;
 

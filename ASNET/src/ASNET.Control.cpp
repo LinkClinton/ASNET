@@ -1,5 +1,10 @@
 #include "ASNET.Control.h"
 
+#ifdef _DEBUG
+#include<iostream>
+#endif // _DEBUG
+
+
 ASNET::Control::Color::Color(){
 	r = 0;
 	g = 0;
@@ -40,48 +45,106 @@ ASNET::Control::Color::operator ASNET::Graph::Color(){
 	return ASNET::Graph::Color(r, g, b, a);
 }
 
-void ASNET::Control::Control::InitalizeLeaveFrame(){
-	if (!Selectibility) return;
-	IsFrame = true;
-	IsLeaveFrame = true;
-	LeaveAlphaTime = LeaveFrameTime;
-	LeaveOldAlpha = SelectBackColor.a;
+ASNET::Control::Color ASNET::Control::Color::operator-(ASNET::Control::Color color)
+{
+	Color out;
+	out.r = r - color.r;
+	out.g = g - color.g;
+	out.b = b - color.b;
+	out.a = a - color.a;
+	return out;
 }
 
-void ASNET::Control::Control::OnLeaveFrameDraw(void * sender,
-	ASNET::Graph::Direct3D::GraphDirect3D * render){
+ASNET::Control::Color ASNET::Control::Color::operator+(ASNET::Control::Color color)
+{
+	Color out;
+	out.r = r + color.r;
+	out.g = g + color.g;
+	out.b = b + color.b;
+	out.a = a + color.a;
+	return out;
+}
+
+ASNET::Control::Color ASNET::Control::Color::operator*(float scale)
+{
+	Color out;
+	out.r = r*scale;
+	out.g = g*scale;
+	out.b = b*scale;
+	out.a = a*scale;
+	return out;
+}
+
+void ASNET::Control::Control::StartLeaveAnimation(){
 	if (!Selectibility) return;
-	if (MouseIn) LeaveAlphaTime = 0;
+	LeaveAnimation.Start();
+}
 
-	LeaveAlphaTime -= render->RenderTime();
+void ASNET::Control::Control::OnLeaveAnimationDraw(void * sender,
+	ASNET::Graph::Direct3D::GraphDirect3D * render){
 
-	SelectBackColor.a = LeaveOldAlpha*LeaveAlphaTime / LeaveFrameTime;
+	KeyFrame keyframe = LeaveAnimation.GetKeyFrame(); 
+	render->DrawRectangle(D2D1::RectF(Left, Top, Right, Bottom),
+		Color(0, 0, 0, 0), 1.0f, true, keyframe.BackGroundColor);
 
-	if (LeaveAlphaTime <= 0.0f) {
-		IsFrame = false;
-		IsLeaveFrame = false;
-		SelectBackColor.a = LeaveOldAlpha;
-	}
 }
 
 
 
 void ASNET::Control::Control::OnStdDraw(void * sender, 
 	ASNET::Graph::Direct3D::GraphDirect3D * render){
-	if (!BackImage) {
-		if (Selectibility && IsLeaveFrame)
-			OnLeaveFrameDraw(sender, render);
 
-		if (Selectibility && (MouseIn || IsFrame))
-			render->DrawRectangle(D2D1::RectF(Left, Top, Right, Bottom),
-				Color(0, 0, 0, 0), 1.0f, true, SelectBackColor);
-		else
-			render->DrawRectangle(D2D1::RectF(Left, Top, Right, Bottom),
-				Color(0, 0, 0, 0), 1.0f, true, BackColor);
+	if (!BackImage) {
+		if (!LeaveAnimation.End())
+			OnLeaveAnimationDraw(sender, render);
+		else {
+			if (Selectibility && MouseIn)
+				render->DrawRectangle(D2D1::RectF(Left, Top, Right, Bottom),
+					Color(0, 0, 0, 0), 1.0f, true, SelectBackColor);
+			else
+				render->DrawRectangle(D2D1::RectF(Left, Top, Right, Bottom),
+					Color(0, 0, 0, 0), 1.0f, true, BackColor);
+		}
 	}
 	else
 		render->DrawImage(BackImage,
 			D2D1::RectF(Left, Top, Right, Bottom));
+
+	LeaveAnimation.Pass(render->RenderTime());
+}
+
+void ASNET::Control::Control::InitalizeAnimation()
+{
+	//leave animation
+	{
+		KeyFrame keyframe;
+		//1st frame
+		keyframe.TimePos = 0.00f;
+		keyframe.BackGroundColor = Color(ControlBackGroundColor, 1.0f);
+		LeaveAnimation.AddFrame(keyframe);
+
+		//2nd frame 
+		keyframe.TimePos = 0.05f;
+		keyframe.BackGroundColor = Color(ControlBackGroundColor, 0.75f);
+		LeaveAnimation.AddFrame(keyframe);
+
+		//3rd frame
+		keyframe.TimePos = 0.10f;
+		keyframe.BackGroundColor = Color(ControlBackGroundColor, 0.5f);
+		LeaveAnimation.AddFrame(keyframe);
+
+		//4th frame
+		keyframe.TimePos = 0.15f;
+		keyframe.BackGroundColor = Color(ControlBackGroundColor, 0.25f);
+		LeaveAnimation.AddFrame(keyframe);
+
+		//5th frame
+		keyframe.TimePos = 0.2f;
+		keyframe.BackGroundColor = Color(ControlBackGroundColor, 0.0f);
+		LeaveAnimation.AddFrame(keyframe);
+	}
+
+	
 }
 
 void ASNET::Control::Control::OnMouseMove(void * sender, ASNET::Event::EventMouseMove * e)
@@ -120,17 +183,23 @@ void ASNET::Control::Control::OnDraw(void * sender, ASNET::Graph::Direct3D::Grap
 {
 }
 
+void ASNET::Control::Control::OnStoping()
+{
+}
+
 
 
 ASNET::Control::Control::Control(){
 	IsActive = true;
 	IsFocus = false;
 	Visibility = true;
-	Selectibility = false;
+	Selectibility = true;
 	MouseIn = false;
 
 	BackColor = Color(1, 1, 1, 1);
 	SelectBackColor = ControlBackGroundColor;
+
+	InitalizeAnimation();
 
 	BackImage = nullptr;
 }

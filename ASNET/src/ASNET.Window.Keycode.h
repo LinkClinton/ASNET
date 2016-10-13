@@ -1,6 +1,5 @@
 #pragma once
 
-//按键信息类
 namespace ASNET {
 	//enum of board
 	enum class Keycode :int {

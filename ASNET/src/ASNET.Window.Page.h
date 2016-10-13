@@ -18,6 +18,8 @@ namespace ASNET {
 		//事件优先级，窗口最优先，然后界面然后控件
 		//Page类
 		class Page {
+		protected:
+			void*                                  Parent; //父亲一级的指针
 		private:
 			ASNET::Control::Control*               ControlsFocus; //得到焦点的控件
 			std::vector<ASNET::Control::Control*>  Controls; //控件集合
@@ -54,8 +56,12 @@ namespace ASNET {
 			virtual void OnMouseLeave(void* sender);
 			//处理绘制事件，将描述这个类怎么绘制出来
 			virtual void OnDraw(void* sender, ASNET::Graph::Direct3D::GraphDirect3D* render); 
-			//加载控件事件，当控件被AddPage的时候触发
+			//初始化页面，在页面被AddPage的时候触发
+			virtual void OnInitalize(void* sender);
+			//加载控件事件，当页面被ShowPage的时候触发
 			virtual void OnLoading(void* sender, void* any);
+			//在控件取消被使用的时候触发
+			void		 OnStoping();
 		protected:
 			ASNET::Event::EventMouseMoveHandlers		MouseMoveHandler; //鼠标移动事件集合
 			ASNET::Event::EventMouseWheelHandlers		MouseWheelHandler; //鼠标滑轮滚动事件集合
@@ -68,6 +74,7 @@ namespace ASNET {
 
 			ASNET::Graph::Direct3D::GraphDirect3D*		ParentGraph; //渲染的指针接口
 			friend class Window; 
+			friend class ASNET::Event::EventHandler;
 		public:
 			//构造函数
 			Page();

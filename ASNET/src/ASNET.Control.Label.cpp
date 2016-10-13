@@ -11,6 +11,11 @@ void ASNET::Control::Label::OnDraw(void * sender, ASNET::Graph::Direct3D::GraphD
 		
 }
 
+void ASNET::Control::Label::OnStoping()
+{
+	MouseIn = false;
+}
+
 
 
 
@@ -38,7 +43,7 @@ ASNET::Control::Label::Label(
 
 	BackImage = nullptr;
 
-	Selectibility = false;
+	Selectibility = true;
 
 	Visibility = true;
 

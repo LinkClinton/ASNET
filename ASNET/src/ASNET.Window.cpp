@@ -360,18 +360,21 @@ namespace ASNET {
 	ASNET::Window::Window(){
 		Hwnd = Hwnd;
 		Message = { 0 };
-		Hinstance = NULL;
-		UsedPage = NULL;
+		Hinstance = nullptr;
+		UsedPage = nullptr;
 		NowPage = 0;
 		Width = 0;
 		Height = 0;
-		IcoName = NULL;
-		Title = NULL;
-		Graph = NULL;
+		IcoName = nullptr;
+		Title = nullptr;
+		Graph = nullptr;
 	}
 
 	void ASNET::Window::AddPage(ASNET::Page::Page * page){
 		Pages.push_back(page);
+		page->Parent = (void*)this;
+		page->ParentGraph = Graph;
+		page->OnInitalize(this);
 	}
 
 	void Window::DeletePage(int index)
@@ -380,16 +383,16 @@ namespace ASNET {
 	}
 
 	void ASNET::Window::NextPage(void* any){
-		NowPage++;
-		UsedPage = Pages[NowPage];
-		UsedPage->ParentGraph = Graph;
-		UsedPage->OnLoading(this, any);
-		
+		ShowPage(++NowPage, any);
 	}
 
 	void Window::ShowPage(int index, void* any) {
+		if (UsedPage)
+			UsedPage->OnStoping();
 		UsedPage = Pages[index];
+		NowPage = index;
 		UsedPage->ParentGraph = Graph;
+		UsedPage->Parent = (void*)this;
 		UsedPage->OnLoading(this, any);
 
 	}

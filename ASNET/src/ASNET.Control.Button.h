@@ -24,13 +24,15 @@ namespace ASNET {
 			//描述如何绘制
 			void OnDraw(void* sender, ASNET::Graph::Direct3D::GraphDirect3D* render)override;
 			//当鼠标按钮弹起的时候触发
-			void OnMouseUp(void* sender, ASNET::Event::EventMouseClick* e);
+			void OnMouseUp(void* sender, ASNET::Event::EventMouseClick* e)override;
 			//当鼠标按钮按下的时候触发
-			void OnMouseDown(void* sender, ASNET::Event::EventMouseClick* e);
+			void OnMouseDown(void* sender, ASNET::Event::EventMouseClick* e)override;
 			//当键盘按键按下的时候触发
-			void OnKeyDown(void* sender, ASNET::Event::EventBoardClick* e);
+			void OnKeyDown(void* sender, ASNET::Event::EventBoardClick* e)override;
 			//当键盘按键弹起的时候触发
-			void OnKeyUp(void* sender, ASNET::Event::EventBoardClick* e);
+			void OnKeyUp(void* sender, ASNET::Event::EventBoardClick* e)override;
+			//当父亲页面被切换的时候触发
+			void OnStoping()override;
 		public:
 			wchar_t*				 Name;//按钮的名字
 			wchar_t*				 Text;//按钮的文本内容

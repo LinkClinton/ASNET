@@ -149,7 +149,6 @@ namespace ASNET {
 		
 
 
-			static auto GetSenderMessage(void* sender)->ASNET::Window*;
 
 		};
 

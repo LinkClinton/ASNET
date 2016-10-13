@@ -14,6 +14,8 @@ namespace ASNET {
 		protected:
 			//绘制函数，描述了这个控件的绘制方法
 			void OnDraw(void* sender, ASNET::Graph::Direct3D::GraphDirect3D* render)override; 
+			//当父亲页面被切换的时候触发
+			void OnStoping()override;
 		protected:
 			
 		public:

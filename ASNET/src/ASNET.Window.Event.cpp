@@ -73,10 +73,8 @@ namespace ASNET {
 		
 
 
-		auto EventHandler::GetSenderMessage(void * sender) -> ASNET::Window *
-		{
-			return (ASNET::Window*)sender;
-		}
+		
+		
 
 	}
 }

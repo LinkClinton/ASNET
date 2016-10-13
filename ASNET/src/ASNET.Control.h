@@ -2,6 +2,7 @@
 #include"ASNET.Graph.h"
 #include"ASNET.Window.Event.h"
 
+#include"ASNET.Control.Animation.h"
 
 //写下当时的想法，保证以后写的时候能够继续
 //作为控件的基类，所有的控件以此作为基础
@@ -17,54 +18,32 @@ namespace ASNET {
 	namespace Page { class Page; }
 	namespace Control {
 		
-		//简单的Color类，和D2D1::Color兼容
-		class Color {
-		public:
-			float r, g, b, a;
-			//默认构造函数
-			Color();
-			//D2D1::Color的赋值
-			Color(ASNET::Graph::Color color);
-			//D2D1::Color的枚举赋值
-			Color(ASNET::Graph::Color::Enum color);
-			//赋值
-			Color(float _r, float _g, float _b, float _a);
-			//赋值
-			Color(ASNET::Graph::Color color, float _a);
-
-			//返回D2D1::Color类型
-			operator ASNET::Graph::Color();
-		};
+		
 
 		//简单的Control基类，所有的事件，只有在控件范围内才会被使用
 		class Control {
-		private:
-			const float  LeaveFrameTime = 0.13f; //鼠标移开动画持续时间
-			const float  EnterFrameTime = 0.13f;
 		protected:
 			bool		 MouseIn; //鼠标是否在控件范围内
-			bool		 IsFrame; //是否属于动画渲染的状态
-			bool         IsLeaveFrame; //是否处于离开动画渲染的状态
-			bool         IsEnterFrame; //是否处于进入动画渲染的状态
 			bool		 IsFocus; //控件是否获取了焦点，将会影响控件获取键盘按键信息
 
-			float        LeaveAlphaTime; //Leave渐变的Alpha
-			float        LeaveOldAlpha;  //Leave原始的Alpha
-			float        EnterAlphaTime; //Enter渐变的Alpha
-			float        EnterOldAlpha;  //Enter原始的Alpha
-
-
-			friend class ASNET::Page::Page;  
-
-			//初始化鼠标移开后的动画绘制方案
-			void         InitalizeLeaveFrame();
-			//描述控件当鼠标移开后的动画绘制方案,图片作为背景的时候无效
-			void         OnLeaveFrameDraw(void* sender, ASNET::Graph::Direct3D::GraphDirect3D* render);
-
-			
+			friend class ASNET::Page::Page; 
 			
 			//标准控件绘制方案,大部分控件使用此绘制方案,集成了控件大致外观绘制
 			virtual void OnStdDraw(void* sender, ASNET::Graph::Direct3D::GraphDirect3D* render);
+		protected:
+			
+			//鼠标移开后的动画
+			ASNET::Control::Animation LeaveAnimation;
+			//初始化鼠标移开后的动画绘制方案
+			void StartLeaveAnimation();
+			//描述控件当鼠标移开后的动画绘制方案,图片作为背景的时候无效
+			void OnLeaveAnimationDraw(void* sender, ASNET::Graph::Direct3D::GraphDirect3D* render);
+
+
+			//初始化动画数据
+			void InitalizeAnimation();
+
+			ASNET::Graph::Graph*     ParentGraph; //渲染控件的接口指针
 		protected:
 			//当鼠标移动的时候触发
 			virtual void OnMouseMove(void* sender, ASNET::Event::EventMouseMove* e); 
@@ -84,6 +63,8 @@ namespace ASNET {
 			virtual void OnLostFocus(void* sender);
 			//描述这个控件的绘制方法
 			virtual void OnDraw(void* sender, ASNET::Graph::Direct3D::GraphDirect3D* render);
+			//描述当父亲页面被切换的时候的事件
+			virtual void OnStoping();
 		public:
 			ASNET::Event::EventGetFocusHandlers         GetFocusHandler; //获取焦点事件集合
 			ASNET::Event::EventLostFocusHandlers        LostFocusHandler; //失去焦点事件集合
@@ -95,6 +76,8 @@ namespace ASNET {
 			ASNET::Event::EventBoardClickHandlers		BoardDownHandler; //键盘按键按下事件的集合
 
 		public:
+			void* Parent; //父亲一级的指针
+
 			bool  IsActive; //控件是否被激活
 			
 			bool  Visibility; //控件是否可见 
@@ -111,7 +94,6 @@ namespace ASNET {
 			float Top; //控件范围top
 			float Bottom; //控件范围bottom
 
-			ASNET::Graph::Graph*     ParentGraph; //渲染控件的接口指针
 		public:
 			//默认构造函数
 			Control();

@@ -41,8 +41,20 @@ namespace ASNET {
 		{
 		}
 
+		void Page::OnInitalize(void * sender)
+		{
+		}
+
 		void ASNET::Page::Page::OnLoading(void * sender, void * any)
 		{
+		}
+
+		void Page::OnStoping()
+		{
+			for (size_t i = 0; i < Controls.size(); i++) {
+				Controls[i]->OnStoping();
+				Controls[i]->LeaveAnimation.Stop();
+			}
 		}
 
 		ASNET::Page::Page::Page()
@@ -52,6 +64,7 @@ namespace ASNET {
 		void ASNET::Page::Page::RegisterControl(ASNET::Control::Control * control){
 			Controls.push_back(control);
 			control->ParentGraph = ParentGraph;
+			control->Parent = this;
 		}
 
 		void ASNET::Page::Page::UnRegisterControl(ASNET::Control::Control * control){
@@ -89,11 +102,11 @@ namespace ASNET {
 				if (Controls[i]->IsActive && PosInRect(e->x,e->y,*Controls[i])) {
 					Controls[i]->MouseIn = true;
 					Controls[i]->OnMouseMove(sender, e);
-					ASNET::Event::DoEventHandlers(Controls[i]->MouseMoveHandler, &Controls[i], e);
+					ASNET::Event::DoEventHandlers(Controls[i]->MouseMoveHandler, Controls[i], e);
 				}
 				else { 
 					if (Controls[i]->MouseIn)
-						Controls[i]->InitalizeLeaveFrame();
+						Controls[i]->StartLeaveAnimation();
 					Controls[i]->MouseIn = false; 
 				}
 		}
@@ -102,7 +115,7 @@ namespace ASNET {
 			for (UINT i = 0; i < Controls.size(); i++) 
 				if (Controls[i]->IsActive && PosInRect(e->x, e->y, *Controls[i])) {
 					Controls[i]->OnMouseWheel(sender, e);
-					ASNET::Event::DoEventHandlers(Controls[i]->MouseWheelHandler, &Controls[i], e);
+					ASNET::Event::DoEventHandlers(Controls[i]->MouseWheelHandler, Controls[i], e);
 				}
 		}
 
@@ -110,7 +123,7 @@ namespace ASNET {
 			for (UINT i = 0; i < Controls.size(); i++)
 				if (Controls[i]->IsActive && PosInRect(e->x, e->y, *Controls[i])) {
 					Controls[i]->OnMouseUp(sender, e);
-					ASNET::Event::DoEventHandlers(Controls[i]->MouseButtonUpHandler, &Controls[i], e);
+					ASNET::Event::DoEventHandlers(Controls[i]->MouseButtonUpHandler, Controls[i], e);
 				}
 		}
 
@@ -121,7 +134,7 @@ namespace ASNET {
 					SetFocus(Controls[i]);
 
 					Controls[i]->OnMouseDown(sender, e);
-					ASNET::Event::DoEventHandlers(Controls[i]->MouseButtonDownHandler, &Controls[i], e);
+					ASNET::Event::DoEventHandlers(Controls[i]->MouseButtonDownHandler, Controls[i], e);
 				}
 		}
 
@@ -129,7 +142,7 @@ namespace ASNET {
 			for (UINT i = 0; i < Controls.size(); i++)
 				if (Controls[i]->IsActive && Controls[i]->IsFocus) {
 					Controls[i]->OnKeyDown(sender, e);
-					ASNET::Event::DoEventHandlers(Controls[i]->BoardDownHandler, &Controls[i], e);
+					ASNET::Event::DoEventHandlers(Controls[i]->BoardDownHandler, Controls[i], e);
 				}
 		}
 
@@ -137,7 +150,7 @@ namespace ASNET {
 			for (UINT i = 0; i < Controls.size(); i++)
 				if (Controls[i]->IsActive && Controls[i]->IsFocus) {
 					Controls[i]->OnKeyUp(sender, e);
-					ASNET::Event::DoEventHandlers(Controls[i]->BoardUpHandler, &Controls[i], e);
+					ASNET::Event::DoEventHandlers(Controls[i]->BoardUpHandler, Controls[i], e);
 				}
 		}
 
@@ -149,6 +162,8 @@ namespace ASNET {
 				if (Controls[i]->IsActive && Controls[i]->Visibility) 
 					Controls[i]->OnDraw(sender, render);
 		}
+
+		
 
 		
 

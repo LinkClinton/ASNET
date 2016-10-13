@@ -1,6 +1,5 @@
 #pragma once
 #include<ASNET.h>
-
 namespace ASNET {
 	namespace Sample {
 
@@ -21,14 +20,37 @@ namespace ASNET {
 		private:
 			ASNET::Control::Label* Note1;
 			ASNET::Control::Button* Button1;
+		private:
+			//event
+			static void OnButton1_MouseDown(void* sender, ASNET::Event::EventMouseClick* e);
 		protected:
 			void OnDraw(void* sender, ASNET::Graph::Direct3D::GraphDirect3D* graph)override;
+			void OnInitalize(void* sender)override;
 			void OnLoading(void* sender, void* any)override;
 		public:
 			ControlStartPage();
 			~ControlStartPage();
 		};
 
+		class ControlSecondPage :public ASNET::Page::Page {
+		private:
+			const int Button1Size = 70;
+			//Resource
+			ASNET::Graph::Font* Consolas40;
+		private:
+			//Control
+			ASNET::Control::Button* Button1;
+		private:
+			void OnDraw(void* sender, ASNET::Graph::Direct3D::GraphDirect3D* graph)override;
+			void OnInitalize(void* sender);
+			void OnLoading(void* sender, void* any)override;
+
+		private:
+			static void OnButton1_MouseDown(void* sender, ASNET::Event::EventMouseClick* e);
+		public:
+			ControlSecondPage();
+			~ControlSecondPage();
+		};
 
 	}
 }

@@ -96,6 +96,9 @@
     <ClInclude Include="src\ASNET.Control.Animation.h">
       <Filter>头文件\Control</Filter>
     </ClInclude>
+    <ClInclude Include="src\ASNET.Control.Type.h">
+      <Filter>头文件\Control</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\ASNET.Window.cpp">
