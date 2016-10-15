@@ -49,6 +49,10 @@ namespace ASNET {
 		{
 		}
 
+		void Page::OnUnLoading(void * sender)
+		{
+		}
+
 		void Page::OnStoping()
 		{
 			for (size_t i = 0; i < Controls.size(); i++) {

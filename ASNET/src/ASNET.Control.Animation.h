@@ -27,6 +27,7 @@ namespace ASNET {
 			//动画是否结束
 			bool  IsEnd;
 		protected:
+			//对颜色进行线性计算，以获取这个时间的颜色
 			auto LinearComputeColor(ASNET::Control::Color front, ASNET::Control::Color back, float scale)->Color;
 		public:
 			Animation();

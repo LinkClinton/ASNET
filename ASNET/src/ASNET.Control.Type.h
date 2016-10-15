@@ -8,6 +8,7 @@
 
 namespace ASNET {
 	namespace Control {
+
 		//简单的Color类，和D2D1::Color兼容
 		class Color {
 		public:

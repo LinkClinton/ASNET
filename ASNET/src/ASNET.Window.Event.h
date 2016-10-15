@@ -6,10 +6,12 @@
 #include"ASNET.Window.Keycode.h"
 #include"ASNET.Graph.h"
 
-//简单的事件类
-//在所有的虚函数中其sender参数传递的是窗口的指针
-//在所有的被加载的函数里，就是通过handler加入的函数中其sender的参数是其自己的指针
-//因为所有被加载进去的函数要求是静态的，因此其sender参数的指针就是其自己
+/*
+* 简单的事件类
+* 在所有的虚函数中其sender参数传递的是窗口的指针
+* 在所有的被加载的函数里，就是通过handler加入的函数中其sender的参数是其自己的指针
+* 因为所有被加载进去的函数要求是静态的，因此其sender参数的指针就是其自己
+*/
 
 namespace ASNET {
 	class Window;

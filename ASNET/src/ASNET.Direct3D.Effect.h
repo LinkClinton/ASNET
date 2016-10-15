@@ -8,9 +8,11 @@
 //std
 #include<vector>
 
-//Effect类，集成了部分着色器代码
-//便于一些简单的特效的使用
-//目前基本上就是光照了
+/*
+* Effect类，集成了部分着色器代码
+* 便于一些简单的特效的使用
+* 目前基本上就是光照了
+*/
 
 namespace ASNET {
 	namespace Graph {
@@ -18,7 +20,7 @@ namespace ASNET {
 
 			//最大的光源数
 			static const int MaxLights = 16;
-			//最大的矩阵数量
+			//最大的矩阵数量，用于骨骼动画
 			static const int MaxBoneAnimationMatrix = 200;
 
 

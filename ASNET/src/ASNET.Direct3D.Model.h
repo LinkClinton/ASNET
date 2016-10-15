@@ -2,8 +2,11 @@
 #include"ASNET.Direct3D.Mesh.h"
 
 
-//简单的模型类
-//支持导入PMX模型格式，但是仅仅只是其部分内容能够使用，以及可能有BUG
+/*
+* 简单的模型类
+* 支持导入PMX模型格式，但是仅仅只是其部分内容能够使用，以及可能有BUG
+*/
+
 namespace ASNET {
 	namespace Graph {
 		namespace Direct3D {

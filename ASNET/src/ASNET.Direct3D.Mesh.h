@@ -6,9 +6,11 @@
 #include<fstream>
 #include<map>
 
-//mesh格式，作为模型的基础类来用的
-//存放模型的顶点信息材质贴图信息
-//以及支持绘制模型
+/*
+* mesh格式，作为模型的基础类来用的
+* 存放模型的顶点信息材质贴图信息
+* 以及支持绘制模型
+*/
 
 namespace ASNET {
 	namespace Graph {
@@ -73,7 +75,7 @@ namespace ASNET {
 				//绘制模型的某个部分
 				void DrawPart(UINT index);
 
-				//返回Part的部分
+				//返回Part的个数
 				auto Parts()->int; 
 
 

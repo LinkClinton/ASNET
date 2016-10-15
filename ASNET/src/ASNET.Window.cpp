@@ -387,8 +387,10 @@ namespace ASNET {
 	}
 
 	void Window::ShowPage(int index, void* any) {
-		if (UsedPage)
+		if (UsedPage) {
 			UsedPage->OnStoping();
+			UsedPage->OnUnLoading(this);
+		}
 		UsedPage = Pages[index];
 		NowPage = index;
 		UsedPage->ParentGraph = Graph;

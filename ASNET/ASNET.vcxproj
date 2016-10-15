@@ -131,6 +131,7 @@
     <LinkIncremental>true</LinkIncremental>
     <IncludePath>C:\Project\ASNET\ASNET\include;$(SolutionDir)ASNET\src;$(SolutionDir)ASNET\include;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)ASNET\lib;$(LibraryPath)</LibraryPath>
+    <CodeAnalysisRuleSet>C:\Program Files (x86)\Microsoft Visual Studio 14.0\Team Tools\Static Analysis Tools\Rule Sets\NativeRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>

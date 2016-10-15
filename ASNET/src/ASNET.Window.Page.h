@@ -6,11 +6,14 @@
 
 #include<vector>
 
-//用于加载控件和绘制内容的
-//当一个页面被使用的时候，其所有的函数或者什么才属于有效的
-//一个控件如果要加载必须用Page注册
-//如果要废除一个控件可以用Page卸载
-//当然这是一个基类
+/*
+* 用于加载控件和绘制内容的
+* 当一个页面被使用的时候，其所有的函数或者什么才属于有效的
+* 一个控件如果要加载必须用Page注册
+* 如果要废除一个控件可以用Page卸载
+* 当然这是一个基类
+*/
+
 namespace ASNET {
 	class Window;
 	namespace Page {
@@ -58,8 +61,10 @@ namespace ASNET {
 			virtual void OnDraw(void* sender, ASNET::Graph::Direct3D::GraphDirect3D* render); 
 			//初始化页面，在页面被AddPage的时候触发
 			virtual void OnInitalize(void* sender);
-			//加载控件事件，当页面被ShowPage的时候触发
+			//加载页面事件，当页面被ShowPage的时候触发
 			virtual void OnLoading(void* sender, void* any);
+			//卸载页面事件，当页面被其他页面替换的时候触发
+			virtual void OnUnLoading(void* sender);
 			//在控件取消被使用的时候触发
 			void		 OnStoping();
 		protected:

@@ -6,20 +6,18 @@
 
 //d3d11
 #include<DirectXMath.h>
-//#include<d3dcompiler.h>
 
-//d3dx11
 
 //这是个坑，目前没有啥好思路想架构,所以版本差别可能会很大
 /*
-自己挖了大坑，现在不知道怎么填了，这个类目前作为一个拓展类
-可以在Window和Page里面声明，但是需要废除原本类里面的Graph类
-这个类可以认为是Graph类的强大版本
-Graph类有的这个类都有，其创建代码将放入Window::OnLoading中就好了
-因为需要窗口的句柄，所以要窗口创建成功后才可以放入
-所有类型都要求在使用的时候用指针，然后在Load代码里面会对其进行new
-因此不要总是new，在不用的时候可以delete
-然后就是由于其是继承了Graph类，因此完全可以代替Graph类
+* 自己挖了大坑，现在不知道怎么填了，这个类目前作为一个拓展类
+* 可以在Window和Page里面声明，但是需要废除原本类里面的Graph类
+* 这个类可以认为是Graph类的强大版本
+* Graph类有的这个类都有，其创建代码将放入Window::OnLoading中就好了
+* 因为需要窗口的句柄，所以要窗口创建成功后才可以放入
+* 所有类型都要求在使用的时候用指针，然后在Load代码里面会对其进行new
+* 因此不要总是new，在不用的时候可以delete
+* 然后就是由于其是继承了Graph类，因此完全可以代替Graph类
 */
 namespace ASNET {
 	namespace Graph {
@@ -107,7 +105,7 @@ namespace ASNET {
 				void UpDateBuffer();//need add a value
 
 				//重新构建，变量结构大小要是16字节的倍数
-				void reset(void* data, UINT datasize); //sizeof(data) MUST BE the multiples  of 16
+				void reset(void* data, UINT datasize); //sizeof(data) MUST BE the multiples of 16
 			};
 
 			//贴图

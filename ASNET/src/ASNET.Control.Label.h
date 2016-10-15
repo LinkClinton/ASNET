@@ -3,9 +3,11 @@
 #include"ASNET.Control.h"
 
 
-//简单的控件Label
-//继承自Control
-//如果IsShow没有被设置为true的话也是无法绘制出来的
+/*
+* 简单的控件Label
+* 继承自Control
+*/
+
 namespace ASNET {
 	namespace Control {
 		

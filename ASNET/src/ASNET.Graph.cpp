@@ -124,8 +124,8 @@ namespace ASNET {
 	
 
 		void Graph::Initalize(HWND hwnd, bool IsWindowed){
-			CoInitialize(NULL);
-			CoCreateInstance(
+			HRESULT hr = CoInitialize(NULL);
+			hr = CoCreateInstance(
 				CLSID_WICImagingFactory,
 				nullptr,
 				CLSCTX_INPROC,
@@ -395,8 +395,8 @@ namespace ASNET {
 				(FLOAT)(rect.bottom - rect.top), &Layout);
 
 
-
-			g_devicecontext2d->DrawTextLayout(D2D1::Point2F(rect.left, rect.top), Layout, Brush);
+			if (Layout)
+				g_devicecontext2d->DrawTextLayout(D2D1::Point2F(rect.left, rect.top), Layout, Brush);
 
 			release(Brush);
 			release(Layout);

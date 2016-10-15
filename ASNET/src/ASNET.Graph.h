@@ -11,11 +11,14 @@
 
 #undef LoadImage
 
-//简单的2D绘制的类
-//基本是用Direct2D做的
-//因为某种坑的原因，使用的是d2d1而不是d2d1_1
-//同样其所有的资源文件创建的时候保持其nullptr，因为会在加载的时候将其创建
-//注意不用的时候delete
+/*
+* 简单的2D绘制的类
+* 基本是用Direct2D做的
+* 因为某种坑的原因，使用的是d2d1而不是d2d1_1
+* 同样其所有的资源文件创建的时候保持其nullptr，因为会在加载的时候将其创建
+* 注意不用的时候delete
+*/
+
 namespace ASNET {
 	//class Window;
 	namespace Graph {
@@ -25,7 +28,7 @@ namespace ASNET {
 		typedef D2D_RECT_F		 Rect; //源自D2D_RECT_F
 		typedef D2D1::ColorF     Color; //源自D2D1::ColorF
 		typedef D2D_POINT_2F     Point; //源自D2D_POINT_2F
-		typedef std::wstring     Word; //源自wchar_t*
+		typedef std::wstring     Word; //源自wstring
 
 		
 		//字体
