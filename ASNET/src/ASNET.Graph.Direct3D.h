@@ -36,7 +36,7 @@ namespace ASNET {
 				float u, v; //贴图坐标
 				float nx, ny, nz; //法线
 				float wx, wy, wz; //骨骼权重
-				byte  BoneIndices[4];
+				byte  BoneIndices[4]; //骨骼的索引
 				//构造函数
 				Vertex();
 				//构造函数

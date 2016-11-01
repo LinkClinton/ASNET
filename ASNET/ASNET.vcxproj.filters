@@ -1,160 +1,160 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="源文件">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="头文件">
+    <Filter Include="Header File">
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
     </Filter>
-    <Filter Include="资源文件">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
-    <Filter Include="头文件\Window">
+    <Filter Include="Header File\Window">
       <UniqueIdentifier>{781717f1-9ade-4a5c-ac58-3ecc4da0bd43}</UniqueIdentifier>
     </Filter>
-    <Filter Include="源文件\Window">
-      <UniqueIdentifier>{a79b847c-9b5e-4a74-853d-d61d6b1b547d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="头文件\Graph">
+    <Filter Include="Header File\Graph">
       <UniqueIdentifier>{a591e672-b473-4081-ad4c-1979654a79f9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="源文件\Graph">
-      <UniqueIdentifier>{08f2e440-c155-437b-8b53-306e7653be97}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="头文件\Extend">
+    <Filter Include="Header File\Extend">
       <UniqueIdentifier>{1f9c6a67-1320-485b-933b-b3033dfc6cb3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="头文件\Extend\Direct3D">
+    <Filter Include="Header File\Extend\Direct3D">
       <UniqueIdentifier>{3902446e-80ea-4d92-b1f5-a5c7de0052b5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="源文件\Extend">
-      <UniqueIdentifier>{b6e20dc4-c33b-4405-90c2-0888ac4bdadb}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="源文件\Extend\Direct3D">
-      <UniqueIdentifier>{e1e66938-d310-47ca-89ad-28f4c5aaccbd}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="头文件\Control">
+    <Filter Include="Header File\Control">
       <UniqueIdentifier>{9ae8b4f9-5699-4ee4-aed0-5ab6b81f4813}</UniqueIdentifier>
     </Filter>
-    <Filter Include="源文件\Control">
+    <Filter Include="Source File">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Source File\Window">
+      <UniqueIdentifier>{a79b847c-9b5e-4a74-853d-d61d6b1b547d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source File\Graph">
+      <UniqueIdentifier>{08f2e440-c155-437b-8b53-306e7653be97}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source File\Extend">
+      <UniqueIdentifier>{b6e20dc4-c33b-4405-90c2-0888ac4bdadb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source File\Extend\Direct3D">
+      <UniqueIdentifier>{e1e66938-d310-47ca-89ad-28f4c5aaccbd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source File\Control">
       <UniqueIdentifier>{0d7c36aa-c34f-4ed7-a52e-8ca949de7d00}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource File">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\ASNET.Window.Event.h">
-      <Filter>头文件\Window</Filter>
+      <Filter>Header File\Window</Filter>
     </ClInclude>
     <ClInclude Include="src\ASNET.Window.h">
-      <Filter>头文件\Window</Filter>
+      <Filter>Header File\Window</Filter>
     </ClInclude>
     <ClInclude Include="src\ASNET.Window.Keycode.h">
-      <Filter>头文件\Window</Filter>
+      <Filter>Header File\Window</Filter>
     </ClInclude>
     <ClInclude Include="src\ASNET.Window.Page.h">
-      <Filter>头文件\Window</Filter>
+      <Filter>Header File\Window</Filter>
     </ClInclude>
     <ClInclude Include="src\ASNET.Graph.h">
-      <Filter>头文件\Graph</Filter>
+      <Filter>Header File\Graph</Filter>
     </ClInclude>
     <ClInclude Include="src\ASNET.Graph.Direct3D.h">
-      <Filter>头文件\Graph</Filter>
+      <Filter>Header File\Graph</Filter>
     </ClInclude>
     <ClInclude Include="src\ASNET.Direct3D.Effect.h">
-      <Filter>头文件\Extend\Direct3D</Filter>
+      <Filter>Header File\Extend\Direct3D</Filter>
     </ClInclude>
     <ClInclude Include="src\ASNET.Direct3D.Geometry.h">
-      <Filter>头文件\Extend\Direct3D</Filter>
+      <Filter>Header File\Extend\Direct3D</Filter>
     </ClInclude>
     <ClInclude Include="src\ASNET.Control.Timer.h">
-      <Filter>头文件\Control</Filter>
+      <Filter>Header File\Control</Filter>
     </ClInclude>
     <ClInclude Include="src\ASNET.Control.Label.h">
-      <Filter>头文件\Control</Filter>
+      <Filter>Header File\Control</Filter>
     </ClInclude>
     <ClInclude Include="src\ASNET.Control.h">
-      <Filter>头文件\Control</Filter>
+      <Filter>Header File\Control</Filter>
     </ClInclude>
     <ClInclude Include="src\ASNET.Direct3D.Model.h">
-      <Filter>头文件\Extend\Direct3D</Filter>
+      <Filter>Header File\Extend\Direct3D</Filter>
     </ClInclude>
     <ClInclude Include="src\ASNET.Direct3D.Mesh.h">
-      <Filter>头文件\Extend\Direct3D</Filter>
+      <Filter>Header File\Extend\Direct3D</Filter>
     </ClInclude>
     <ClInclude Include="src\ASNET.h">
-      <Filter>头文件</Filter>
+      <Filter>Header File</Filter>
     </ClInclude>
     <ClInclude Include="src\ASNET.Control.Button.h">
-      <Filter>头文件\Control</Filter>
+      <Filter>Header File\Control</Filter>
     </ClInclude>
     <ClInclude Include="src\ASNET.Graph.Animation.h">
-      <Filter>头文件\Graph</Filter>
+      <Filter>Header File\Graph</Filter>
     </ClInclude>
     <ClInclude Include="src\ASNET.Control.Animation.h">
-      <Filter>头文件\Control</Filter>
+      <Filter>Header File\Control</Filter>
     </ClInclude>
     <ClInclude Include="src\ASNET.Control.Type.h">
-      <Filter>头文件\Control</Filter>
+      <Filter>Header File\Control</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\ASNET.Window.cpp">
-      <Filter>源文件\Window</Filter>
+      <Filter>Source File\Window</Filter>
     </ClCompile>
     <ClCompile Include="src\ASNET.Window.Page.cpp">
-      <Filter>源文件\Window</Filter>
+      <Filter>Source File\Window</Filter>
     </ClCompile>
     <ClCompile Include="src\ASNET.Window.Event.cpp">
-      <Filter>源文件\Window</Filter>
+      <Filter>Source File\Window</Filter>
     </ClCompile>
     <ClCompile Include="src\ASNET.Graph.cpp">
-      <Filter>源文件\Graph</Filter>
+      <Filter>Source File\Graph</Filter>
     </ClCompile>
     <ClCompile Include="src\ASNET.Graph.Direct3D.cpp">
-      <Filter>源文件\Graph</Filter>
+      <Filter>Source File\Graph</Filter>
     </ClCompile>
     <ClCompile Include="src\ASNET.Direct3D.Effect.cpp">
-      <Filter>源文件\Extend\Direct3D</Filter>
+      <Filter>Source File\Extend\Direct3D</Filter>
     </ClCompile>
     <ClCompile Include="src\ASNET.Direct3D.Geometry.cpp">
-      <Filter>源文件\Extend\Direct3D</Filter>
+      <Filter>Source File\Extend\Direct3D</Filter>
     </ClCompile>
     <ClCompile Include="src\ASNET.Control.Timer.cpp">
-      <Filter>源文件\Control</Filter>
+      <Filter>Source File\Control</Filter>
     </ClCompile>
     <ClCompile Include="src\ASNET.Control.cpp">
-      <Filter>源文件\Control</Filter>
+      <Filter>Source File\Control</Filter>
     </ClCompile>
     <ClCompile Include="src\ASNET.Control.Label.cpp">
-      <Filter>源文件\Control</Filter>
+      <Filter>Source File\Control</Filter>
     </ClCompile>
     <ClCompile Include="src\ASNET.Direct3D.Mesh.cpp">
-      <Filter>源文件\Extend\Direct3D</Filter>
+      <Filter>Source File\Extend\Direct3D</Filter>
     </ClCompile>
     <ClCompile Include="src\ASNET.Direct3D.Model.cpp">
-      <Filter>源文件\Extend\Direct3D</Filter>
+      <Filter>Source File\Extend\Direct3D</Filter>
     </ClCompile>
     <ClCompile Include="src\ASNET.Control.Button.cpp">
-      <Filter>源文件\Control</Filter>
+      <Filter>Source File\Control</Filter>
     </ClCompile>
     <ClCompile Include="src\ASNET.Control.Animation.cpp">
-      <Filter>源文件\Control</Filter>
+      <Filter>Source File\Control</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="src\ASNET.Effect.Vertex.hlsl">
-      <Filter>资源文件</Filter>
+      <Filter>Resource File</Filter>
     </FxCompile>
     <FxCompile Include="src\ASNET.Effect.Pixel.hlsl">
-      <Filter>资源文件</Filter>
+      <Filter>Resource File</Filter>
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="src\ASNET.Effect.hlsli">
-      <Filter>资源文件</Filter>
+      <Filter>Resource File</Filter>
     </None>
   </ItemGroup>
 </Project>

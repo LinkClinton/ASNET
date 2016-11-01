@@ -92,7 +92,7 @@ namespace ASNET {
 			ASNET::Event::DoEventHandlers(ControlsFocus->GetFocusHandler, ControlsFocus);
 
 		}
-
+		
 		
 		//==要判断事件是否引发，只有在这个控件的范围内才会
 		static bool PosInRect(int x, int y, ASNET::Graph::Rect rect) {

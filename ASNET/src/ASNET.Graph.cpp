@@ -237,8 +237,9 @@ namespace ASNET {
 				D2D1::PixelFormat(DXGI_FORMAT_UNKNOWN, D2D1_ALPHA_MODE_PREMULTIPLIED),
 				dpiX,
 				dpiY
-			), &g_devicecontext2d);
-
+			), &g_devicecontext2d); 
+			g_devicecontext2d->SetTextRenderingParams();
+			g_devicecontext2d->SetTextAntialiasMode(D2D1_TEXT_ANTIALIAS_MODE::D2D1_TEXT_ANTIALIAS_MODE_CLEARTYPE);
 			//d2d1_1
 			/*g_factory->CreateDevice(DXGIDevice, &g_device2d);
 
