@@ -227,6 +227,8 @@ namespace ASNET {
 			IDXGISurface* Surface;
 			g_swapchain->GetBuffer(0, IID_PPV_ARGS(&Surface));
 
+			g_factory->ReloadSystemMetrics();
+
 			FLOAT dpiX;
 			FLOAT dpiY;
 			g_factory->GetDesktopDpi(&dpiX, &dpiY);

@@ -1,12 +1,12 @@
 #include "ASNET.Window.h"
 
-
 #ifdef _DEBUG
 #include<iostream>
 #endif // DEBUG
 
 
 #include<windowsx.h>
+
 
 namespace ASNET {
 
@@ -62,12 +62,24 @@ namespace ASNET {
 		rc.right = width;
 		rc.bottom = height;
 
+		FLOAT dpiX;
+		FLOAT dpiY;
+
+		ID2D1Factory* g_factory;
+		D2D1CreateFactory(D2D1_FACTORY_TYPE_SINGLE_THREADED, (ID2D1Factory**)&g_factory);
+		g_factory->ReloadSystemMetrics();
+		g_factory->GetDesktopDpi(&dpiX, &dpiY);
+
 		AdjustWindowRect(&rc, WS_OVERLAPPEDWINDOW, FALSE);
 
 		Hwnd = CreateWindow(title, title, WS_OVERLAPPEDWINDOW,
-			CW_USEDEFAULT, 0, rc.right - rc.left, rc.bottom - rc.top, nullptr, nullptr, Hinstance, nullptr);
+			CW_USEDEFAULT, CW_USEDEFAULT, 
+			(UINT)ceil((rc.right - rc.left)*dpiX / 96.f), 
+			(UINT)ceil((rc.bottom - rc.top)*dpiY / 96.f), nullptr, nullptr, Hinstance, nullptr);
 
 		ShowWindow(Hwnd, SW_SHOWNORMAL);
+
+		g_factory->Release();
 
 		return Hwnd;
 	}
