@@ -128,6 +128,8 @@ namespace ASNET {
 			//返回渲染一帧用的时间
 			auto RenderTime()->float;
 
+
+			
 			//绘制线
 			virtual void DrawLine(ASNET::Graph::Point P1,
 				ASNET::Graph::Point P2, ASNET::Graph::Color color, float width = 1.0f);

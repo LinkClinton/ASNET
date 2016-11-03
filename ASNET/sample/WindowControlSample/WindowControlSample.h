@@ -27,6 +27,7 @@ namespace ASNET {
 			void OnDraw(void* sender, ASNET::Graph::Direct3D::GraphDirect3D* graph)override;
 			void OnInitalize(void* sender)override;
 			void OnLoading(void* sender, void* any)override;
+			void OnMouseMove(void* sender, ASNET::Event::EventMouseMove* e)override;
 		public:
 			ControlStartPage();
 			~ControlStartPage();
@@ -44,7 +45,7 @@ namespace ASNET {
 			void OnDraw(void* sender, ASNET::Graph::Direct3D::GraphDirect3D* graph)override;
 			void OnInitalize(void* sender);
 			void OnLoading(void* sender, void* any)override;
-
+			
 		private:
 			static void OnButton1_MouseDown(void* sender, ASNET::Event::EventMouseClick* e);
 		public:

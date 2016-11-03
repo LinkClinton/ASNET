@@ -1,5 +1,9 @@
 #include "WindowControlSample.h"
 
+#ifdef _DEBUG
+#include<iostream>
+#endif // _DEBUG
+
 ASNET::Sample::ControlWindow* Window;
 
 int main() {
@@ -67,7 +71,12 @@ void ASNET::Sample::ControlStartPage::OnInitalize(void * sender)
 
 void ASNET::Sample::ControlStartPage::OnLoading(void * sender, void * any)
 {
+	
+}
 
+void ASNET::Sample::ControlStartPage::OnMouseMove(void * sender, ASNET::Event::EventMouseMove * e)
+{
+	std::cout << e->x << " " << e->y << std::endl;
 }
 
 ASNET::Sample::ControlStartPage::ControlStartPage()
@@ -111,6 +120,7 @@ void ASNET::Sample::ControlSecondPage::OnLoading(void * sender, void * any)
 	
 
 }
+
 
 void ASNET::Sample::ControlSecondPage::OnButton1_MouseDown(void * sender, 
 	ASNET::Event::EventMouseClick * e)

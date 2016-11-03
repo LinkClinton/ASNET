@@ -73,9 +73,9 @@ namespace ASNET {
 		AdjustWindowRect(&rc, WS_OVERLAPPEDWINDOW, FALSE);
 
 		Hwnd = CreateWindow(title, title, WS_OVERLAPPEDWINDOW,
-			CW_USEDEFAULT, CW_USEDEFAULT, 
-			(UINT)ceil((rc.right - rc.left)*dpiX / 96.f), 
-			(UINT)ceil((rc.bottom - rc.top)*dpiY / 96.f), nullptr, nullptr, Hinstance, nullptr);
+			CW_USEDEFAULT, CW_USEDEFAULT,
+			(UINT)ceil((rc.right - rc.left)*dpiX / 96.f - (rc.right - rc.left - width)),
+			(UINT)ceil((rc.bottom - rc.top)*dpiY / 96.f - (rc.bottom - rc.top - height)), nullptr, nullptr, Hinstance, nullptr);
 
 		ShowWindow(Hwnd, SW_SHOWNORMAL);
 

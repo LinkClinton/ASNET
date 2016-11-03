@@ -270,7 +270,6 @@ namespace ASNET {
 		}
 		//do not use this
 		Graph::Graph(){
-					
 		}
 
 		ASNET::Graph::Graph::Graph(HWND hwnd, bool IsWindowed){
@@ -319,7 +318,9 @@ namespace ASNET {
 			return g_render_time;
 		}
 
-		void ASNET::Graph::Graph::DrawLine(ASNET::Graph::Point P1, 
+		
+
+		void ASNET::Graph::Graph::DrawLine(ASNET::Graph::Point P1,
 			ASNET::Graph::Point P2, ASNET::Graph::Color color, float width){
 			ID2D1SolidColorBrush* Brush;
 			g_devicecontext2d->CreateSolidColorBrush(color, &Brush);
