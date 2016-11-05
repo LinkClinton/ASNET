@@ -24,13 +24,14 @@
     <ClInclude Include="src\ASNET.Control.h" />
     <ClInclude Include="src\ASNET.Control.Label.h" />
     <ClInclude Include="src\ASNET.Control.Timer.h" />
-    <ClInclude Include="src\ASNET.Control.Type.h" />
     <ClInclude Include="src\ASNET.Direct3D.Effect.h" />
     <ClInclude Include="src\ASNET.Direct3D.Geometry.h" />
     <ClInclude Include="src\ASNET.Direct3D.Mesh.h" />
     <ClInclude Include="src\ASNET.Direct3D.Model.h" />
     <ClInclude Include="src\ASNET.Graph.Animation.h" />
     <ClInclude Include="src\ASNET.h" />
+    <ClInclude Include="src\ASNET.Physics.h" />
+    <ClInclude Include="src\ASNET.Physics.Type.h" />
     <ClInclude Include="src\ASNET.Window.Event.h" />
     <ClInclude Include="src\ASNET.Graph.Direct3D.h" />
     <ClInclude Include="src\ASNET.Graph.h" />
@@ -48,6 +49,7 @@
     <ClCompile Include="src\ASNET.Direct3D.Geometry.cpp" />
     <ClCompile Include="src\ASNET.Direct3D.Mesh.cpp" />
     <ClCompile Include="src\ASNET.Direct3D.Model.cpp" />
+    <ClCompile Include="src\ASNET.Physics.cpp" />
     <ClCompile Include="src\ASNET.Window.cpp" />
     <ClCompile Include="src\ASNET.Window.Event.cpp" />
     <ClCompile Include="src\ASNET.Graph.cpp" />

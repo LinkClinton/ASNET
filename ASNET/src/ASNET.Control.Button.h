@@ -41,7 +41,7 @@ namespace ASNET {
 			ButtonStyle              Style; //按钮的风格
 
 			
-			ASNET::Control::Color    TextColor; //文本颜色
+			ASNET::Graph::Color      TextColor; //文本颜色
 
 			ASNET::Graph::Font*      TextFont;  //使用的字体
 

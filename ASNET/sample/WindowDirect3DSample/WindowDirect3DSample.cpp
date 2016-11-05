@@ -43,17 +43,19 @@ void ASNET::Sample::Direct3DMainPage::OnLoading(void * sender, void * any){
 	Direct3DDirLight.dir = { 0,0,15 };
 	Direct3DDirLight.diffuse = { 0.05f,0.05f,0.05f,0.05f };
 
-	
+	ASNET::Graph::Direct3D::Direct3DModelLoader::LoadPMXModel(ParentGraph,
+		L"model/Ysna.pmx", Direct3DModel);
+
 	//Direct3DModel->Draw(eff)
-	//Direct3DEffect->Enable(ASNET::Graph::Direct3D::Enable::DirLight);
+	Direct3DEffect->Enable(ASNET::Graph::Direct3D::Enable::DirLight);
 	Direct3DEffect->Enable(ASNET::Graph::Direct3D::Enable::Texture);
 
-
+	Direct3DEffect->DirLightOn(0, Direct3DDirLight);
 	
 }
 
 void ASNET::Sample::Direct3DMainPage::OnDraw(void * sender, ASNET::Graph::Direct3D::GraphDirect3D * render){
-	render->Clear(D2D1::ColorF::Black);
+	render->Clear(D2D1::ColorF::White);
 
 	world = DirectX::XMMatrixIdentity();
 
@@ -75,7 +77,7 @@ void ASNET::Sample::Direct3DMainPage::OnDraw(void * sender, ASNET::Graph::Direct
 	
 
 	Direct3DEffect->EffectBegin();
-
+	Direct3DModel->Draw(Direct3DEffect);
 	Direct3DEffect->EffectEnd();
 
 

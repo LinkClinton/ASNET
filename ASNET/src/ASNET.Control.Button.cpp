@@ -8,7 +8,7 @@ void ASNET::Control::Button::SimpleDraw(void * sender,
 	if (IsKeyDown || IsMouseDown)
 		render->DrawWord(Text,
 			D2D1::RectF(Left, Top, Right, Bottom),
-			TextFont, Color(TextColor, TextColor.a*ControlColorAlpha), Horizontal, Vertical);
+			TextFont, ASNET::Graph::Color(TextColor, TextColor.w*ControlColorAlpha), Horizontal, Vertical);
 	else
 		render->DrawWord(Text,
 			D2D1::RectF(Left, Top, Right, Bottom),
@@ -89,7 +89,7 @@ ASNET::Control::Button::Button(
 	Vertical = vertical;
 
 	BackColor = ASNET::Graph::Color(1, 1, 1, 0);
-	TextColor = ASNET::Graph::Color::Black;
+	TextColor = D2D1::ColorF::Black;
 
 	BackImage = nullptr;
 

@@ -39,7 +39,7 @@ ASNET::Control::Label::Label(
 
 	BackColor = ASNET::Graph::Color(1, 1, 1, 0);
 	SelectBackColor = ControlBackGroundColor;
-	TextColor = ASNET::Graph::Color::Black;
+	TextColor = D2D1::ColorF::Black;
 
 	BackImage = nullptr;
 

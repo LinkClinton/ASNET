@@ -25,7 +25,7 @@ namespace ASNET {
 			wchar_t*                 Name; //Label的名字
 			wchar_t*                 Text; //Label文本的内容
 
-			ASNET::Control::Color    TextColor; //文本颜色
+			ASNET::Graph::Color    TextColor; //文本颜色
 
 			ASNET::Graph::Font*      TextFont;  //使用的字体
 

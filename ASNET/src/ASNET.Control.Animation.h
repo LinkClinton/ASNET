@@ -1,6 +1,6 @@
 #pragma once
 
-#include"ASNET.Control.Type.h"
+#include"ASNET.Graph.h"
 
 #include<map>
 
@@ -10,8 +10,8 @@ namespace ASNET {
 		//控件的动画
 		class KeyFrame :public ASNET::Graph::KeyFrame {
 		public:
-			ASNET::Control::Color TextColor; //文本的颜色，如果有的话
-			ASNET::Control::Color BackGroundColor; //背景的颜色，如果有的话
+			ASNET::Graph::Color TextColor; //文本的颜色，如果有的话
+			ASNET::Graph::Color BackGroundColor; //背景的颜色，如果有的话
 			//构造函数
 			KeyFrame();
 		};
@@ -28,7 +28,7 @@ namespace ASNET {
 			bool  IsEnd;
 		protected:
 			//对颜色进行线性计算，以获取这个时间的颜色
-			auto LinearComputeColor(ASNET::Control::Color front, ASNET::Control::Color back, float scale)->Color;
+			auto LinearComputeColor(ASNET::Graph::Color front, ASNET::Graph::Color back, float scale)->ASNET::Graph::Color;
 		public:
 			Animation();
 			//获取动画开始的时间

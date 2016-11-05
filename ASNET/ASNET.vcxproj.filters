@@ -43,6 +43,12 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Header File\Physics">
+      <UniqueIdentifier>{c6ca281b-13bb-4a05-9c25-5be461e9efea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source File\Physics">
+      <UniqueIdentifier>{16c39cc8-7ba9-47c6-85d4-c14f2418a164}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\ASNET.Window.Event.h">
@@ -96,8 +102,11 @@
     <ClInclude Include="src\ASNET.Control.Animation.h">
       <Filter>Header File\Control</Filter>
     </ClInclude>
-    <ClInclude Include="src\ASNET.Control.Type.h">
-      <Filter>Header File\Control</Filter>
+    <ClInclude Include="src\ASNET.Physics.Type.h">
+      <Filter>Header File\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ASNET.Physics.h">
+      <Filter>Header File\Physics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -142,6 +151,9 @@
     </ClCompile>
     <ClCompile Include="src\ASNET.Control.Animation.cpp">
       <Filter>Source File\Control</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ASNET.Physics.cpp">
+      <Filter>Source File\Physics</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

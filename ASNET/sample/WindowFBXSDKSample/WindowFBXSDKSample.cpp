@@ -56,7 +56,7 @@ namespace ASNET {
 		}
 
 		void FBXSDKPage::OnDraw(void * sender, ASNET::Graph::Direct3D::GraphDirect3D * graph) {
-			graph->Clear(ASNET::Graph::Color::White);
+			graph->Clear(D2D1::ColorF::White);
 
 			//graph->SetFillMode(ASNET::Graph::Direct3D::FillMode::FillWireFrame);
 

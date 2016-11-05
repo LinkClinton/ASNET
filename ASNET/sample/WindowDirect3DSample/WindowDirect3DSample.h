@@ -23,7 +23,7 @@ namespace ASNET {
 
 		class Direct3DMainPage :public ASNET::Page::Page {
 		private:
-			
+			ASNET::Graph::Direct3D::Model*			  Direct3DModel;
 			ASNET::Graph::Direct3D::DirLight		  Direct3DDirLight;
 			ASNET::Graph::Direct3D::PointLight        Direct3DPointLight;
 			ASNET::Graph::Direct3D::BasicEffect*      Direct3DEffect;

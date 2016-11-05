@@ -42,6 +42,7 @@ void ASNET::Sample::ControlStartPage::OnDraw(void * sender,
 	ASNET::Graph::Direct3D::GraphDirect3D * graph)
 {
 	graph->Clear();
+	
 }
 
 void ASNET::Sample::ControlStartPage::OnInitalize(void * sender)
@@ -64,19 +65,19 @@ void ASNET::Sample::ControlStartPage::OnInitalize(void * sender)
 	Button1->Selectibility = true;
 	Note1->Selectibility = true;
 
-
 	RegisterControl(Note1);
 	RegisterControl(Button1);
 }
 
 void ASNET::Sample::ControlStartPage::OnLoading(void * sender, void * any)
 {
+	ParentGraph->LoadImageSurface(D2D1::SizeF(800, 600), Surface);
 	
 }
 
 void ASNET::Sample::ControlStartPage::OnMouseMove(void * sender, ASNET::Event::EventMouseMove * e)
 {
-	std::cout << e->x << " " << e->y << std::endl;
+	
 }
 
 ASNET::Sample::ControlStartPage::ControlStartPage()

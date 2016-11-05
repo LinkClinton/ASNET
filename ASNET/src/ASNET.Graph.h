@@ -9,6 +9,7 @@
 
 #include"ASNET.Control.Timer.h"
 
+#include"ASNET.Physics.h"
 #undef LoadImage
 
 /*
@@ -26,10 +27,27 @@ namespace ASNET {
 
 
 		typedef D2D_RECT_F		 Rect; //源自D2D_RECT_F
-		typedef D2D1::ColorF     Color; //源自D2D1::ColorF
+		typedef D2D_SIZE_F       Size; //源自D2D_SIZE_F
 		typedef D2D_POINT_2F     Point; //源自D2D_POINT_2F
 		typedef std::wstring     Word; //源自wstring
 
+									   
+		class Color:public ASNET::Physics::Vector4{
+		public:
+			Color();
+			
+			Color(Color color, float a);
+
+			Color(D2D1::ColorF::Enum color);
+
+			Color(ASNET::Physics::Vector4 vector4);
+
+			Color(float r, float g, float b, float a);
+
+			operator D2D1::ColorF();
+			
+		};
+		
 		
 		//字体
 		class Font {
@@ -52,11 +70,15 @@ namespace ASNET {
 
 		//图片
 		class Image {
-		private:
+		protected:
 			ASNET::Graph::Graph* ParentGraph; //渲染用的指针接口
-
+			
+			
 			ID2D1Bitmap* bitmap; //位图缓存
+			
 			friend class Graph; 
+
+			Image() = default;
 		public:
 			//构造函数
 			Image(ASNET::Graph::Graph* Graph);
@@ -70,6 +92,30 @@ namespace ASNET {
 			void reset(ASNET::Graph::Word filename);
 		};
 
+		class ImageSurface :protected Image{
+		private:
+			IWICBitmap*  wicbitmap; //WIC的位图缓存 
+			
+			IWICBitmapLock* wicbitmaplock; //WIC的位图的内存读取
+			UINT stride; //每一行的长度，单位字节
+			UINT buffsize; //这个位图的大小，单位字节
+			BYTE* pixel; //像素数组
+
+			friend class Graph;
+
+			void Lock();
+			void UnLock();
+		public:
+			ImageSurface(ASNET::Graph::Graph* Graph);
+
+			void SetPixel(int x, int y, ASNET::Graph::Color color, bool NeedFlush = false);
+
+			void Flush();
+
+			void reset(ASNET::Graph::Size size);
+		};
+
+
 		//字体布局
 		enum class TextAlign {
 			Left, Center, Right, Top, Bottom
@@ -82,7 +128,9 @@ namespace ASNET {
 			int						g_width; //宽度
 			int						g_height; //高度
 			bool					g_windowed; //是否使窗口化
-		protected:
+			float					g_dpix; //
+			float					g_dpiy;
+		public:
 			//Direct2D 
 			ID2D1Factory*			g_factory; //Direct2D Factory
 
@@ -120,14 +168,17 @@ namespace ASNET {
 			//析构函数
 			~Graph();
 			//清理
-			void Clear(ASNET::Graph::Color color = ASNET::Graph::Color::White);
+			void Clear(ASNET::Graph::Color color = D2D1::ColorF::White);
 			//刷新
 			void Present();
 			//返回FPS
 			auto FPS()->float;
 			//返回渲染一帧用的时间
 			auto RenderTime()->float;
-
+			//
+			auto GetDpiX()->float;
+			//
+			auto GetDpiY()->float;
 
 			
 			//绘制线
@@ -136,19 +187,24 @@ namespace ASNET {
 			//绘制矩形
 			virtual void DrawRectangle(ASNET::Graph::Rect rect,
 				ASNET::Graph::Color color, float width = 1.0f, bool IsFill = false,
-				ASNET::Graph::Color FillColor = ASNET::Graph::Color::White);
+				ASNET::Graph::Color FillColor = D2D1::ColorF::White);
 			//绘制图片
 			virtual void DrawImage(ASNET::Graph::Image* image,
+				ASNET::Graph::Rect rect);
+			virtual void DrawImageSurface(ASNET::Graph::ImageSurface* imagesurface,
 				ASNET::Graph::Rect rect);
 			//绘制文本
 			virtual void DrawWord(ASNET::Graph::Word word,
 				ASNET::Graph::Rect rect, ASNET::Graph::Font* font,
-				ASNET::Graph::Color color = ASNET::Graph::Color::Black,
+				ASNET::Graph::Color color = D2D1::ColorF::Black,
 				ASNET::Graph::TextAlign horizontal = ASNET::Graph::TextAlign::Left,
 				ASNET::Graph::TextAlign vertical = ASNET::Graph::TextAlign::Top);
 			//加载图片
 			virtual void LoadImage(ASNET::Graph::Word filename,
 				ASNET::Graph::Image* &image);
+			//加载一张空的图片界面
+			virtual void LoadImageSurface(ASNET::Graph::Size size,
+				ASNET::Graph::ImageSurface* &imagesurface);
 			//加载字体
 			virtual void LoadFont(ASNET::Graph::Font* &font,
 				ASNET::Graph::Word fontname, float fontsize);

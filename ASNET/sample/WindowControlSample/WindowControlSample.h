@@ -16,6 +16,7 @@ namespace ASNET {
 			const int Note1Size = 70;
 		private:
 			//Resource
+			ASNET::Graph::ImageSurface* Surface;
 			ASNET::Graph::Font* Consolas20;
 		private:
 			ASNET::Control::Label* Note1;

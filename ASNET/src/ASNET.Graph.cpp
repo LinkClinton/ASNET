@@ -19,22 +19,22 @@ namespace ASNET {
 			Interface = NULL;
 		}
 
-		ASNET::Graph::Font::Font(ASNET::Graph::Graph* Graph){
+		ASNET::Graph::Font::Font(ASNET::Graph::Graph* Graph) {
 			ParentGraph = Graph;
 			textformat = NULL;
 		}
 
-		ASNET::Graph::Font::~Font(){
+		ASNET::Graph::Font::~Font() {
 			if (textformat)
 				textformat->Release();
 			textformat = NULL;
 		}
 
-		auto ASNET::Graph::Font::FontSize() -> float{
+		auto ASNET::Graph::Font::FontSize() -> float {
 			return textformat->GetFontSize();
 		}
 
-		void Font::reset(ASNET::Graph::Word fontname, float fontsize){
+		void Font::reset(ASNET::Graph::Word fontname, float fontsize) {
 			release(textformat);
 
 			ParentGraph->g_writefactory->CreateTextFormat(&fontname[0], NULL,
@@ -48,26 +48,26 @@ namespace ASNET {
 
 
 
-		ASNET::Graph::Image::Image(ASNET::Graph::Graph* Graph){
+		ASNET::Graph::Image::Image(ASNET::Graph::Graph* Graph) {
 			ParentGraph = Graph;
 			bitmap = NULL;
 		}
 
-		ASNET::Graph::Image::~Image(){
+		ASNET::Graph::Image::~Image() {
 			if (bitmap)
 				bitmap->Release();
 			bitmap = NULL;
 		}
 
-		auto ASNET::Graph::Image::GetWidth() -> float{
+		auto ASNET::Graph::Image::GetWidth() -> float {
 			return bitmap->GetSize().width;
 		}
 
-		auto ASNET::Graph::Image::GetHieght() -> float{
+		auto ASNET::Graph::Image::GetHieght() -> float {
 			return	bitmap->GetSize().height;
 		}
 
-		void Image::reset(ASNET::Graph::Word filename){
+		void Image::reset(ASNET::Graph::Word filename) {
 			release(bitmap);
 
 			IWICBitmapDecoder *pDecoder = NULL;
@@ -121,9 +121,9 @@ namespace ASNET {
 
 
 
-	
 
-		void Graph::Initalize(HWND hwnd, bool IsWindowed){
+
+		void Graph::Initalize(HWND hwnd, bool IsWindowed) {
 			HRESULT hr = CoInitialize(NULL);
 			hr = CoCreateInstance(
 				CLSID_WICImagingFactory,
@@ -189,7 +189,7 @@ namespace ASNET {
 			g_swapchain->GetBuffer(0, __uuidof(ID3D11Texture2D), reinterpret_cast<void**>(&BackBuffer));
 			g_device3d->CreateRenderTargetView(BackBuffer, NULL, &g_rendertargetview);
 
-		
+
 
 			D3D11_TEXTURE2D_DESC Desc = { 0 };
 			Desc.Width = width;
@@ -207,7 +207,7 @@ namespace ASNET {
 
 
 			g_device3d->CreateTexture2D(&Desc, NULL, &DepthStencilBuffer);
-			
+
 
 			g_device3d->CreateDepthStencilView(DepthStencilBuffer, NULL, &g_depthstencilview);
 			g_devicecontext3d->OMSetRenderTargets(1, &g_rendertargetview, g_depthstencilview);
@@ -233,13 +233,16 @@ namespace ASNET {
 			FLOAT dpiY;
 			g_factory->GetDesktopDpi(&dpiX, &dpiY);
 
+			g_dpix = dpiX;
+			g_dpiy = dpiY;
+
 			//d2d1
 			g_factory->CreateDxgiSurfaceRenderTarget(Surface, D2D1::RenderTargetProperties(
 				D2D1_RENDER_TARGET_TYPE::D2D1_RENDER_TARGET_TYPE_DEFAULT,
 				D2D1::PixelFormat(DXGI_FORMAT_UNKNOWN, D2D1_ALPHA_MODE_PREMULTIPLIED),
 				dpiX,
 				dpiY
-			), &g_devicecontext2d); 
+			), &g_devicecontext2d);
 			g_devicecontext2d->SetTextRenderingParams();
 			g_devicecontext2d->SetTextAntialiasMode(D2D1_TEXT_ANTIALIAS_MODE::D2D1_TEXT_ANTIALIAS_MODE_CLEARTYPE);
 			//d2d1_1
@@ -269,10 +272,10 @@ namespace ASNET {
 			DepthStencilBuffer->Release();
 		}
 		//do not use this
-		Graph::Graph(){
+		Graph::Graph() {
 		}
 
-		ASNET::Graph::Graph::Graph(HWND hwnd, bool IsWindowed){
+		ASNET::Graph::Graph::Graph(HWND hwnd, bool IsWindowed) {
 			Initalize(hwnd, IsWindowed);
 		}
 
@@ -291,13 +294,13 @@ namespace ASNET {
 			release(g_swapchain);
 		}
 
-		void ASNET::Graph::Graph::Clear(ASNET::Graph::Color color){
+		void ASNET::Graph::Graph::Clear(ASNET::Graph::Color color) {
 			g_timer.Start();
 			float rgba[4];
-			rgba[0] = color.r;
-			rgba[1] = color.g;
-			rgba[2] = color.b;
-			rgba[3] = color.a;
+			rgba[0] = color.x;
+			rgba[1] = color.y;
+			rgba[2] = color.z;
+			rgba[3] = color.w;
 			g_devicecontext3d->ClearRenderTargetView(g_rendertargetview, rgba);
 			g_devicecontext3d->ClearDepthStencilView(g_depthstencilview, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
 			g_devicecontext2d->BeginDraw();
@@ -310,18 +313,26 @@ namespace ASNET {
 			g_render_time = g_timer.GetTime();
 		}
 
-		auto Graph::FPS() -> float{
+		auto Graph::FPS() -> float {
 			return 1.0f / g_render_time;
 		}
 
-		auto Graph::RenderTime() -> float{
+		auto Graph::RenderTime() -> float {
 			return g_render_time;
 		}
 
-		
+		auto Graph::GetDpiX() -> float{
+			return g_dpix;
+		}
+
+		auto Graph::GetDpiY()->float {
+			return g_dpiy;
+		}
+
+
 
 		void ASNET::Graph::Graph::DrawLine(ASNET::Graph::Point P1,
-			ASNET::Graph::Point P2, ASNET::Graph::Color color, float width){
+			ASNET::Graph::Point P2, ASNET::Graph::Color color, float width) {
 			ID2D1SolidColorBrush* Brush;
 			g_devicecontext2d->CreateSolidColorBrush(color, &Brush);
 			g_devicecontext2d->DrawLine(P1, P2, Brush, width);
@@ -335,30 +346,36 @@ namespace ASNET {
 			ID2D1SolidColorBrush* Brush;
 			g_devicecontext2d->CreateSolidColorBrush(color, &Brush);
 			g_devicecontext2d->DrawRectangle(rect, Brush, width);
-			
+
 			release(Brush);
 			Brush = NULL;
 
 			if (IsFill) {
 				g_devicecontext2d->CreateSolidColorBrush(FillColor, &Brush);
 				g_devicecontext2d->FillRectangle(rect, Brush);
-				
+
 				release(Brush);
 			}
 		}
 
 		void ASNET::Graph::Graph::DrawImage(ASNET::Graph::Image * image,
-			ASNET::Graph::Rect rect){
+			ASNET::Graph::Rect rect) {
 			g_devicecontext2d->DrawBitmap(image->bitmap, rect);
+		}
+
+		void Graph::DrawImageSurface(ASNET::Graph::ImageSurface * imagesurface,
+			ASNET::Graph::Rect rect)
+		{
+			g_devicecontext2d->DrawBitmap(imagesurface->bitmap, rect);
 		}
 
 		void ASNET::Graph::Graph::DrawWord(ASNET::Graph::Word word,
 			ASNET::Graph::Rect rect,
-			ASNET::Graph::Font * font, 
+			ASNET::Graph::Font * font,
 			ASNET::Graph::Color  color,
-			ASNET::Graph::TextAlign horizontal, 
-			ASNET::Graph::TextAlign vertical){
-			switch (horizontal){
+			ASNET::Graph::TextAlign horizontal,
+			ASNET::Graph::TextAlign vertical) {
+			switch (horizontal) {
 			case ASNET::Graph::TextAlign::Center: {
 				font->textformat->SetTextAlignment(DWRITE_TEXT_ALIGNMENT_CENTER);
 				break;
@@ -374,7 +391,7 @@ namespace ASNET {
 			default:
 				break;
 			}
-			switch (vertical){
+			switch (vertical) {
 			case ASNET::Graph::TextAlign::Center: {
 				font->textformat->SetParagraphAlignment(DWRITE_PARAGRAPH_ALIGNMENT_CENTER);
 				break;
@@ -404,12 +421,12 @@ namespace ASNET {
 
 			release(Brush);
 			release(Layout);
-			
+
 
 		}
 
 		void ASNET::Graph::Graph::LoadImage(ASNET::Graph::Word filename,
-			ASNET::Graph::Image * &image){
+			ASNET::Graph::Image * &image) {
 			if (image) return;
 			image = new ASNET::Graph::Image(this);
 			IWICBitmapDecoder *pDecoder = NULL;
@@ -453,6 +470,7 @@ namespace ASNET {
 					NULL,
 					&image->bitmap
 				);
+
 			}
 			release(pDecoder);
 			release(pSource);
@@ -460,9 +478,30 @@ namespace ASNET {
 			release(pConverter);
 		}
 
-		void Graph::LoadFont(ASNET::Graph::Font * &font, 
-			ASNET::Graph::Word fontname, float fontsize){
-			if (font) return; 
+		void Graph::LoadImageSurface(ASNET::Graph::Size size, 
+			ASNET::Graph::ImageSurface *& imagesurface)
+		{
+			if (imagesurface) return;
+			imagesurface = new ImageSurface(this);
+			g_imagefactory->CreateBitmap(
+				(UINT)(size.width), (UINT)(size.height),
+				GUID_WICPixelFormat32bppPRGBA,
+				WICBitmapCacheOnDemand,
+				&imagesurface->wicbitmap
+			);
+
+			g_devicecontext2d->CreateBitmapFromWicBitmap(imagesurface->wicbitmap, &imagesurface->bitmap);
+
+			imagesurface->Lock();
+			
+
+		}
+
+
+
+		void Graph::LoadFont(ASNET::Graph::Font * &font,
+			ASNET::Graph::Word fontname, float fontsize) {
+			if (font) return;
 
 			font = new ASNET::Graph::Font(this);
 			g_writefactory->CreateTextFormat(&fontname[0], NULL,
@@ -472,16 +511,129 @@ namespace ASNET {
 				fontsize, L"zh-cn", &font->textformat);
 		}
 
-		
-
-
-
-		
 
 
 
 
 
 
-}
+
+
+
+
+
+		Color::Color()
+		{
+			x = 0;
+			y = 0;
+			z = 0;
+			w = 1;
+		}
+
+		Color::Color(float r, float g, float b, float a)
+		{
+			x = r;
+			y = g;
+			z = b;
+			w = a;
+		}
+
+		Color::Color(Color color, float a)
+		{
+			x = color.x;
+			y = color.y;
+			z = color.z;
+			w = a;
+		}
+
+		Color::Color(D2D1::ColorF::Enum color)
+		{
+			D2D1::ColorF colorf = color;
+			x = colorf.r;
+			y = colorf.g;
+			z = colorf.b;
+			w = colorf.a;
+		}
+
+		Color::Color(ASNET::Physics::Vector4 vector4)
+		{
+			x = vector4.x;
+			y = vector4.y;
+			z = vector4.z;
+			w = vector4.w;
+		}
+
+		Color::operator D2D1::ColorF()
+		{
+			return D2D1::ColorF(x, y, z, w);
+		}
+
+
+
+
+
+
+
+
+
+		void ImageSurface::Lock()
+		{
+			WICRect rect = { 0,0,(int)GetWidth(),(int)GetHieght() };
+
+			wicbitmap->Lock(&rect, WICBitmapLockWrite, &wicbitmaplock);
+
+			wicbitmaplock->GetStride(&stride);
+			wicbitmaplock->GetDataPointer(&buffsize, &pixel);
+		}
+
+		void ImageSurface::UnLock()
+		{
+			wicbitmaplock->Release();
+			wicbitmaplock = nullptr;
+		}
+
+		ImageSurface::ImageSurface(ASNET::Graph::Graph * Graph)
+		{
+			ParentGraph = Graph;
+			bitmap = nullptr;
+			wicbitmap = nullptr;
+			wicbitmaplock = nullptr;
+		}
+
+		void ImageSurface::SetPixel(int x, int y, ASNET::Graph::Color color, bool NeedFlush)
+		{
+			int start = (y - 1)*stride + (x - 1) * 4;
+			pixel[start] = (UINT)color.x * 255;
+			pixel[start + 1] = (UINT)color.y * 255;
+			pixel[start + 2] = (UINT)color.z * 255;
+			pixel[start + 3] = (UINT)color.w * 255;
+			if (NeedFlush)
+				Flush();
+		}
+
+		void ImageSurface::Flush()
+		{
+			UnLock();
+			ParentGraph->g_devicecontext2d->CreateBitmapFromWicBitmap(wicbitmap, &bitmap);
+			Lock();
+		}
+
+		void ImageSurface::reset(ASNET::Graph::Size size)
+		{
+			wicbitmap->Release();
+			bitmap->Release();
+			ParentGraph->g_imagefactory->CreateBitmap(
+				(UINT)size.width, (UINT)size.height,
+				GUID_WICPixelFormat32bppPRGBA,
+				WICBitmapCacheOnDemand,
+				&wicbitmap
+			);
+			ParentGraph->g_devicecontext2d->CreateBitmapFromWicBitmap(wicbitmap, &bitmap);
+
+			Lock();
+
+
+		}
+
+	}
 }

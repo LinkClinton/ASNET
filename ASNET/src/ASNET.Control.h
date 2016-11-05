@@ -90,8 +90,8 @@ namespace ASNET {
 
 			bool  Selectibility; //鼠标在其范围内的时候是否显示边框表示选中,使用图片背景时候无效
 
-			ASNET::Control::Color    BackColor; //背景颜色
-			ASNET::Control::Color    SelectBackColor; //被选中后的背景颜色,有默认值
+			ASNET::Graph::Color    BackColor; //背景颜色
+			ASNET::Graph::Color    SelectBackColor; //被选中后的背景颜色,有默认值
 
 			ASNET::Graph::Image*     BackImage; //背景图片，如果为空就用背景颜色代替
 
@@ -112,7 +112,7 @@ namespace ASNET {
 
 
 		//默认的被选中后控件的背景颜色
-		static Color ControlBackGroundColor = ASNET::Graph::Color::Gray;
+		static ASNET::Graph::Color ControlBackGroundColor = D2D1::ColorF::Gray;
 		static float ControlColorAlpha = 0.2f;
 
 	}

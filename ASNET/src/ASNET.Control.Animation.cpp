@@ -1,9 +1,9 @@
 #include "ASNET.Control.Animation.h"
 
-auto ASNET::Control::Animation::LinearComputeColor(ASNET::Control::Color front,
-	ASNET::Control::Color back, float scale) -> Color
+auto ASNET::Control::Animation::LinearComputeColor(ASNET::Graph::Color front,
+	ASNET::Graph::Color back, float scale) -> ASNET::Graph::Color
 {
-	Color out = back - front;
+	ASNET::Graph::Color out = back - front;
 	out = out*scale;
 	out = out + front;
 	return out;
