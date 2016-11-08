@@ -223,10 +223,9 @@ namespace ASNET {
 			g_devicecontext3d->RSSetViewports(1, &ViewPort);
 
 
-
 			IDXGISurface* Surface;
 			g_swapchain->GetBuffer(0, IID_PPV_ARGS(&Surface));
-
+			
 			g_factory->ReloadSystemMetrics();
 
 			FLOAT dpiX;
@@ -268,7 +267,7 @@ namespace ASNET {
 			*/
 			DXGIDevice->Release();
 			BackBuffer->Release();
-
+			
 			DepthStencilBuffer->Release();
 		}
 		//do not use this
@@ -295,7 +294,6 @@ namespace ASNET {
 		}
 
 		void ASNET::Graph::Graph::Clear(ASNET::Graph::Color color) {
-			g_timer.Start();
 			float rgba[4];
 			rgba[0] = color.x;
 			rgba[1] = color.y;
@@ -309,8 +307,9 @@ namespace ASNET {
 		void ASNET::Graph::Graph::Present() {
 			g_devicecontext2d->EndDraw();
 			g_swapchain->Present(0, 0);
-			g_timer.End();
 			g_render_time = g_timer.GetTime();
+			g_timer.End();
+			g_timer.Start();
 		}
 
 		auto Graph::FPS() -> float {
@@ -321,7 +320,7 @@ namespace ASNET {
 			return g_render_time;
 		}
 
-		auto Graph::GetDpiX() -> float{
+		auto Graph::GetDpiX() -> float {
 			return g_dpix;
 		}
 
@@ -363,11 +362,7 @@ namespace ASNET {
 			g_devicecontext2d->DrawBitmap(image->bitmap, rect);
 		}
 
-		void Graph::DrawImageSurface(ASNET::Graph::ImageSurface * imagesurface,
-			ASNET::Graph::Rect rect)
-		{
-			g_devicecontext2d->DrawBitmap(imagesurface->bitmap, rect);
-		}
+	
 
 		void ASNET::Graph::Graph::DrawWord(ASNET::Graph::Word word,
 			ASNET::Graph::Rect rect,
@@ -478,24 +473,7 @@ namespace ASNET {
 			release(pConverter);
 		}
 
-		void Graph::LoadImageSurface(ASNET::Graph::Size size, 
-			ASNET::Graph::ImageSurface *& imagesurface)
-		{
-			if (imagesurface) return;
-			imagesurface = new ImageSurface(this);
-			g_imagefactory->CreateBitmap(
-				(UINT)(size.width), (UINT)(size.height),
-				GUID_WICPixelFormat32bppPRGBA,
-				WICBitmapCacheOnDemand,
-				&imagesurface->wicbitmap
-			);
 
-			g_devicecontext2d->CreateBitmapFromWicBitmap(imagesurface->wicbitmap, &imagesurface->bitmap);
-
-			imagesurface->Lock();
-			
-
-		}
 
 
 
@@ -574,66 +552,117 @@ namespace ASNET {
 
 
 
+	
 
 
-		void ImageSurface::Lock()
+
+		Surface::Surface(ASNET::Graph::Graph * graph)
 		{
-			WICRect rect = { 0,0,(int)GetWidth(),(int)GetHieght() };
-
-			wicbitmap->Lock(&rect, WICBitmapLockWrite, &wicbitmaplock);
-
-			wicbitmaplock->GetStride(&stride);
-			wicbitmaplock->GetDataPointer(&buffsize, &pixel);
+			ParentGraph = graph;
+			IsDraw = false;
+			g_width = 0;
+			g_height = 0;
+			x = 0;
+			y = 0;
 		}
 
-		void ImageSurface::UnLock()
+		void Surface::BeginDraw()
 		{
-			wicbitmaplock->Release();
-			wicbitmaplock = nullptr;
-		}
-
-		ImageSurface::ImageSurface(ASNET::Graph::Graph * Graph)
-		{
-			ParentGraph = Graph;
-			bitmap = nullptr;
-			wicbitmap = nullptr;
-			wicbitmaplock = nullptr;
-		}
-
-		void ImageSurface::SetPixel(int x, int y, ASNET::Graph::Color color, bool NeedFlush)
-		{
-			int start = (y - 1)*stride + (x - 1) * 4;
-			pixel[start] = (UINT)color.x * 255;
-			pixel[start + 1] = (UINT)color.y * 255;
-			pixel[start + 2] = (UINT)color.z * 255;
-			pixel[start + 3] = (UINT)color.w * 255;
-			if (NeedFlush)
-				Flush();
-		}
-
-		void ImageSurface::Flush()
-		{
-			UnLock();
-			ParentGraph->g_devicecontext2d->CreateBitmapFromWicBitmap(wicbitmap, &bitmap);
-			Lock();
-		}
-
-		void ImageSurface::reset(ASNET::Graph::Size size)
-		{
-			wicbitmap->Release();
-			bitmap->Release();
-			ParentGraph->g_imagefactory->CreateBitmap(
-				(UINT)size.width, (UINT)size.height,
-				GUID_WICPixelFormat32bppPRGBA,
-				WICBitmapCacheOnDemand,
-				&wicbitmap
+			ParentGraph->g_devicecontext2d->PushAxisAlignedClip(
+				D2D1::RectF(x, y, x + g_width, y + g_height),
+				D2D1_ANTIALIAS_MODE::D2D1_ANTIALIAS_MODE_PER_PRIMITIVE
 			);
-			ParentGraph->g_devicecontext2d->CreateBitmapFromWicBitmap(wicbitmap, &bitmap);
-
-			Lock();
-
-
+			ParentGraph->g_devicecontext2d->SetTransform(
+				D2D1::Matrix3x2F::Translation(D2D1::SizeF(x, y)));
+			IsDraw = true;
 		}
 
-	}
+		void Surface::DrawLine(ASNET::Graph::Point p1, 
+			ASNET::Graph::Point p2, ASNET::Graph::Color color, float width)
+		{
+			if (!IsDraw) BeginDraw();
+			ParentGraph->DrawLine(p1, p2, color, width);
+		}
+
+		void Surface::DrawRectangle(ASNET::Graph::Rect rect,
+			ASNET::Graph::Color color, float width,
+			bool IsFill, ASNET::Graph::Color FillColor)
+		{
+			if (!IsDraw) BeginDraw();
+			ParentGraph->DrawRectangle(rect, color, width, IsFill, FillColor);
+		}
+
+		void Surface::DrawImage(ASNET::Graph::Image * image, 
+			ASNET::Graph::Rect rect)
+		{
+			if (!IsDraw) BeginDraw();
+			ParentGraph->DrawImage(image, rect);
+		}
+
+		void Surface::DrawWord(ASNET::Graph::Word word, ASNET::Graph::Rect rect,
+			ASNET::Graph::Font * font, ASNET::Graph::Color color,
+			ASNET::Graph::TextAlign horizontal, ASNET::Graph::TextAlign vertical)
+		{
+			if (!IsDraw) BeginDraw();
+			ParentGraph->DrawWord(word, rect, font, color, horizontal, vertical);
+		}
+
+		void Surface::Flush()
+		{
+			ParentGraph->g_devicecontext2d->SetTransform(
+				D2D1::Matrix3x2F::Identity()
+			);
+			ParentGraph->g_devicecontext2d->PopAxisAlignedClip();
+			IsDraw = false;
+		}
+
+
+
+		
+
+		auto Surface::Width() -> float
+		{
+			return g_width;
+		}
+
+		auto Surface::Height() -> float
+		{
+			return g_height;
+		}
+
+		auto Surface::PositionX() -> float
+		{
+			return x;
+		}
+
+		auto Surface::PositionY() -> float
+		{
+			return y;
+		}
+
+		void Surface::SetWidth(float width)
+		{
+			if (IsDraw) return;
+			g_width = width;
+		}
+
+		void Surface::SetHeight(float height)
+		{
+			if (IsDraw) return;
+			g_height = height;
+		}
+
+		void Surface::SetPositionX(float posx)
+		{
+			if (IsDraw) return;
+			x = posx;
+		}
+
+		void Surface::SetPositionY(float posy)
+		{
+			if (IsDraw) return;
+			y = posy;
+		}
+
+}
 }

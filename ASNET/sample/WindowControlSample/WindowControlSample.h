@@ -5,7 +5,8 @@ namespace ASNET {
 
 		class ControlWindow :public ASNET::Window {
 		private:
-		protected:
+		public:
+			ASNET::Graph::Graph* MyGraph;
 		public:
 			ControlWindow();
 			~ControlWindow();
@@ -16,7 +17,7 @@ namespace ASNET {
 			const int Note1Size = 70;
 		private:
 			//Resource
-			ASNET::Graph::ImageSurface* Surface;
+			ASNET::Graph::Surface* surface;
 			ASNET::Graph::Font* Consolas20;
 		private:
 			ASNET::Control::Label* Note1;
@@ -25,6 +26,7 @@ namespace ASNET {
 			//event
 			static void OnButton1_MouseDown(void* sender, ASNET::Event::EventMouseClick* e);
 		protected:
+			void OnKeyDown(void* sender, ASNET::Event::EventBoardClick* e);
 			void OnDraw(void* sender, ASNET::Graph::Direct3D::GraphDirect3D* graph)override;
 			void OnInitalize(void* sender)override;
 			void OnLoading(void* sender, void* any)override;
@@ -46,7 +48,6 @@ namespace ASNET {
 			void OnDraw(void* sender, ASNET::Graph::Direct3D::GraphDirect3D* graph)override;
 			void OnInitalize(void* sender);
 			void OnLoading(void* sender, void* any)override;
-			
 		private:
 			static void OnButton1_MouseDown(void* sender, ASNET::Event::EventMouseClick* e);
 		public:

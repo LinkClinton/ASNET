@@ -59,10 +59,9 @@ namespace ASNET {
 				std::vector<Direct3D::Texture*>		    Textures; //贴图
 
 				friend class Direct3DModelLoader;
-
+			public:
 				//构造函数，只是为了继承所用
 				Mesh();
-			public:
 				//构造函数
 				Mesh(ASNET::Graph::Direct3D::GraphDirect3D* graph);
 				//析构函数

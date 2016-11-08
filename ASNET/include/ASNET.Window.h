@@ -85,9 +85,10 @@ namespace ASNET {
 		ASNET::Event::EventBoardClickHandlers		BoardDownHandler; //键盘按键按下事件集合
 		ASNET::Event::EventSizeChangeHandlers		SizeChangeHandler; //窗口大小事件集合
 		ASNET::Event::EventMouseLeaveHandlers       MouseLeaveHandler; //鼠标离开窗口事件
+		
+	public:
 		//默认构造函数
 		Window();
-	public:
 		//添加一个Page
 		void AddPage(ASNET::Page::Page* page);
 		//删除一个Page

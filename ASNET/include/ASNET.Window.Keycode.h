@@ -113,12 +113,6 @@ namespace ASNET {
 		Shift = 16,
 		Control = 17,
 		Menu = 18,
-		Windows = 91,
-		Multiply = 0x6A,
-		Add = 0x6B,
-		Separator = 0x6C,
-		Subtract = 0x6D,
-		Decimal = 0x6E,
-		Divide = 0x6F
+		Windows = 91
 	};
 }

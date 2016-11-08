@@ -80,10 +80,10 @@ namespace ASNET {
 			ASNET::Graph::Direct3D::GraphDirect3D*		ParentGraph; //渲染的指针接口
 			friend class Window; 
 			friend class ASNET::Event::EventHandler;
-
+		public:
 			//构造函数
 			Page();
-		public:
+
 			//注册控件
 			void RegisterControl(ASNET::Control::Control* control);
 			//取消注册某个控件

@@ -56,12 +56,6 @@ namespace ASNET {
 
 		RegisterClass(&WindowClass);
 
-		RECT rc;
-		rc.top = 0;
-		rc.left = 0;
-		rc.right = width;
-		rc.bottom = height;
-
 		FLOAT dpiX;
 		FLOAT dpiY;
 
@@ -70,12 +64,20 @@ namespace ASNET {
 		g_factory->ReloadSystemMetrics();
 		g_factory->GetDesktopDpi(&dpiX, &dpiY);
 
+		RECT rc;
+		rc.top = 0;
+		rc.left = 0;
+		rc.right = (LONG)ceil(width*dpiX / 96.f);
+		rc.bottom = (LONG)ceil(height*dpiY / 96.f);
+
+		
+
 		AdjustWindowRect(&rc, WS_OVERLAPPEDWINDOW, FALSE);
 
 		Hwnd = CreateWindow(title, title, WS_OVERLAPPEDWINDOW,
 			CW_USEDEFAULT, CW_USEDEFAULT,
-			(UINT)ceil((rc.right - rc.left)*dpiX / 96.f - (rc.right - rc.left - width)),
-			(UINT)ceil((rc.bottom - rc.top)*dpiY / 96.f - (rc.bottom - rc.top - height)), nullptr, nullptr, Hinstance, nullptr);
+			rc.right - rc.left,
+			rc.bottom - rc.top, nullptr, nullptr, Hinstance, nullptr);
 
 		ShowWindow(Hwnd, SW_SHOWNORMAL);
 
@@ -432,6 +434,7 @@ namespace ASNET {
 			}
 			else { CoreComputeEvents(NO_MESSAGE); }
 			if (UsedPage) {
+				Graph->Clear();
 				UsedPage->OnDraw(this, Graph);
 				UsedPage->OnControlDraw(this, Graph);
 				Graph->Present();
@@ -460,6 +463,13 @@ namespace ASNET {
 	}
 
 	bool Window::GetKeyState(ASNET::Keycode keycode){ 
+		if (keycode == Keycode::CapsLock || 
+			keycode == Keycode::NumLock || 
+			keycode == Keycode::ScrollLock) {
+			short state = ::GetKeyState((int)keycode);
+			if (state == 1) return true;
+			return false;
+		}
 		return KEYDOWN((int)keycode);
 	}
 

@@ -50,9 +50,6 @@ namespace ASNET {
 			void InitalizeAnimation();
 
 			ASNET::Graph::Graph*     ParentGraph; //渲染控件的接口指针
-
-			//默认构造函数
-			Control();
 		protected:
 			//当鼠标移动的时候触发
 			virtual void OnMouseMove(void* sender, ASNET::Event::EventMouseMove* e); 
@@ -104,7 +101,8 @@ namespace ASNET {
 			float Bottom; //控件范围bottom
 
 		public:
-			
+			//默认构造函数
+			Control();
 			//控件范围
 			operator ASNET::Graph::Rect(); 
 			

@@ -18,9 +18,9 @@ namespace ASNET {
 				std::wstring ModelComment; //the information about model
 
 				friend class Direct3DModelLoader;
-				Model() = default;
-				//构造函数
 			public:
+				Model() {}
+				//构造函数
 				Model(ASNET::Graph::Direct3D::GraphDirect3D* graph);
 				//析构函数
 				~Model();

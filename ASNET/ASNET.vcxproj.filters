@@ -30,12 +30,6 @@
     <Filter Include="Source File\Graph">
       <UniqueIdentifier>{08f2e440-c155-437b-8b53-306e7653be97}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source File\Extend">
-      <UniqueIdentifier>{b6e20dc4-c33b-4405-90c2-0888ac4bdadb}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source File\Extend\Direct3D">
-      <UniqueIdentifier>{e1e66938-d310-47ca-89ad-28f4c5aaccbd}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source File\Control">
       <UniqueIdentifier>{0d7c36aa-c34f-4ed7-a52e-8ca949de7d00}</UniqueIdentifier>
     </Filter>
@@ -48,6 +42,12 @@
     </Filter>
     <Filter Include="Source File\Physics">
       <UniqueIdentifier>{16c39cc8-7ba9-47c6-85d4-c14f2418a164}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source File\Extend">
+      <UniqueIdentifier>{b6e20dc4-c33b-4405-90c2-0888ac4bdadb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source File\Extend\Direct3D">
+      <UniqueIdentifier>{e1e66938-d310-47ca-89ad-28f4c5aaccbd}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

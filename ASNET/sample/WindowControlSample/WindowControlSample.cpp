@@ -38,16 +38,27 @@ void ASNET::Sample::ControlStartPage::OnButton1_MouseDown(void * sender,
 	}
 }
 
+void ASNET::Sample::ControlStartPage::OnKeyDown(void * sender, ASNET::Event::EventBoardClick * e)
+{
+	ControlWindow* window = (ControlWindow*)sender;
+	
+}
+
 void ASNET::Sample::ControlStartPage::OnDraw(void * sender,
 	ASNET::Graph::Direct3D::GraphDirect3D * graph)
 {
-	graph->Clear();
-	
+
 }
 
 void ASNET::Sample::ControlStartPage::OnInitalize(void * sender)
 {
 	ASNET::Sample::ControlWindow* MainWindow = (ASNET::Sample::ControlWindow*)sender;
+
+	surface = new ASNET::Graph::Surface(ParentGraph);
+	surface->SetWidth(100);
+	surface->SetHeight(100);
+	surface->SetPositionX(100);
+	surface->SetPositionY(100);
 
 	ParentGraph->LoadFont(Consolas20, L"Consolas", 20);
 
@@ -65,13 +76,12 @@ void ASNET::Sample::ControlStartPage::OnInitalize(void * sender)
 	Button1->Selectibility = true;
 	Note1->Selectibility = true;
 
-	RegisterControl(Note1);
-	RegisterControl(Button1);
+	//RegisterControl(Note1);
+	//RegisterControl(Button1);
 }
 
 void ASNET::Sample::ControlStartPage::OnLoading(void * sender, void * any)
 {
-	ParentGraph->LoadImageSurface(D2D1::SizeF(800, 600), Surface);
 	
 }
 

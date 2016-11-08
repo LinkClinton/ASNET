@@ -1,5 +1,4 @@
 #pragma once
-#include<map>
 #include<vector>
 #include<functional>
 
@@ -11,7 +10,6 @@
 #include"ASNET.Control.Timer.h"
 
 #include"ASNET.Physics.h"
-
 #undef LoadImage
 
 /*
@@ -74,6 +72,8 @@ namespace ASNET {
 		class Image {
 		protected:
 			ASNET::Graph::Graph* ParentGraph; //渲染用的指针接口
+			
+			
 			ID2D1Bitmap* bitmap; //位图缓存
 			
 			friend class Graph; 
@@ -92,55 +92,33 @@ namespace ASNET {
 			void reset(ASNET::Graph::Word filename);
 		};
 
+		class ImageSurface :protected Image{
+		private:
+			IWICBitmap*  wicbitmap; //WIC的位图缓存 
+			
+			IWICBitmapLock* wicbitmaplock; //WIC的位图的内存读取
+			UINT stride; //每一行的长度，单位字节
+			UINT buffsize; //这个位图的大小，单位字节
+			BYTE* pixel; //像素数组
+
+			friend class Graph;
+
+			void Lock();
+			void UnLock();
+		public:
+			ImageSurface(ASNET::Graph::Graph* Graph);
+
+			void SetPixel(int x, int y, ASNET::Graph::Color color, bool NeedFlush = false);
+
+			void Flush();
+
+			void reset(ASNET::Graph::Size size);
+		};
+
 
 		//字体布局
 		enum class TextAlign {
 			Left, Center, Right, Top, Bottom
-		};
-	
-		//提供一个面，单独作为一个坐标
-		class Surface {
-		private:
-			ASNET::Graph::Graph* ParentGraph;
-		protected:
-			float g_width;
-			float g_height;
-			float x;
-			float y;
-			bool  IsDraw;
-	
-			void  BeginDraw();
-		public:
-			Surface(ASNET::Graph::Graph* graph);
-
-			virtual void DrawLine(ASNET::Graph::Point p1, ASNET::Graph::Point p2,
-				ASNET::Graph::Color color, float width = 1.0f);
-
-			virtual void DrawRectangle(ASNET::Graph::Rect rect,
-				ASNET::Graph::Color color, float width = 1.0f, bool IsFill = false,
-				ASNET::Graph::Color FillColor = D2D1::ColorF::White);
-
-			virtual void DrawImage(ASNET::Graph::Image* image,
-				ASNET::Graph::Rect rect);
-			
-			virtual void DrawWord(ASNET::Graph::Word word,
-				ASNET::Graph::Rect rect, ASNET::Graph::Font* font,
-				ASNET::Graph::Color color = D2D1::ColorF::Black,
-				ASNET::Graph::TextAlign horizontal = ASNET::Graph::TextAlign::Left,
-				ASNET::Graph::TextAlign vertical = ASNET::Graph::TextAlign::Top);
-
-			virtual void Flush();
-
-			auto Width()->float;
-			auto Height()->float;
-			auto PositionX()->float;
-			auto PositionY()->float;
-
-			void SetWidth(float width);
-			void SetHeight(float height);
-			void SetPositionX(float posx);
-			void SetPositionY(float posy);
-
 		};
 
 		class Graph {
@@ -152,7 +130,7 @@ namespace ASNET {
 			bool					g_windowed; //是否使窗口化
 			float					g_dpix; //
 			float					g_dpiy;
-		protected:
+		public:
 			//Direct2D 
 			ID2D1Factory*			g_factory; //Direct2D Factory
 
@@ -174,18 +152,17 @@ namespace ASNET {
 
 			//IWIC
 			IWICImagingFactory*     g_imagefactory; //Image Factory
-			friend class Surface;
 			friend class Window;
 			friend class Image;
 			friend class Font;
 			//初始化函数
 			void Initalize(HWND hwnd, bool IsWindowed);
-			//构造函数
-			Graph();
 		protected:
 			ASNET::Control::Timer   g_timer; //计时器
 			float					g_render_time; //上一帧渲染用的时间
 		public:
+			//构造函数
+			Graph();
 			//构造函数
 			Graph(HWND hwnd, bool IsWindowed = true);
 			//析构函数
@@ -214,6 +191,8 @@ namespace ASNET {
 			//绘制图片
 			virtual void DrawImage(ASNET::Graph::Image* image,
 				ASNET::Graph::Rect rect);
+			virtual void DrawImageSurface(ASNET::Graph::ImageSurface* imagesurface,
+				ASNET::Graph::Rect rect);
 			//绘制文本
 			virtual void DrawWord(ASNET::Graph::Word word,
 				ASNET::Graph::Rect rect, ASNET::Graph::Font* font,
@@ -223,7 +202,9 @@ namespace ASNET {
 			//加载图片
 			virtual void LoadImage(ASNET::Graph::Word filename,
 				ASNET::Graph::Image* &image);
-
+			//加载一张空的图片界面
+			virtual void LoadImageSurface(ASNET::Graph::Size size,
+				ASNET::Graph::ImageSurface* &imagesurface);
 			//加载字体
 			virtual void LoadFont(ASNET::Graph::Font* &font,
 				ASNET::Graph::Word fontname, float fontsize);
