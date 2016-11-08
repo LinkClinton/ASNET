@@ -107,9 +107,9 @@ namespace ASNET {
 			float g_height;
 			float x;
 			float y;
-			bool  IsDraw;
-	
-			void  BeginDraw();
+			
+			void BeginDraw();
+			void EndDraw();
 		public:
 			Surface(ASNET::Graph::Graph* graph);
 
@@ -128,8 +128,6 @@ namespace ASNET {
 				ASNET::Graph::Color color = D2D1::ColorF::Black,
 				ASNET::Graph::TextAlign horizontal = ASNET::Graph::TextAlign::Left,
 				ASNET::Graph::TextAlign vertical = ASNET::Graph::TextAlign::Top);
-
-			virtual void Flush();
 
 			auto Width()->float;
 			auto Height()->float;

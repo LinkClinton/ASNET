@@ -559,7 +559,6 @@ namespace ASNET {
 		Surface::Surface(ASNET::Graph::Graph * graph)
 		{
 			ParentGraph = graph;
-			IsDraw = false;
 			g_width = 0;
 			g_height = 0;
 			x = 0;
@@ -574,46 +573,49 @@ namespace ASNET {
 			);
 			ParentGraph->g_devicecontext2d->SetTransform(
 				D2D1::Matrix3x2F::Translation(D2D1::SizeF(x, y)));
-			IsDraw = true;
 		}
 
 		void Surface::DrawLine(ASNET::Graph::Point p1, 
 			ASNET::Graph::Point p2, ASNET::Graph::Color color, float width)
 		{
-			if (!IsDraw) BeginDraw();
+			BeginDraw();
 			ParentGraph->DrawLine(p1, p2, color, width);
+			EndDraw();
 		}
 
 		void Surface::DrawRectangle(ASNET::Graph::Rect rect,
 			ASNET::Graph::Color color, float width,
 			bool IsFill, ASNET::Graph::Color FillColor)
 		{
-			if (!IsDraw) BeginDraw();
+			BeginDraw();
 			ParentGraph->DrawRectangle(rect, color, width, IsFill, FillColor);
+			EndDraw();
 		}
 
 		void Surface::DrawImage(ASNET::Graph::Image * image, 
 			ASNET::Graph::Rect rect)
 		{
-			if (!IsDraw) BeginDraw();
+			BeginDraw();
 			ParentGraph->DrawImage(image, rect);
+			EndDraw();
 		}
 
 		void Surface::DrawWord(ASNET::Graph::Word word, ASNET::Graph::Rect rect,
 			ASNET::Graph::Font * font, ASNET::Graph::Color color,
 			ASNET::Graph::TextAlign horizontal, ASNET::Graph::TextAlign vertical)
 		{
-			if (!IsDraw) BeginDraw();
+			BeginDraw();
 			ParentGraph->DrawWord(word, rect, font, color, horizontal, vertical);
+			EndDraw();
 		}
 
-		void Surface::Flush()
+		void Surface::EndDraw()
 		{
 			ParentGraph->g_devicecontext2d->SetTransform(
 				D2D1::Matrix3x2F::Identity()
 			);
 			ParentGraph->g_devicecontext2d->PopAxisAlignedClip();
-			IsDraw = false;
+			
 		}
 
 
@@ -642,25 +644,21 @@ namespace ASNET {
 
 		void Surface::SetWidth(float width)
 		{
-			if (IsDraw) return;
 			g_width = width;
 		}
 
 		void Surface::SetHeight(float height)
 		{
-			if (IsDraw) return;
 			g_height = height;
 		}
 
 		void Surface::SetPositionX(float posx)
 		{
-			if (IsDraw) return;
 			x = posx;
 		}
 
 		void Surface::SetPositionY(float posy)
 		{
-			if (IsDraw) return;
 			y = posy;
 		}
 
