@@ -41,13 +41,12 @@ void ASNET::Sample::ControlStartPage::OnButton1_MouseDown(void * sender,
 void ASNET::Sample::ControlStartPage::OnKeyDown(void * sender, ASNET::Event::EventBoardClick * e)
 {
 	ControlWindow* window = (ControlWindow*)sender;
-	
 }
 
 void ASNET::Sample::ControlStartPage::OnDraw(void * sender,
 	ASNET::Graph::Direct3D::GraphDirect3D * graph)
 {
-	
+	Text1->OnDraw(D2D1::Point2F(0, 0));
 }
 
 void ASNET::Sample::ControlStartPage::OnInitalize(void * sender)
@@ -62,9 +61,8 @@ void ASNET::Sample::ControlStartPage::OnInitalize(void * sender)
 
 	ParentGraph->LoadFont(Consolas20, L"Consolas", 20);
 
-	Note1 = new ASNET::Control::Label(ParentGraph, (float)MainWindow->GetWidth() / 2 - Note1Size,
-		(float)MainWindow->GetWidth() / 2 + Note1Size, (float)MainWindow->GetHeight() / 4 - Note1Size,
-		(float)MainWindow->GetHeight() / 4 + Note1Size, L"Note1", L"Hello,Join?", Consolas20);
+	Text1 = new ASNET::Control::Text(ParentGraph, L"Hello,World!", D2D1::SizeF(200, 200),
+		Consolas20);
 
 	Button1 = new ASNET::Control::Button(ParentGraph, (float)MainWindow->GetWidth() / 2 - Note1Size,
 		(float)MainWindow->GetWidth() / 2 + Note1Size, (float)MainWindow->GetHeight() / 4 * 3 - Note1Size,
@@ -74,9 +72,7 @@ void ASNET::Sample::ControlStartPage::OnInitalize(void * sender)
 	Button1->MouseButtonDownHandler += OnButton1_MouseDown;
 
 	Button1->Selectibility = true;
-	Note1->Selectibility = true;
-
-	RegisterControl(Note1);
+	
 	RegisterControl(Button1);
 }
 
@@ -96,7 +92,7 @@ ASNET::Sample::ControlStartPage::ControlStartPage()
 
 ASNET::Sample::ControlStartPage::~ControlStartPage()
 {
-	delete Note1;
+	delete Text1;
 	delete Button1;
 	delete Consolas20;
 }
@@ -105,7 +101,7 @@ void ASNET::Sample::ControlSecondPage::OnDraw(void * sender,
 	ASNET::Graph::Direct3D::GraphDirect3D * graph)
 {
 	graph->Clear();
-
+	
 }
 
 void ASNET::Sample::ControlSecondPage::OnInitalize(void * sender)

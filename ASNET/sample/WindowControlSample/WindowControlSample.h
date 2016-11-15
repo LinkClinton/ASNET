@@ -20,7 +20,8 @@ namespace ASNET {
 			ASNET::Graph::Surface* surface;
 			ASNET::Graph::Font* Consolas20;
 		private:
-			ASNET::Control::Label* Note1;
+			int nowpos;
+			ASNET::Control::Text*   Text1;
 			ASNET::Control::Button* Button1;
 		private:
 			//event

@@ -162,7 +162,7 @@
       <Filter>Source File\Graph</Filter>
     </ClCompile>
     <ClCompile Include="src\ASNET.Control.Text.cpp">
-      <Filter>Source File</Filter>
+      <Filter>Source File\Control</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

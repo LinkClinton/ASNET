@@ -61,11 +61,41 @@ auto ASNET::Control::Text::GetColor() -> ASNET::Graph::Color
 	return g_color;
 }
 
+auto ASNET::Control::Text::GetRealX(int textposition) -> float
+{
+	return GetRealPosition(textposition).x;
+}
+
+auto ASNET::Control::Text::GetRealY(int textposition) -> float
+{
+	return GetRealPosition(textposition).y;
+}
+
+auto ASNET::Control::Text::GetRealPosition(int textposition) -> ASNET::Graph::Point
+{
+	ASNET::Graph::Point point;
+	DWRITE_HIT_TEST_METRICS hit;
+	if (textposition >= 0)
+		g_text->HitTestTextPosition(textposition, true, &point.x, &point.y, &hit);
+	else
+		g_text->HitTestTextPosition(0, false, &point.x, &point.y, &hit);
+	return point;
+}
+
 auto ASNET::Control::Text::GetHeight() -> float
 {
 	DWRITE_TEXT_METRICS metrics;
 	g_text->GetMetrics(&metrics);
 	return metrics.height;
+}
+
+auto ASNET::Control::Text::GetTextPosition(ASNET::Graph::Point point) -> int
+{
+	DWRITE_HIT_TEST_METRICS hit;
+	BOOL IsHead;
+	BOOL IsIn;
+	g_text->HitTestPoint(point.x, point.y, &IsHead, &IsIn, &hit);
+	return hit.textPosition;
 }
 
 void ASNET::Control::Text::OnDraw(ASNET::Graph::Point origin)
