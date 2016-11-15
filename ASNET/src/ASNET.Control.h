@@ -96,7 +96,7 @@ namespace ASNET {
 			ASNET::Graph::Color    BackColor; //背景颜色
 			ASNET::Graph::Color    SelectBackColor; //被选中后的背景颜色,有默认值
 
-			ASNET::Graph::Image*     BackImage; //背景图片，如果为空就用背景颜色代替
+			ASNET::Graph::Image*   BackImage; //背景图片，如果为空就用背景颜色代替
 
 			float Left; //控件范围left
 			float Right; //控件范围right
@@ -122,6 +122,5 @@ namespace ASNET {
 
 
 
-#include"ASNET.Control.Label.h"
 #include"ASNET.Control.Timer.h"
 #include"ASNET.Control.Button.h"

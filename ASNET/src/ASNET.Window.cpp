@@ -434,6 +434,7 @@ namespace ASNET {
 			}
 			else { CoreComputeEvents(NO_MESSAGE); }
 			if (UsedPage) {
+				Graph->g_devicecontext2d->BeginDraw();
 				Graph->Clear();
 				UsedPage->OnDraw(this, Graph);
 				UsedPage->OnControlDraw(this, Graph);

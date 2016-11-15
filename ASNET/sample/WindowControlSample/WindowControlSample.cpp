@@ -47,7 +47,7 @@ void ASNET::Sample::ControlStartPage::OnKeyDown(void * sender, ASNET::Event::Eve
 void ASNET::Sample::ControlStartPage::OnDraw(void * sender,
 	ASNET::Graph::Direct3D::GraphDirect3D * graph)
 {
-
+	
 }
 
 void ASNET::Sample::ControlStartPage::OnInitalize(void * sender)
@@ -76,8 +76,8 @@ void ASNET::Sample::ControlStartPage::OnInitalize(void * sender)
 	Button1->Selectibility = true;
 	Note1->Selectibility = true;
 
-	//RegisterControl(Note1);
-	//RegisterControl(Button1);
+	RegisterControl(Note1);
+	RegisterControl(Button1);
 }
 
 void ASNET::Sample::ControlStartPage::OnLoading(void * sender, void * any)
@@ -112,13 +112,14 @@ void ASNET::Sample::ControlSecondPage::OnInitalize(void * sender)
 {
 	ASNET::Sample::ControlWindow* MainWindow = (ASNET::Sample::ControlWindow*)sender;
 
-	ParentGraph->LoadFont(Consolas40, L"Consola", 40);
+	ParentGraph->LoadFont(Consolas40, L"Consolas", 20);
 
 	Button1 = new ASNET::Control::Button(ParentGraph, (float)MainWindow->GetWidth() / 2 - Button1Size,
 		(float)MainWindow->GetWidth() / 2 + Button1Size, (float)MainWindow->GetHeight() / 4 - Button1Size,
 		(float)MainWindow->GetHeight() / 4 + Button1Size, L"Button1", L"Back", Consolas40);
 
 	Button1->Selectibility = true;
+	Button1->Visibility = true;
 
 	Button1->MouseButtonDownHandler += OnButton1_MouseDown;
 

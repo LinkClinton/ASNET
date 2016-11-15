@@ -13,7 +13,7 @@ namespace ASNET {
 
 			//简单的模型类
 			class Model :public Mesh {
-			private:
+			protected:
 				std::wstring ModelName; //English
 				std::wstring ModelComment; //the information about model
 

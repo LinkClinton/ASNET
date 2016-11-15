@@ -27,9 +27,6 @@
     <Filter Include="Source File\Window">
       <UniqueIdentifier>{a79b847c-9b5e-4a74-853d-d61d6b1b547d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source File\Graph">
-      <UniqueIdentifier>{08f2e440-c155-437b-8b53-306e7653be97}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source File\Control">
       <UniqueIdentifier>{0d7c36aa-c34f-4ed7-a52e-8ca949de7d00}</UniqueIdentifier>
     </Filter>
@@ -48,6 +45,9 @@
     </Filter>
     <Filter Include="Source File\Extend\Direct3D">
       <UniqueIdentifier>{e1e66938-d310-47ca-89ad-28f4c5aaccbd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source File\Graph">
+      <UniqueIdentifier>{08f2e440-c155-437b-8b53-306e7653be97}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -78,9 +78,6 @@
     <ClInclude Include="src\ASNET.Control.Timer.h">
       <Filter>Header File\Control</Filter>
     </ClInclude>
-    <ClInclude Include="src\ASNET.Control.Label.h">
-      <Filter>Header File\Control</Filter>
-    </ClInclude>
     <ClInclude Include="src\ASNET.Control.h">
       <Filter>Header File\Control</Filter>
     </ClInclude>
@@ -107,6 +104,15 @@
     </ClInclude>
     <ClInclude Include="src\ASNET.Physics.h">
       <Filter>Header File\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ASNET.Control.TextBox.h">
+      <Filter>Header File\Control</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ASNET.Graph.Graphics.h">
+      <Filter>Header File\Graph</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ASNET.Control.Text.h">
+      <Filter>Header File\Control</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -137,9 +143,6 @@
     <ClCompile Include="src\ASNET.Control.cpp">
       <Filter>Source File\Control</Filter>
     </ClCompile>
-    <ClCompile Include="src\ASNET.Control.Label.cpp">
-      <Filter>Source File\Control</Filter>
-    </ClCompile>
     <ClCompile Include="src\ASNET.Direct3D.Mesh.cpp">
       <Filter>Source File\Extend\Direct3D</Filter>
     </ClCompile>
@@ -154,6 +157,12 @@
     </ClCompile>
     <ClCompile Include="src\ASNET.Physics.cpp">
       <Filter>Source File\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ASNET.Graph.Graphics.cpp">
+      <Filter>Source File\Graph</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ASNET.Control.Text.cpp">
+      <Filter>Source File</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -37,7 +37,6 @@ namespace ASNET {
 			wchar_t*				 Name;//按钮的名字
 			wchar_t*				 Text;//按钮的文本内容
 
-
 			ButtonStyle              Style; //按钮的风格
 
 			
@@ -48,7 +47,6 @@ namespace ASNET {
 
 			ASNET::Graph::TextAlign  Horizontal; //文本的平行方向的排版
 			ASNET::Graph::TextAlign  Vertical; //文本的竖直方向的排版
-
 		public:
 			//构造函数
 			Button(ASNET::Graph::Graph* graph,
