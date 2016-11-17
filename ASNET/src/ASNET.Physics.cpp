@@ -1,7 +1,14 @@
 #include"ASNET.Physics.h"
+
+
+#include<math.h>
 namespace ASNET {
 	namespace Physics {
 		
+		float Vector2::Distance(float x1, float y1, float x2, float y2) 
+		{
+			return sqrt((x1 - x2)*(x1 - x2) + (y1 - y2)*(y1 - y2));
+		}
 		
 		Vector3 ASNET::Physics::Vector3::operator+(const Vector3 vector3)
 		{

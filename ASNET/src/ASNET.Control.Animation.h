@@ -14,9 +14,13 @@ namespace ASNET {
 		public:
 			ASNET::Graph::Color TextColor; //文本的颜色，如果有的话
 			ASNET::Graph::Color BackGroundColor; //背景的颜色，如果有的话
-			
+
 			//构造函数
 			KeyFrame();
+		};
+
+		enum class AnimationType{
+			Linear, Common
 		};
 
 		//动画，描述一组动画，用于控件
@@ -29,6 +33,8 @@ namespace ASNET {
 			float Time;
 			//动画是否结束
 			bool  IsEnd;
+			//
+			AnimationType Type;
 		protected:
 			auto LinearComputeColor(ASNET::Graph::Color front, ASNET::Graph::Color back, float scale)->ASNET::Graph::Color;
 		public:
@@ -53,6 +59,9 @@ namespace ASNET {
 			auto GetTime()->float;
 			//动画是否结束
 			bool End();
+
+			//
+			void SetType(ASNET::Control::AnimationType type);
 
 			
 

@@ -1,9 +1,31 @@
 #include "ASNET.Control.Text.h"
 
+
+
 template<typename T>
 void release(T &Interface) {
 	if (Interface) Interface->Release();
 	Interface = nullptr;
+}
+
+void ASNET::Control::Text::InitalizeCursorAnimation()
+{
+	CursorAnimation.SetType(ASNET::Control::AnimationType::Common);
+
+	ASNET::Control::KeyFrame keyframe;
+	keyframe.TextColor = ASNET::Graph::Color(D2D1::ColorF::Black, 1);
+	keyframe.TimePos = 0;
+	CursorAnimation.AddFrame(keyframe);
+
+	keyframe.TextColor = ASNET::Graph::Color(D2D1::ColorF::Black, 0);
+	keyframe.TimePos = 0.5f;
+	CursorAnimation.AddFrame(keyframe);
+
+	keyframe.TextColor = ASNET::Graph::Color(D2D1::ColorF::Black, 1);
+	keyframe.TimePos = 1.f;
+	CursorAnimation.AddFrame(keyframe);
+
+	
 }
 
 void ASNET::Control::Text::UpdateText()
@@ -21,6 +43,14 @@ void ASNET::Control::Text::UpdateColor()
 		&g_brush);
 }
 
+void ASNET::Control::Text::DrawCursor()
+{
+	if (CursorAnimation.End()) CursorAnimation.Start();
+	ASNET::Graph::Point point = GetRealPosition(g_cursor_pos, g_cursor_direct);
+	ParentGraph->DrawLine(point, D2D1::Point2F(point.x, point.y + GetHeight()), CursorAnimation.GetKeyFrame().TextColor, 0.7f);
+	CursorAnimation.Pass(ParentGraph->RenderTime());
+}
+
 ASNET::Control::Text::Text(ASNET::Graph::Graph* graph, ASNET::Graph::Word word,
 	ASNET::Graph::Size size, ASNET::Graph::Font * font, ASNET::Graph::Color color,
 	ASNET::Graph::TextAlign horizontal, ASNET::Graph::TextAlign vertical)
@@ -34,6 +64,12 @@ ASNET::Control::Text::Text(ASNET::Graph::Graph* graph, ASNET::Graph::Word word,
 
 	Horizontal = horizontal;
 	Vertical = vertical;
+
+	g_cursor_pos = 0;
+	g_cursor_direct = true;
+	g_cursor_show = false;
+
+	InitalizeCursorAnimation();
 
 	UpdateColor();
 	UpdateText();
@@ -71,14 +107,11 @@ auto ASNET::Control::Text::GetRealY(int textposition) -> float
 	return GetRealPosition(textposition).y;
 }
 
-auto ASNET::Control::Text::GetRealPosition(int textposition) -> ASNET::Graph::Point
+auto ASNET::Control::Text::GetRealPosition(int textposition, bool isleft) -> ASNET::Graph::Point
 {
 	ASNET::Graph::Point point;
 	DWRITE_HIT_TEST_METRICS hit;
-	if (textposition >= 0)
-		g_text->HitTestTextPosition(textposition, true, &point.x, &point.y, &hit);
-	else
-		g_text->HitTestTextPosition(0, false, &point.x, &point.y, &hit);
+	g_text->HitTestTextPosition(textposition, !isleft, &point.x, &point.y, &hit);
 	return point;
 }
 
@@ -86,15 +119,15 @@ auto ASNET::Control::Text::GetHeight() -> float
 {
 	DWRITE_TEXT_METRICS metrics;
 	g_text->GetMetrics(&metrics);
-	return metrics.height;
+	return metrics.height / (float)metrics.lineCount;
 }
 
 auto ASNET::Control::Text::GetTextPosition(ASNET::Graph::Point point) -> int
 {
 	DWRITE_HIT_TEST_METRICS hit;
 	BOOL IsHead;
-	BOOL IsIn;
-	g_text->HitTestPoint(point.x, point.y, &IsHead, &IsIn, &hit);
+	BOOL IsInside;
+	g_text->HitTestPoint(point.x, point.y, &IsHead, &IsInside, &hit);
 	return hit.textPosition;
 }
 
@@ -133,5 +166,81 @@ void ASNET::Control::Text::OnDraw(ASNET::Graph::Point origin)
 		break;
 	}
 	ParentInterface.DeviceContext2D->DrawTextLayout(origin, g_text, g_brush);
+	if (g_cursor_show)
+		DrawCursor();
+}
+
+void ASNET::Control::Text::CursorShow()
+{
+	g_cursor_show = true;
+}
+
+void ASNET::Control::Text::CursorHide()
+{
+	g_cursor_show = false;
+}
+
+void ASNET::Control::Text::CursorUp()
+{
+	ASNET::Graph::Point point = GetRealPosition(g_cursor_pos, g_cursor_direct);
+	point.y -= GetHeight();
+	SetCursorPosition(point);
+}
+
+void ASNET::Control::Text::CursorLeft()
+{
+	CursorAnimation.Stop();
+	if (g_cursor_direct == false) { g_cursor_direct = true; return; }
+	if (g_cursor_pos == 0) return;
+	if (g_cursor_direct == true) {
+		ASNET::Graph::Point now_pos = GetRealPosition(g_cursor_pos, g_cursor_direct);
+		ASNET::Graph::Point tar_pos = GetRealPosition(g_cursor_pos - 1 , g_cursor_direct ^ true);
+		if (now_pos.x != tar_pos.x || now_pos.y != tar_pos.y) { g_cursor_pos--; g_cursor_direct = false; }
+		else g_cursor_pos--;
+	}
+}
+
+void ASNET::Control::Text::CursorDown()
+{
+	ASNET::Graph::Point point = GetRealPosition(g_cursor_pos, g_cursor_direct);
+	point.y += GetHeight();
+	SetCursorPosition(point);
+}
+
+void ASNET::Control::Text::CuesorRight()
+{
+	CursorAnimation.Stop();
+	if (g_cursor_direct == true) { g_cursor_direct = false; return; }
+	if (g_cursor_pos == g_word.length() - 1) return;
+	if (g_cursor_direct == false) {
+		ASNET::Graph::Point now_pos = GetRealPosition(g_cursor_pos, g_cursor_direct);
+		ASNET::Graph::Point tar_pos = GetRealPosition(g_cursor_pos + 1 , g_cursor_direct ^ true);
+		if (now_pos.x != tar_pos.x || now_pos.y != tar_pos.y) { g_cursor_pos++; g_cursor_direct = true; }
+		else g_cursor_pos++;
+	}
+}
+
+void ASNET::Control::Text::SetCursorPosition(int textposition, bool IsLeft)
+{
+	CursorAnimation.Stop();
+	g_cursor_pos = textposition;
+	g_cursor_direct = IsLeft;
+}
+
+void ASNET::Control::Text::SetCursorPosition(ASNET::Graph::Point point)
+{
+	CursorAnimation.Stop();
+	DWRITE_HIT_TEST_METRICS hit;
+	BOOL IsHead;
+	BOOL IsInside;
+	g_text->HitTestPoint(point.x, point.y, &IsHead, &IsInside, &hit);
+	if (IsInside == false) return;
+	ASNET::Graph::Point tar_pos_left = GetRealPosition(hit.textPosition, true);
+	ASNET::Graph::Point tar_pos_right = GetRealPosition(hit.textPosition, false);
+	g_cursor_pos = hit.textPosition;
+	if (Physics::Vector2::Distance(point.x, point.y, tar_pos_left.x, tar_pos_left.y) <
+		Physics::Vector2::Distance(point.x, point.y, tar_pos_right.x, tar_pos_right.y))
+		g_cursor_direct = true;
+	else g_cursor_direct = false;
 }
 

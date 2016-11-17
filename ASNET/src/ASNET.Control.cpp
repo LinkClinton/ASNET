@@ -47,6 +47,7 @@ void ASNET::Control::Control::OnStdDraw(void * sender,
 
 void ASNET::Control::Control::InitalizeAnimation()
 {
+	LeaveAnimation.SetType(ASNET::Control::AnimationType::Linear);
 	//leave animation
 	{
 		KeyFrame keyframe;

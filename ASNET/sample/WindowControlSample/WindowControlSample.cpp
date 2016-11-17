@@ -38,15 +38,42 @@ void ASNET::Sample::ControlStartPage::OnButton1_MouseDown(void * sender,
 	}
 }
 
+auto ASNET::Sample::ControlStartPage::Get(float _float) -> ASNET::Graph::Word
+{
+	int val = (int)_float;
+	std::wstring tmp;
+	std::wstring out;
+	while (val) {
+		tmp += (val % 10) + 48;
+		val /= 10;
+	}
+	for (int i = tmp.size() - 1; i >= 0; i--) {
+		out += tmp[i];
+	}
+	return out;
+
+}
+
+void ASNET::Sample::ControlStartPage::OnMouseDown(void * sender, ASNET::Event::EventMouseClick * e)
+{
+	Text1->SetCursorPosition(D2D1::Point2F((float)e->x, (float)e->y));
+}
+
 void ASNET::Sample::ControlStartPage::OnKeyDown(void * sender, ASNET::Event::EventBoardClick * e)
 {
 	ControlWindow* window = (ControlWindow*)sender;
+	if (e->keycode == ASNET::Keycode::Left) Text1->CursorLeft();
+	if (e->keycode == ASNET::Keycode::Right) Text1->CuesorRight();
+	if (e->keycode == ASNET::Keycode::Up) Text1->CursorUp();
+	if (e->keycode == ASNET::Keycode::Down) Text1->CursorDown();
 }
 
 void ASNET::Sample::ControlStartPage::OnDraw(void * sender,
 	ASNET::Graph::Direct3D::GraphDirect3D * graph)
 {
 	Text1->OnDraw(D2D1::Point2F(0, 0));
+	std::wstring FPSBox = L"FPS: " + Get(graph->FPS());
+	graph->DrawWord(FPSBox, D2D1::RectF(0, (float)600 - 20, (float)FPSBox.length()*20.f, (float)800), Consolas20);
 }
 
 void ASNET::Sample::ControlStartPage::OnInitalize(void * sender)
@@ -61,8 +88,9 @@ void ASNET::Sample::ControlStartPage::OnInitalize(void * sender)
 
 	ParentGraph->LoadFont(Consolas20, L"Consolas", 20);
 
-	Text1 = new ASNET::Control::Text(ParentGraph, L"Hello,World!", D2D1::SizeF(200, 200),
+	Text1 = new ASNET::Control::Text(ParentGraph, L"Hello,World!", D2D1::SizeF(100, 100),
 		Consolas20);
+	Text1->CursorShow();
 
 	Button1 = new ASNET::Control::Button(ParentGraph, (float)MainWindow->GetWidth() / 2 - Note1Size,
 		(float)MainWindow->GetWidth() / 2 + Note1Size, (float)MainWindow->GetHeight() / 4 * 3 - Note1Size,
@@ -125,7 +153,6 @@ void ASNET::Sample::ControlSecondPage::OnInitalize(void * sender)
 
 void ASNET::Sample::ControlSecondPage::OnLoading(void * sender, void * any)
 {
-	
 
 }
 

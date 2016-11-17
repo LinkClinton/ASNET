@@ -6,6 +6,8 @@ namespace ASNET {
 
 	namespace Control {
 
+	
+
 		class Text {
 		private:
 			ASNET::Graph::Graph*    ParentGraph;
@@ -17,9 +19,18 @@ namespace ASNET {
 			ASNET::Graph::Word    g_word;
 			ASNET::Graph::Size    g_size;
 			ASNET::Graph::Color   g_color;
+
+			int				      g_cursor_pos;
+			bool                  g_cursor_show;
+			bool				  g_cursor_direct;//true is left
+		protected:
+			void InitalizeCursorAnimation();
+
+			ASNET::Control::Animation CursorAnimation;
 		private:
 			void UpdateText();
 			void UpdateColor();
+			void DrawCursor();
 		public:
 			Text(ASNET::Graph::Graph* graph, ASNET::Graph::Word word,
 				ASNET::Graph::Size size, ASNET::Graph::Font* font,
@@ -37,7 +48,7 @@ namespace ASNET {
 
 			auto GetRealX(int textposition = 0)->float;
 			auto GetRealY(int textposition = 0)->float;
-			auto GetRealPosition(int textposition = 0)->ASNET::Graph::Point;
+			auto GetRealPosition(int textposition = 0, bool isleft = false)->ASNET::Graph::Point;
 
 			auto GetHeight()->float;
 			
@@ -50,8 +61,14 @@ namespace ASNET {
 
 			ASNET::Graph::Font*     Fontface;
 			
-
-			
+			void CursorShow();
+			void CursorHide();
+			void CursorUp();
+			void CursorLeft();
+			void CursorDown();
+			void CuesorRight();
+			void SetCursorPosition(int textposition = 0 , bool IsLeft = false);
+			void SetCursorPosition(ASNET::Graph::Point point);
 
 		};
 

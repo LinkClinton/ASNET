@@ -20,13 +20,14 @@ namespace ASNET {
 			ASNET::Graph::Surface* surface;
 			ASNET::Graph::Font* Consolas20;
 		private:
-			int nowpos;
 			ASNET::Control::Text*   Text1;
 			ASNET::Control::Button* Button1;
 		private:
 			//event
 			static void OnButton1_MouseDown(void* sender, ASNET::Event::EventMouseClick* e);
+			static auto Get(float _float)->ASNET::Graph::Word;
 		protected:
+			void OnMouseDown(void* sender, ASNET::Event::EventMouseClick* e);
 			void OnKeyDown(void* sender, ASNET::Event::EventBoardClick* e);
 			void OnDraw(void* sender, ASNET::Graph::Direct3D::GraphDirect3D* graph)override;
 			void OnInitalize(void* sender)override;

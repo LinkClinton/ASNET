@@ -13,7 +13,10 @@ ASNET::Control::Animation::Animation()
 {
 	Time = 0;
 	IsEnd = true;
+	Type = ASNET::Control::AnimationType::Common;
 }
+
+
 
 auto ASNET::Control::Animation::GetStartTime()->float
 {
@@ -35,27 +38,48 @@ auto ASNET::Control::Animation::GetKeyFrame() -> ASNET::Control::KeyFrame
 auto ASNET::Control::Animation::GetKeyFrame(float TimePos) -> ASNET::Control::KeyFrame
 {
 	ASNET::Control::KeyFrame frame;
-	
-	Frames::iterator it = KeyFrames.end();
-	it--;
-	if (TimePos >= it->first)
-		frame = it->second;
-	else if (TimePos <= KeyFrames.begin()->first)
-		frame = it->second;
-	else {
-		Frames::iterator front;
-		Frames::iterator back;
-		for (Frames::iterator it = KeyFrames.begin(); it != KeyFrames.end(); it++)
-			if (it->first >= TimePos) {
-				back = it;
-				front = --it;
-				break;
+	frame.TimePos = 0;
+	switch (Type)
+	{
+	case ASNET::Control::AnimationType::Linear: {
+		Frames::iterator it = KeyFrames.end();
+		it--;
+		if (TimePos >= it->first)
+			frame = it->second;
+		else if (TimePos <= KeyFrames.begin()->first)
+			frame = it->second;
+		else {
+			Frames::iterator front;
+			Frames::iterator back;
+			for (Frames::iterator it = KeyFrames.begin(); it != KeyFrames.end(); it++) {
+				if (it->first >= TimePos) {
+					back = it;
+					front = --it;
+					break;
+				}
 			}
-		float scale = (TimePos - front->first) / (back->first - front->first);
-		frame.BackGroundColor = LinearComputeColor(front->second.BackGroundColor, back->second.BackGroundColor, scale);
-		frame.TextColor = LinearComputeColor(front->second.TextColor, back->second.BackGroundColor, scale);
-		frame.TimePos = TimePos;
+
+			float scale = (TimePos - front->first) / (back->first - front->first);
+			frame.BackGroundColor = LinearComputeColor(front->second.BackGroundColor, back->second.BackGroundColor, scale);
+			frame.TextColor = LinearComputeColor(front->second.TextColor, back->second.BackGroundColor, scale);
+
+			frame.TimePos = TimePos;
+		}
+		break;
 	}
+	case ASNET::Control::AnimationType::Common: {
+		Frames::iterator now = KeyFrames.end();
+		for (Frames::iterator it = KeyFrames.begin(); it != KeyFrames.end(); it++) {
+			if (TimePos < it->first) { now = it; now--; break; }
+		}
+		if (now == KeyFrames.end()) break;
+		frame = now->second;
+		break;
+	}
+	default:
+		break;
+	}
+	
 
 	return frame;
 }
@@ -95,6 +119,11 @@ auto ASNET::Control::Animation::GetTime() -> float
 bool ASNET::Control::Animation::End()
 {
 	return IsEnd;
+}
+
+void ASNET::Control::Animation::SetType(ASNET::Control::AnimationType type)
+{
+	Type = type;
 }
 
 
