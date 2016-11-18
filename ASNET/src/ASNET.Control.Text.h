@@ -42,6 +42,9 @@ namespace ASNET {
 
 			void SetColor(ASNET::Graph::Color color);
 
+			void Insert(wchar_t buff);
+			void Delete();
+
 			auto GetWord()->ASNET::Graph::Word;
 
 			auto GetColor()->ASNET::Graph::Color;

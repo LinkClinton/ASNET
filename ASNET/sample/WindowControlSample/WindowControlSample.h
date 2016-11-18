@@ -19,12 +19,14 @@ namespace ASNET {
 			//Resource
 			ASNET::Graph::Surface* surface;
 			ASNET::Graph::Font* Consolas20;
+			ASNET::Graph::Font* Consolas12;
 		private:
 			ASNET::Control::Text*   Text1;
 			ASNET::Control::Button* Button1;
 		private:
 			//event
 			static void OnButton1_MouseDown(void* sender, ASNET::Event::EventMouseClick* e);
+			static void OnButton1_KeyDown(void* sender, ASNET::Event::EventBoardClick* e);
 			static auto Get(float _float)->ASNET::Graph::Word;
 		protected:
 			void OnMouseDown(void* sender, ASNET::Event::EventMouseClick* e);

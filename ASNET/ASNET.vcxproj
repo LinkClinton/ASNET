@@ -84,7 +84,7 @@
     <ProjectGuid>{CAB55DFD-6B79-4990-BD6D-5879FE6E14E7}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>ASNET</RootNamespace>
-    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.10586.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">

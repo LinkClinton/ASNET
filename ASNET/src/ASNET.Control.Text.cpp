@@ -47,7 +47,8 @@ void ASNET::Control::Text::DrawCursor()
 {
 	if (CursorAnimation.End()) CursorAnimation.Start();
 	ASNET::Graph::Point point = GetRealPosition(g_cursor_pos, g_cursor_direct);
-	ParentGraph->DrawLine(point, D2D1::Point2F(point.x, point.y + GetHeight()), CursorAnimation.GetKeyFrame().TextColor, 0.7f);
+	ParentGraph->DrawLine(D2D1::Point2F(point.x, point.y), D2D1::Point2F(point.x, point.y + GetHeight()),
+		CursorAnimation.GetKeyFrame().TextColor, 0.7f);
 	CursorAnimation.Pass(ParentGraph->RenderTime());
 }
 
@@ -85,6 +86,36 @@ void ASNET::Control::Text::SetColor(ASNET::Graph::Color color)
 {
 	g_color = color;
 	UpdateColor();
+}
+
+void ASNET::Control::Text::Insert(wchar_t buff)
+{
+	if (g_cursor_pos == 0 && g_cursor_direct == true) {
+		g_word = buff + g_word;
+		UpdateText();
+		g_cursor_direct = false;
+		return;
+	}
+	if (g_cursor_direct == true) {
+		g_cursor_pos--;
+		g_cursor_direct = false;
+	}
+	g_word.insert(g_word.begin() + g_cursor_pos + 1 , buff);
+	g_cursor_pos++;
+	UpdateText();
+}
+
+void ASNET::Control::Text::Delete()
+{
+	if (g_cursor_pos == 0 && g_cursor_direct == true) 
+		return;
+	if (g_cursor_direct == true) {
+		g_cursor_pos--;
+		g_cursor_direct = false;
+	}
+	g_word.erase(g_word.begin() + g_cursor_pos);
+	g_cursor_direct = true;
+	UpdateText();
 }
 
 auto ASNET::Control::Text::GetWord() -> ASNET::Graph::Word
