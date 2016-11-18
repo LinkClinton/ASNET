@@ -17,12 +17,16 @@ namespace ASNET {
 		public:
 			//默认构造函数
 			Timer();
+			
 			//开始计时
 			void  Start();
+			
 			//结束计时
 			void  End();
+			
 			//获取计时器状态
 			bool  GetState();
+			
 			//获取经过时间
 			float GetTime();
 		};

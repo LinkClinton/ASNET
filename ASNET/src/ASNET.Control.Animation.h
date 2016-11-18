@@ -19,8 +19,10 @@ namespace ASNET {
 			KeyFrame();
 		};
 
+		//动画变换类型
 		enum class AnimationType{
-			Linear, Common
+			Linear, //线性
+			Common //默认，可以认为就是直接变换，没有任何平滑效果
 		};
 
 		//动画，描述一组动画，用于控件
@@ -33,34 +35,44 @@ namespace ASNET {
 			float Time;
 			//动画是否结束
 			bool  IsEnd;
-			//
-			AnimationType Type;
+			//动画类型
+			AnimationType Type; 
 		protected:
 			auto LinearComputeColor(ASNET::Graph::Color front, ASNET::Graph::Color back, float scale)->ASNET::Graph::Color;
 		public:
 			Animation();
+			
 			//获取动画开始的时间
 			auto GetStartTime()->float;
+			
 			//获取动画结束的时间
 			auto GetEndTime()->float;
+			
 			//获取动画数据
 			auto GetKeyFrame()->ASNET::Control::KeyFrame;
+			
 			//获取在某个时间的动画数据
 			auto GetKeyFrame(float TimePos)->ASNET::Control::KeyFrame;
+			
 			//增加一个关键帧
 			void AddFrame(ASNET::Control::KeyFrame Frame);
+			
 			//开始动画
 			void Start();
+			
 			//经过多久，单位s
 			void Pass(float PassTime);
+			
 			//强行结束动画
 			void Stop();
+			
 			//获取现在处于的时间
 			auto GetTime()->float;
+			
 			//动画是否结束
 			bool End();
 
-			//
+			//设置动画类型
 			void SetType(ASNET::Control::AnimationType type);
 
 			

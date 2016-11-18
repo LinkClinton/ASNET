@@ -20,6 +20,7 @@ namespace ASNET {
 				GeometryMesh();
 				//析构函数
 				~GeometryMesh();
+				
 				std::vector<ASNET::Graph::Direct3D::Vertex> vertices; //顶点
 				std::vector<ASNET::Graph::Direct3D::Index>  indices; //索引
 				
@@ -35,14 +36,17 @@ namespace ASNET {
 				//创建Grid，但不创建缓存
 				static void CreateGrid(ASNET::Graph::Direct3D::GeometryMesh &mesh,
 					float width, float depth, UINT dx, UINT dz);
+				
 				//创建Grid
 				static void CreateGrid(ASNET::Graph::Direct3D::GraphDirect3D* graph,
 					ASNET::Graph::Direct3D::Buffer* &buffer,
 					float width, float depth, UINT dx, UINT dz,
 					bool CPUAcess = false);
+				
 				//创建Cube，但不创建缓存
 				static void CreateBox(ASNET::Graph::Direct3D::GeometryMesh &mesh,
 					float width, float height, float depth);
+				
 				//创建Cube
 				static void CreateBox(ASNET::Graph::Direct3D::GraphDirect3D* graph,
 					ASNET::Graph::Direct3D::Buffer* &buffer,

@@ -90,34 +90,47 @@ namespace ASNET {
 	public:
 		//添加一个Page
 		void AddPage(ASNET::Page::Page* page);
+		
 		//删除一个Page
 		void DeletePage(int index);
+		
 		//显示某个Page
 		void ShowPage(int index, void* any = nullptr);
+		
 		//跳转到下一个Page
 		void NextPage(void* any = nullptr);
+		
 		//返回现在使用的Page的指针
 		auto NowUsedPage()->ASNET::Page::Page*;
+		
 		//返回现在有多少个Page在集合里面
 		auto NowPageNum()->int;
+		
 		//运行
 		void Run();
+		
 		//显示窗口
 		void Show();
+		
 		//隐藏窗口
 		void Hide();
+		
 		//释放资源
 		void Release();
 
 
 		//返回某个按键信息,true表示按下false表示弹起
 		bool GetKeyState(ASNET::Keycode keycode); //true is down ,false is up
+		
 		//返回鼠标位置
 		auto GetMousePosx()->int;
+		
 		//返回鼠标位置
 		auto GetMousePosy()->int;
+		
 		//返回窗口宽度
 		auto GetWidth()->int;
+		
 		//返回窗口高度
 		auto GetHeight()->int;
 	};

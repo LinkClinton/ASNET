@@ -55,6 +55,7 @@ namespace ASNET {
 				ASNET::Control::ButtonStyle style = ASNET::Control::ButtonStyle::Simple,
 				ASNET::Graph::TextAlign horizontal = ASNET::Graph::TextAlign::Center,
 				ASNET::Graph::TextAlign vertical = ASNET::Graph::TextAlign::Center);
+
 			//¼ÇµÃdelete
 			~Button(); 
 

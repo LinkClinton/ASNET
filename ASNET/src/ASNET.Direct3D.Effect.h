@@ -158,44 +158,61 @@ namespace ASNET {
 			public:
 				//构造函数
 				BasicEffect(ASNET::Graph::Direct3D::GraphDirect3D* graph);
+				
 				//析构函数
 				~BasicEffect();
+				
 				//启用某种Effect
 				void Enable(ASNET::Graph::Direct3D::Enable thing);
+				
 				//关闭某种Effect
 				void UnEnable(ASNET::Graph::Direct3D::UnEnable thing);
+				
 				//开启某个平行光
-				void DirLightOn(int which, 
+				void DirLightOn(int which,	
 					ASNET::Graph::Direct3D::DirLight dirlight);
+				
 				//关闭某个平行光
 				void DirLightOff(int which);
+				
 				//开启某个聚光灯
 				void SpotLightOn(int which,
 					ASNET::Graph::Direct3D::SpotLight spotlight);
 				//关闭某个聚光灯
 				void SpotLightOff(int which);
+			
 				//开启某个点光源
 				void PointLightOn(int which,
 					ASNET::Graph::Direct3D::PointLight pointlight);
+				
 				//关闭某个点光源
 				void PointLightOff(int which);
+				
 				//设置使用的材质
 				void SetMaterial(ASNET::Graph::Direct3D::Material material);
+				
 				//设置使用的贴图
 				void SetTexture(ASNET::Graph::Direct3D::Texture* texture);
+				
 				//设置投影矩阵
 				void SetProjMatrix(DirectX::CXMMATRIX matrix);
+				
 				//设置视角矩阵
 				void SetViewMatrix(DirectX::XMVECTOR eyepos, DirectX::XMVECTOR lookat);
+				
 				//设置世界变换矩阵
 				void SetWorldMatrix(DirectX::CXMMATRIX matrix);
+				
 				//设置某个骨骼的动画矩阵
 				void SetBoneAnimationMatrix(int which, DirectX::CXMMATRIX matrix);
+				
 				//设置所有的骨骼的动画矩阵
 				void SetBoneAnimationMatrix(int start, std::vector<DirectX::XMFLOAT4X4> matrix);
+				
 				//开始使用，在使用之后着色器会被设置为Effect自带的着色器
 				void EffectBegin(); //used the effect in this ,but the old shader can't be used
-				//结束使用，在使用之后着色器会被设置为原本的着色器
+				
+									//结束使用，在使用之后着色器会被设置为原本的着色器
 				void EffectEnd(); //the old shader will be reused
 			};
 			

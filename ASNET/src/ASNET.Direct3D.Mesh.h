@@ -65,20 +65,24 @@ namespace ASNET {
 			public:
 				//构造函数
 				Mesh(ASNET::Graph::Direct3D::GraphDirect3D* graph);
+				
 				//析构函数
 				~Mesh();
+				
 				//绘制这个模型
 				void Draw(UINT texture_id = 0); //the used texture_id in the shader
+				
 				//通过使用Effect绘制这个模型
 				void Draw(ASNET::Graph::Direct3D::BasicEffect* effect, bool TextureEnable = true);
+				
 				//绘制模型要做的准备
 				void PrepareDraw(); 
+				
 				//绘制模型的某个部分
 				void DrawPart(UINT index);
 
 				//返回Part的个数
 				auto Parts()->int; 
-
 
 				//释放资源
 				void Release();

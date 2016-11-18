@@ -86,8 +86,10 @@ namespace ASNET {
 		public:
 			//注册控件
 			void RegisterControl(ASNET::Control::Control* control);
+			
 			//取消注册某个控件
 			void UnRegisterControl(ASNET::Control::Control* control);
+			
 			//设置获取焦点的控件，之前获取焦点的控件将会失去焦点
 			void SetFocus(ASNET::Control::Control* control);
 		};

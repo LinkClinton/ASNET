@@ -39,13 +39,17 @@ namespace ASNET {
 				byte  BoneIndices[4]; //骨骼的索引
 				//构造函数
 				Vertex();
+				
 				//构造函数
 				Vertex(float _x, float _y, float _z,
 					float _u, float _v);
+				
 				//设置法线
 				void Normal(float _nx, float _ny, float _nz);
+				
 				//设置颜色
 				void Color(float _r, float _g, float _b, float _a);
+				
 				//加入一个weight值,依次填充x,y,z
 				void Weight(float weight, int count);
 			};
@@ -68,11 +72,13 @@ namespace ASNET {
 			public:
 				//构造函数
 				Buffer(ASNET::Graph::Direct3D::GraphDirect3D* Graph);
+				
 				//析构函数，记得delete
 				~Buffer();
 
 				//解锁缓存区，能够对缓存区进行更改
 				void UnLock(ASNET::Graph::Direct3D::Vertex* &vertices);
+				
 				//重新锁定缓存区
 				void Lock();
 
@@ -96,8 +102,10 @@ namespace ASNET {
 			public:
 				//构造函数
 				ShaderDataBuffer(ASNET::Graph::Direct3D::GraphDirect3D* Graph);
+				
 				//析构函数，记得delete
 				~ShaderDataBuffer();
+				
 				//返回缓存
 				operator ID3D11Buffer*(); 
 
@@ -120,8 +128,10 @@ namespace ASNET {
 			public:
 				//构造函数
 				Texture(ASNET::Graph::Direct3D::GraphDirect3D* Graph);
+				
 				//析构函数，记得delete
 				~Texture();
+				
 				//返回贴图缓存
 				operator ID3D11ShaderResourceView*();
 
@@ -157,6 +167,7 @@ namespace ASNET {
 					bool IsCompiled = false,
 					char* VertexFunctionName = "main",
 					char* PixelFunctionName = "main");
+				
 				//析构函数
 				~Shader();
 
@@ -170,9 +181,11 @@ namespace ASNET {
 				//将着色器缓存数据传给顶点着色器
 				void SendBufferToVertexShader(UINT buffer_id,
 					ASNET::Graph::Direct3D::ShaderDataBuffer* buffer);
+				
 				//将着色器缓存数据传给像素着色器
 				void SendBufferToPixelShader(UINT buffer_id,
 					ASNET::Graph::Direct3D::ShaderDataBuffer* buffer);
+				
 				//将贴图传给像素着色器
 				void SendTextureToShader(UINT texture_id,
 					ASNET::Graph::Direct3D::Texture* texture);
@@ -236,23 +249,27 @@ namespace ASNET {
 
 				//设置使用的着色器,IsLoad=false将会对着色器进行编译或者加载
 				void SetShader(ASNET::Graph::Direct3D::Shader* shader, bool IsLoad = false);
+				
 				//设置CullMode
 				void SetCullMode(ASNET::Graph::Direct3D::CullMode cullmode);
+				
 				//设置FillMode
 				void SetFillMode(ASNET::Graph::Direct3D::FillMode fillmode);
+				
 				//加载贴图
 				void LoadTexture(ASNET::Graph::Direct3D::Texture* &texture,
 					ASNET::Graph::Word filename);
+				
 				//加载缓存
 				void LoadBuffer(ASNET::Graph::Direct3D::Buffer* &buffer,
 					std::vector<ASNET::Graph::Direct3D::Vertex> vertices,
 					std::vector<ASNET::Graph::Direct3D::Index>  indices = std::vector<Index>(),
 					bool CPUAccess = false); //only for vertex buffer
 
-			
 				//加载着色器缓存
 				void LoadShaderDataBuffer(void* data, UINT datasize,
 					ASNET::Graph::Direct3D::ShaderDataBuffer* &buffer);
+			
 				//绘制缓存
 				void DrawBuffer(ASNET::Graph::Direct3D::Buffer* buffer,
 					ASNET::Graph::Direct3D::PrimitiveType Type =

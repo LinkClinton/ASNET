@@ -4,7 +4,11 @@
 namespace ASNET {
 	namespace Control {
 
-		
+		class TextBox :ASNET::Control::Control {
+		private:
+
+		public:
+		};
 
 
 	}

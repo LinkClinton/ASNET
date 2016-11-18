@@ -62,38 +62,49 @@ namespace ASNET {
 		public:
 			//构造函数
 			Graph(HWND hwnd, bool IsWindowed = true);
+		
 			//析构函数
 			~Graph();
+			
 			//清理
 			void Clear(ASNET::Graph::Color color = D2D1::ColorF::White);
+			
 			//刷新
 			void Present();
+			
 			//返回FPS
 			auto FPS()->float;
+			
 			//返回渲染一帧用的时间
 			auto RenderTime()->float;
-			//
+			
+			//获取DpiX
 			auto GetDpiX()->float;
-			//
+			
+			//获取DpiY
 			auto GetDpiY()->float;
 
 			
 			//绘制线
 			virtual void DrawLine(ASNET::Graph::Point P1,
 				ASNET::Graph::Point P2, ASNET::Graph::Color color, float width = 1.0f);
+		
 			//绘制矩形
 			virtual void DrawRectangle(ASNET::Graph::Rect rect,
 				ASNET::Graph::Color color, float width = 1.0f, bool IsFill = false,
 				ASNET::Graph::Color FillColor = D2D1::ColorF::White);
+			
 			//绘制图片
 			virtual void DrawImage(ASNET::Graph::Image* image,
 				ASNET::Graph::Rect rect);
+			
 			//绘制文本
 			virtual void DrawWord(ASNET::Graph::Word word,
 				ASNET::Graph::Rect rect, ASNET::Graph::Font* font,
 				ASNET::Graph::Color color = D2D1::ColorF::Black,
 				ASNET::Graph::TextAlign horizontal = ASNET::Graph::TextAlign::Left,
 				ASNET::Graph::TextAlign vertical = ASNET::Graph::TextAlign::Top);
+			
 			//加载图片
 			virtual void LoadImage(ASNET::Graph::Word filename,
 				ASNET::Graph::Image* &image);
@@ -102,6 +113,7 @@ namespace ASNET {
 			virtual void LoadFont(ASNET::Graph::Font* &font,
 				ASNET::Graph::Word fontname, float fontsize);
 
+			//获取内部接口
 			virtual auto Interface()->ASNET::Graph::Interface;
 
 		};
