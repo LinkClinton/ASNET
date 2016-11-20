@@ -1,5 +1,7 @@
 #pragma once
 #include<ASNET.h>
+#include<ASNET.Control.Button.h>
+#include<ASNET.Control.TextBox.h>
 namespace ASNET {
 	namespace Sample {
 
@@ -21,8 +23,8 @@ namespace ASNET {
 			ASNET::Graph::Font* Consolas20;
 			ASNET::Graph::Font* Consolas12;
 		private:
-			ASNET::Control::Text*   Text1;
-			ASNET::Control::Button* Button1;
+			ASNET::Control::TextBox* TextBox1;
+			ASNET::Control::Button*  Button1;
 		private:
 			//event
 			static void OnButton1_MouseDown(void* sender, ASNET::Event::EventMouseClick* e);

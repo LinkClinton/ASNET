@@ -164,6 +164,9 @@
     <ClCompile Include="src\ASNET.Control.Text.cpp">
       <Filter>Source File\Control</Filter>
     </ClCompile>
+    <ClCompile Include="src\ASNET.Control.TextBox.cpp">
+      <Filter>Source File\Control</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="src\ASNET.Effect.Vertex.hlsl">

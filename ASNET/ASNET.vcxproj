@@ -46,6 +46,7 @@
     <ClCompile Include="src\ASNET.Control.Button.cpp" />
     <ClCompile Include="src\ASNET.Control.cpp" />
     <ClCompile Include="src\ASNET.Control.Text.cpp" />
+    <ClCompile Include="src\ASNET.Control.TextBox.cpp" />
     <ClCompile Include="src\ASNET.Control.Timer.cpp" />
     <ClCompile Include="src\ASNET.Direct3D.Effect.cpp" />
     <ClCompile Include="src\ASNET.Direct3D.Geometry.cpp" />

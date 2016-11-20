@@ -23,6 +23,11 @@ namespace ASNET {
 			int				      g_cursor_pos; //光标位置
 			bool                  g_cursor_show; //文本是否显示
 			bool				  g_cursor_direct;//文本方向，true代表在当前字符的左边
+
+
+			int					  g_text_left_pos; //用于文本裁剪，将设置文本最左边显示的位置
+			int                   g_text_right_pos; //用于文本裁剪，将设置文本最右边的显示的位置
+			bool                  g_text_clip; //是否使用文本裁剪
 		protected:
 			void InitalizeCursorAnimation(); //初始化光标动画
 
@@ -30,11 +35,11 @@ namespace ASNET {
 		private:
 			void UpdateText(); //更新文本布局
 			void UpdateColor(); //更新文本画刷
-			void DrawCursor(); //绘制光标
+			void DrawCursor(ASNET::Graph::Point origin); //绘制光标
 		public:
 			//构造函数
 			Text(ASNET::Graph::Graph* graph, ASNET::Graph::Word word,
-				ASNET::Graph::Size size, ASNET::Graph::Font* font,
+				ASNET::Graph::Size size, ASNET::Graph::Font* fontface,
 				ASNET::Graph::Color color = D2D1::ColorF::Black,
 				ASNET::Graph::TextAlign horizontal = ASNET::Graph::TextAlign::Left,
 				ASNET::Graph::TextAlign vertical = ASNET::Graph::TextAlign::Top);
@@ -45,11 +50,14 @@ namespace ASNET {
 			//设置文本颜色
 			void SetColor(ASNET::Graph::Color color);
 			
-			//插入一个字符
-			void Insert(wchar_t buff);
-			
-			//删除一个字符
-			void Delete();
+			//是否启用文本裁剪
+			void SetClip(bool is);
+
+			//设置左边部分的文本裁剪
+			void SetLeftClip(int left);
+
+			//设置右边部分的文本裁剪
+			void SetRightClip(int right);
 			
 			//返回文本内容
 			auto GetWord()->ASNET::Graph::Word;
@@ -69,7 +77,7 @@ namespace ASNET {
 			//返回文本的高度
 			auto GetHeight()->float;
 			
-			//返回距离这个像素点最近的字符的位置
+			//返回距离这个像素点最近的字符的位置，坐标系相对于文本
 			auto GetTextPosition(ASNET::Graph::Point point)->int;
 
 			//绘制自己
@@ -78,8 +86,14 @@ namespace ASNET {
 			ASNET::Graph::TextAlign Horizontal; //布局
 			ASNET::Graph::TextAlign Vertical; //布局
 
-			ASNET::Graph::Font*     Fontface; //使用的字体
+			ASNET::Graph::Font* FontFace; //字体
 			
+			//插入一个字符
+			void Insert(wchar_t buff);
+
+			//删除一个字符
+			void Delete();
+
 			//显示光标
 			void CursorShow(); 
 
@@ -101,9 +115,12 @@ namespace ASNET {
 			//设置光标的位置
 			void SetCursorPosition(int textposition = 0 , bool IsLeft = false);
 
-			//设置光标的位置，将设置到距离point最近的字符的位置
+			//设置光标的位置，将设置到距离point最近的字符的位置,坐标系相对于文本
 			void SetCursorPosition(ASNET::Graph::Point point);
 
+
+
+			static auto KeycodeToWideChar(void* sender, ASNET::Keycode keycode)->wchar_t;
 		};
 
 	}

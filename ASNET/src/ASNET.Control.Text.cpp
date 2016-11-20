@@ -1,6 +1,6 @@
 #include "ASNET.Control.Text.h"
 
-
+#include"ASNET.Window.h"
 
 template<typename T>
 void release(T &Interface) {
@@ -31,9 +31,14 @@ void ASNET::Control::Text::InitalizeCursorAnimation()
 void ASNET::Control::Text::UpdateText()
 {
 	release(g_text);
-	ParentInterface.DeviceContextWrite->CreateTextLayout(&g_word[0],
-		g_word.length(), *Fontface, g_size.width, g_size.height, &g_text);
-
+	if (g_text_clip == false) {
+		ParentInterface.DeviceContextWrite->CreateTextLayout(&g_word[0],
+			g_word.length(), *FontFace, g_size.width, g_size.height, &g_text);
+	}
+	else {
+		ParentInterface.DeviceContextWrite->CreateTextLayout(&g_word[g_text_left_pos],
+			g_text_right_pos - g_text_left_pos + 1, *FontFace, g_size.width, g_size.height, &g_text);
+	}
 }
 
 void ASNET::Control::Text::UpdateColor()
@@ -43,17 +48,19 @@ void ASNET::Control::Text::UpdateColor()
 		&g_brush);
 }
 
-void ASNET::Control::Text::DrawCursor()
+void ASNET::Control::Text::DrawCursor(ASNET::Graph::Point origin)
 {
 	if (CursorAnimation.End()) CursorAnimation.Start();
 	ASNET::Graph::Point point = GetRealPosition(g_cursor_pos, g_cursor_direct);
+	point.x += origin.x;
+	point.y += origin.y;
 	ParentGraph->DrawLine(D2D1::Point2F(point.x, point.y), D2D1::Point2F(point.x, point.y + GetHeight()),
 		CursorAnimation.GetKeyFrame().TextColor, 0.7f);
 	CursorAnimation.Pass(ParentGraph->RenderTime());
 }
 
 ASNET::Control::Text::Text(ASNET::Graph::Graph* graph, ASNET::Graph::Word word,
-	ASNET::Graph::Size size, ASNET::Graph::Font * font, ASNET::Graph::Color color,
+	ASNET::Graph::Size size, ASNET::Graph::Font* fontface, ASNET::Graph::Color color,
 	ASNET::Graph::TextAlign horizontal, ASNET::Graph::TextAlign vertical)
 {
 	ParentGraph = graph;
@@ -61,16 +68,22 @@ ASNET::Control::Text::Text(ASNET::Graph::Graph* graph, ASNET::Graph::Word word,
 	g_word = word;
 	g_size = size;
 	g_color = color;
-	Fontface = font;
+	
 
 	Horizontal = horizontal;
 	Vertical = vertical;
+
+	FontFace = fontface;
 
 	g_cursor_pos = 0;
 	g_cursor_direct = true;
 	g_cursor_show = false;
 
+	g_text_clip = false;
+	
 	InitalizeCursorAnimation();
+
+	
 
 	UpdateColor();
 	UpdateText();
@@ -86,6 +99,23 @@ void ASNET::Control::Text::SetColor(ASNET::Graph::Color color)
 {
 	g_color = color;
 	UpdateColor();
+}
+
+
+
+void ASNET::Control::Text::SetClip(bool is)
+{
+	g_text_clip = is;
+}
+
+void ASNET::Control::Text::SetLeftClip(int left)
+{
+	g_text_left_pos = left;
+}
+
+void ASNET::Control::Text::SetRightClip(int right)
+{
+	g_text_right_pos = right;
 }
 
 void ASNET::Control::Text::Insert(wchar_t buff)
@@ -198,7 +228,7 @@ void ASNET::Control::Text::OnDraw(ASNET::Graph::Point origin)
 	}
 	ParentInterface.DeviceContext2D->DrawTextLayout(origin, g_text, g_brush);
 	if (g_cursor_show)
-		DrawCursor();
+		DrawCursor(origin);
 }
 
 void ASNET::Control::Text::CursorShow()
@@ -273,5 +303,26 @@ void ASNET::Control::Text::SetCursorPosition(ASNET::Graph::Point point)
 		Physics::Vector2::Distance(point.x, point.y, tar_pos_right.x, tar_pos_right.y))
 		g_cursor_direct = true;
 	else g_cursor_direct = false;
+}
+
+static wchar_t NumKeyTo[10] = { ')','!','@','#','$','%','^','&','*','(' };
+
+auto ASNET::Control::Text::KeycodeToWideChar(void * sender, ASNET::Keycode keycode) -> wchar_t
+{
+	ASNET::Window* MainWindow = (ASNET::Window*)sender;
+	wchar_t input = (wchar_t)keycode;
+	if (keycode >= ASNET::Keycode::A && keycode <= ASNET::Keycode::Z) {
+		if (MainWindow->GetKeyState(ASNET::Keycode::CapsLock) == false)
+			input += 'a' - 'A';
+		return input;
+	}
+	if (keycode >= ASNET::Keycode::Num0 && keycode <= ASNET::Keycode::Num9) {
+		if (MainWindow->GetKeyState(ASNET::Keycode::Shift) == true) {
+			return NumKeyTo[input - '0'];
+		}
+		return input;
+	}
+	if (keycode == ASNET::Keycode::Space) return ' ';
+	return L'\0';
 }
 

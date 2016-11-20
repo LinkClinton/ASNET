@@ -121,6 +121,3 @@ namespace ASNET {
 }
 
 
-#include"ASNET.Control.Text.h"
-#include"ASNET.Control.Timer.h"
-#include"ASNET.Control.Button.h"

@@ -43,16 +43,7 @@ void ASNET::Sample::ControlStartPage::OnButton1_KeyDown(void * sender, ASNET::Ev
 	ASNET::Control::Button* Button = (ASNET::Control::Button*)sender;
 	ASNET::Sample::ControlStartPage* Page = (ASNET::Sample::ControlStartPage*)Button->Parent;
 
-	if (e->keycode == ASNET::Keycode::Left) Page->Text1->CursorLeft();
-	if (e->keycode == ASNET::Keycode::Right) Page->Text1->CuesorRight();
-	if (e->keycode == ASNET::Keycode::Up) Page->Text1->CursorUp();
-	if (e->keycode == ASNET::Keycode::Down) Page->Text1->CursorDown();
-	if (e->keycode >= (Keycode)'A' && e->keycode <= (Keycode)'Z') {
-		Page->Text1->Insert((wchar_t)e->keycode);
-	}
-	if (e->keycode == ASNET::Keycode::Backspace) {
-		Page->Text1->Delete();
-	}
+	
 }
 
 auto ASNET::Sample::ControlStartPage::Get(float _float) -> ASNET::Graph::Word
@@ -73,7 +64,7 @@ auto ASNET::Sample::ControlStartPage::Get(float _float) -> ASNET::Graph::Word
 
 void ASNET::Sample::ControlStartPage::OnMouseDown(void * sender, ASNET::Event::EventMouseClick * e)
 {
-	Text1->SetCursorPosition(D2D1::Point2F((float)e->x, (float)e->y));
+
 }
 
 void ASNET::Sample::ControlStartPage::OnKeyDown(void * sender, ASNET::Event::EventBoardClick * e)
@@ -85,7 +76,7 @@ void ASNET::Sample::ControlStartPage::OnKeyDown(void * sender, ASNET::Event::Eve
 void ASNET::Sample::ControlStartPage::OnDraw(void * sender,
 	ASNET::Graph::Direct3D::GraphDirect3D * graph)
 {
-	Text1->OnDraw(D2D1::Point2F(0, 0));
+	
 	std::wstring FPSBox = L"FPS: " + Get(graph->FPS());
 	graph->DrawWord(FPSBox, D2D1::RectF(0, (float)600 - 20, (float)FPSBox.length()*20.f, (float)800), Consolas12);
 }
@@ -103,9 +94,7 @@ void ASNET::Sample::ControlStartPage::OnInitalize(void * sender)
 	ParentGraph->LoadFont(Consolas20, L"Consolas", 20);
 	ParentGraph->LoadFont(Consolas12, L"Consolas", 12);
 
-	Text1 = new ASNET::Control::Text(ParentGraph, L"Hello,World!", D2D1::SizeF(100, 100),
-		Consolas12);
-	Text1->CursorShow();
+	TextBox1 = new ASNET::Control::TextBox(ParentGraph, 20, 100, 20, 40, L"TextBox",Consolas12);
 
 	Button1 = new ASNET::Control::Button(ParentGraph, (float)MainWindow->GetWidth() / 2 - Note1Size,
 		(float)MainWindow->GetWidth() / 2 + Note1Size, (float)MainWindow->GetHeight() / 4 * 3 - Note1Size,
@@ -118,6 +107,7 @@ void ASNET::Sample::ControlStartPage::OnInitalize(void * sender)
 	Button1->Selectibility = true;
 	
 	RegisterControl(Button1);
+	RegisterControl(TextBox1);
 }
 
 void ASNET::Sample::ControlStartPage::OnLoading(void * sender, void * any)
@@ -136,7 +126,7 @@ ASNET::Sample::ControlStartPage::ControlStartPage()
 
 ASNET::Sample::ControlStartPage::~ControlStartPage()
 {
-	delete Text1;
+	delete TextBox1;
 	delete Button1;
 	delete Consolas20;
 	delete Consolas12;
