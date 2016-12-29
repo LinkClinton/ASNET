@@ -8,6 +8,7 @@ namespace ASNET {
 		class ControlWindow :public ASNET::Window {
 		private:
 		public:
+			void OnKeyDown(void*sender, ASNET::Event::EventBoardClick* e)override;
 			ASNET::Graph::Graph* MyGraph;
 		public:
 			ControlWindow();

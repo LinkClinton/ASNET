@@ -3,8 +3,13 @@
 #include<map>
 #include<vector>
 #include<functional>
-
+#ifdef _WINDOWS7
 #include<d2d1.h>
+#else 
+#include<d2d1_1.h>
+#endif // _WINDOWS7
+
+
 #include<d3d11.h>
 #include<dwrite.h>
 #include<wincodec.h>

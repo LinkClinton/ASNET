@@ -28,14 +28,18 @@ namespace ASNET {
 			float					g_dpiy;
 		protected:
 			//Direct2D 
+#ifdef _WINDOWS7
 			ID2D1Factory*			g_factory; //Direct2D Factory
 
 			ID2D1RenderTarget*      g_devicecontext2d; //Direct2D DeviceContext
+#else 
+			ID2D1Factory1*			g_factory;
+			ID2D1Device*			g_device2d;
 
-			//d2d1_1
-			//ID2D1Device*            g_device2d;
-			//ID2D1DeviceContext*     g_devicecontext2d;
+			ID2D1DeviceContext*		g_devicecontext2d;
+#endif // _WINDOWS7
 
+		
 			//Direct3D11
 			ID3D11Device*			g_device3d; //Direct3D Device
 			IDXGISwapChain*			g_swapchain; //DXGI SwapChain

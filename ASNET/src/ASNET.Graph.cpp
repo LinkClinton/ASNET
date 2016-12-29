@@ -29,8 +29,13 @@ namespace ASNET {
 				CLSCTX_INPROC,
 				IID_IWICImagingFactory,
 				(void **)(&g_imagefactory));
-
+#ifdef _WINDOWS7
 			D2D1CreateFactory(D2D1_FACTORY_TYPE_SINGLE_THREADED, (ID2D1Factory**)&g_factory);
+#else 
+			D2D1CreateFactory(D2D1_FACTORY_TYPE_SINGLE_THREADED, (ID2D1Factory1**)&g_factory);
+#endif // _WINDOWS7
+
+			
 
 			D3D_FEATURE_LEVEL Features[3] = {
 				D3D_FEATURE_LEVEL_11_0,
@@ -133,6 +138,7 @@ namespace ASNET {
 			g_dpix = dpiX;
 			g_dpiy = dpiY;
 
+#ifdef _WINDOWS7
 			//d2d1
 			g_factory->CreateDxgiSurfaceRenderTarget(Surface, D2D1::RenderTargetProperties(
 				D2D1_RENDER_TARGET_TYPE::D2D1_RENDER_TARGET_TYPE_DEFAULT,
@@ -140,12 +146,12 @@ namespace ASNET {
 				dpiX,
 				dpiY
 			), &g_devicecontext2d);
-			g_devicecontext2d->SetTextRenderingParams();
-			g_devicecontext2d->SetTextAntialiasMode(D2D1_TEXT_ANTIALIAS_MODE::D2D1_TEXT_ANTIALIAS_MODE_CLEARTYPE);
-			//d2d1_1
-			/*g_factory->CreateDevice(DXGIDevice, &g_device2d);
+#else
+
+			g_factory->CreateDevice(DXGIDevice, &g_device2d);
 
 			g_device2d->CreateDeviceContext(D2D1_DEVICE_CONTEXT_OPTIONS_NONE, &g_devicecontext2d);
+
 
 			D2D1_BITMAP_PROPERTIES1 bitmapProperties =
 				D2D1::BitmapProperties1(
@@ -162,6 +168,12 @@ namespace ASNET {
 				&bitmapProperties, &TargetBitmap);
 
 			g_devicecontext2d->SetTarget(TargetBitmap);
+		
+#endif // DEBUG
+
+		
+			//d2d1_1
+			/*
 			*/
 			DXGIDevice->Release();
 			BackBuffer->Release();

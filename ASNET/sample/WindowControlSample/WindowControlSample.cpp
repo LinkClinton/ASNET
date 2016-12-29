@@ -15,6 +15,11 @@ int main() {
 	Window->Release();
 }
 
+void ASNET::Sample::ControlWindow::OnKeyDown(void * sender, ASNET::Event::EventBoardClick * e)
+{
+	
+}
+
 ASNET::Sample::ControlWindow::ControlWindow(){
 	Height = 600;
 	Width = 800;
@@ -79,6 +84,7 @@ void ASNET::Sample::ControlStartPage::OnDraw(void * sender,
 	
 	std::wstring FPSBox = L"FPS: " + Get(graph->FPS());
 	graph->DrawWord(FPSBox, D2D1::RectF(0, (float)600 - 20, (float)FPSBox.length()*20.f, (float)800), Consolas12);
+	graph->DrawLine(D2D1::Point2F(0, 0), D2D1::Point2F(100, 100), D2D1::ColorF::Black);
 }
 
 void ASNET::Sample::ControlStartPage::OnInitalize(void * sender)

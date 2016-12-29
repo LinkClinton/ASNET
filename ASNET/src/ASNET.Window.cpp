@@ -78,7 +78,7 @@ namespace ASNET {
 			CW_USEDEFAULT, CW_USEDEFAULT,
 			rc.right - rc.left,
 			rc.bottom - rc.top, nullptr, nullptr, Hinstance, nullptr);
-
+		
 		ShowWindow(Hwnd, SW_SHOWNORMAL);
 
 		g_factory->Release();

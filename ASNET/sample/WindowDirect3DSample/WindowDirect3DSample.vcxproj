@@ -22,7 +22,7 @@
     <ProjectGuid>{F26B253D-984B-434B-B39E-377B1A597B7B}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>WindowDirect3DSample</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.10586.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.14393.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
