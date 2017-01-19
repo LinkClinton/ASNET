@@ -57,6 +57,10 @@ namespace ASNET {
 			UINT width = rc.right - rc.left;
 			UINT height = rc.bottom - rc.top;
 
+			g_width = width;
+			g_height = height;
+			g_hwnd = hwnd;
+
 			UINT MSAA4xQuality(0);
 			g_device3d->CheckMultisampleQualityLevels(DXGI_FORMAT_R8G8B8A8_UNORM, 4, &MSAA4xQuality);
 

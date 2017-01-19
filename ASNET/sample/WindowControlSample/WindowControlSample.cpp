@@ -26,6 +26,7 @@ ASNET::Sample::ControlWindow::ControlWindow(){
 	Title = L"WindowControlSample";
 	IcoName = nullptr;
 	Initalize();
+	
 }
 
 ASNET::Sample::ControlWindow::~ControlWindow(){
@@ -47,7 +48,7 @@ void ASNET::Sample::ControlStartPage::OnButton1_KeyDown(void * sender, ASNET::Ev
 {
 	ASNET::Control::Button* Button = (ASNET::Control::Button*)sender;
 	ASNET::Sample::ControlStartPage* Page = (ASNET::Sample::ControlStartPage*)Button->Parent;
-
+	
 	
 }
 
@@ -83,13 +84,21 @@ void ASNET::Sample::ControlStartPage::OnDraw(void * sender,
 {
 	
 	std::wstring FPSBox = L"FPS: " + Get(graph->FPS());
+	
+
+	//graph->DrawLine(D2D1::Point2F(0, 0), D2D1::Point2F(100, 100), D2D1::ColorF::Black);
+	//graph->DrawImage(image, D2D1::RectF(0, 0, 800, 800));
 	graph->DrawWord(FPSBox, D2D1::RectF(0, (float)600 - 20, (float)FPSBox.length()*20.f, (float)800), Consolas12);
-	graph->DrawLine(D2D1::Point2F(0, 0), D2D1::Point2F(100, 100), D2D1::ColorF::Black);
+	//graph->DrawWord(L"Text-Test", D2D1::RectF(0, 0, 200, 200), Consolas20);
 }
 
 void ASNET::Sample::ControlStartPage::OnInitalize(void * sender)
 {
 	ASNET::Sample::ControlWindow* MainWindow = (ASNET::Sample::ControlWindow*)sender;
+
+	HWND Desktop = GetDesktopWindow();
+
+	//ParentGraph->LoadImage(L"C:/Users/Link/Pictures/Camera Roll/so.jpg", image);
 
 	surface = new ASNET::Graph::Surface(ParentGraph);
 	surface->SetWidth(100);
@@ -97,7 +106,7 @@ void ASNET::Sample::ControlStartPage::OnInitalize(void * sender)
 	surface->SetPositionX(100);
 	surface->SetPositionY(100);
 
-	ParentGraph->LoadFont(Consolas20, L"Consolas", 20);
+	ParentGraph->LoadFont(Consolas20, L"Microsoft-Yahei-UI-Light", 30);
 	ParentGraph->LoadFont(Consolas12, L"Consolas", 12);
 
 	TextBox1 = new ASNET::Control::TextBox(ParentGraph, 20, 100, 20, 40, L"TextBox",Consolas12);
@@ -112,8 +121,8 @@ void ASNET::Sample::ControlStartPage::OnInitalize(void * sender)
 
 	Button1->Selectibility = true;
 	
-	RegisterControl(Button1);
-	RegisterControl(TextBox1);
+	//RegisterControl(Button1);
+	//RegisterControl(TextBox1);
 }
 
 void ASNET::Sample::ControlStartPage::OnLoading(void * sender, void * any)

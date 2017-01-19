@@ -24,7 +24,8 @@ ASNET::Graph::Direct3D::GeometryMesh::operator ASNET::Graph::Direct3D::Buffer*&(
 
 void ASNET::Graph::Direct3D::GeometryMaker::CreateGrid(
 	ASNET::Graph::Direct3D::GeometryMesh & mesh,
-	float width, float depth, UINT dx, UINT dz){
+	float width, float depth, UINT dx, UINT dz,
+	ASNET::Graph::Color color) {
 	UINT VertexCount = dx*dz;
 	UINT FaceCount = (dx - 1)*(dz - 1) * 2;
 	
@@ -45,7 +46,7 @@ void ASNET::Graph::Direct3D::GeometryMaker::CreateGrid(
 			int index = i*dx + j;
 			mesh.vertices[index] = ASNET::Graph::Direct3D::Vertex(x, 0.f, z, j*Du, i*Dv);
 			mesh.vertices[index].Normal(0.f, 1.f, 0.f);
-			mesh.vertices[index].Color(1, 1, 1, 1);
+			mesh.vertices[index].Color(color.x, color.y, color.z, color.w);
 		}
 	}
 
@@ -68,12 +69,12 @@ void ASNET::Graph::Direct3D::GeometryMaker::CreateGrid(
 }
 
 void ASNET::Graph::Direct3D::GeometryMaker::CreateGrid(
-	ASNET::Graph::Direct3D::GraphDirect3D * graph, 
+	ASNET::Graph::Direct3D::GraphDirect3D * graph,
 	ASNET::Graph::Direct3D::Buffer * &buffer,
 	float width, float depth, UINT dx, UINT dz,
-	bool CPUAcess){
+	ASNET::Graph::Color color, bool CPUAcess) {
 	ASNET::Graph::Direct3D::GeometryMesh mesh;
-	CreateGrid(mesh, width, depth, dx, dz);
+	CreateGrid(mesh, width, depth, dx, dz, color);
 
 	graph->LoadBuffer(buffer, mesh.vertices, mesh.indices, CPUAcess);
 

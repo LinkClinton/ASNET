@@ -23,9 +23,12 @@ namespace ASNET {
 			ASNET::Graph::Surface* surface;
 			ASNET::Graph::Font* Consolas20;
 			ASNET::Graph::Font* Consolas12;
+			ASNET::Graph::Image* image;
 		private:
 			ASNET::Control::TextBox* TextBox1;
 			ASNET::Control::Button*  Button1;
+
+			ASNET::Graph::Graph* DesktopGraph;
 		private:
 			//event
 			static void OnButton1_MouseDown(void* sender, ASNET::Event::EventMouseClick* e);

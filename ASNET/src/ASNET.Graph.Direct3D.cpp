@@ -241,11 +241,6 @@ ASNET::Graph::Direct3D::Shader::Shader(
 	char * PixelFunctionName){
 	ParentGraph = nullptr;
 
-	release(VertexShader);
-	release(PixelShader);
-
-	release(VertexShaderBlob);
-	release(PixelShaderBlob);
 
 	VertexShaderName = VertexShaderFileName;
 	PixelShaderName = PixelShaderFileName;

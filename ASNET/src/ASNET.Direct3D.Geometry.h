@@ -35,13 +35,14 @@ namespace ASNET {
 			public:
 				//创建Grid，但不创建缓存
 				static void CreateGrid(ASNET::Graph::Direct3D::GeometryMesh &mesh,
-					float width, float depth, UINT dx, UINT dz);
+					float width, float depth, UINT dx, UINT dz,
+					ASNET::Graph::Color color = D2D1::ColorF::White);
 				
 				//创建Grid
 				static void CreateGrid(ASNET::Graph::Direct3D::GraphDirect3D* graph,
 					ASNET::Graph::Direct3D::Buffer* &buffer,
 					float width, float depth, UINT dx, UINT dz,
-					bool CPUAcess = false);
+					ASNET::Graph::Color color = D2D1::ColorF::White, bool CPUAcess = false);
 				
 				//创建Cube，但不创建缓存
 				static void CreateBox(ASNET::Graph::Direct3D::GeometryMesh &mesh,

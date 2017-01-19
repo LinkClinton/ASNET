@@ -23,7 +23,6 @@
     <ClInclude Include="src\ASNET.Control.Button.h" />
     <ClInclude Include="src\ASNET.Control.h" />
     <ClInclude Include="src\ASNET.Control.Text.h" />
-    <ClInclude Include="src\ASNET.Control.TextBox.h" />
     <ClInclude Include="src\ASNET.Control.Timer.h" />
     <ClInclude Include="src\ASNET.Direct3D.Effect.h" />
     <ClInclude Include="src\ASNET.Direct3D.Geometry.h" />
@@ -46,7 +45,6 @@
     <ClCompile Include="src\ASNET.Control.Button.cpp" />
     <ClCompile Include="src\ASNET.Control.cpp" />
     <ClCompile Include="src\ASNET.Control.Text.cpp" />
-    <ClCompile Include="src\ASNET.Control.TextBox.cpp" />
     <ClCompile Include="src\ASNET.Control.Timer.cpp" />
     <ClCompile Include="src\ASNET.Direct3D.Effect.cpp" />
     <ClCompile Include="src\ASNET.Direct3D.Geometry.cpp" />

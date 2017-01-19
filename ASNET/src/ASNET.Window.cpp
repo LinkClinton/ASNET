@@ -1,5 +1,10 @@
 #include "ASNET.Window.h"
 
+#ifndef HINST_THISCOMPONENT
+EXTERN_C IMAGE_DOS_HEADER __ImageBase;
+#define HINST_THISCOMPONENT ((HINSTANCE)&__ImageBase)
+#endif
+
 #ifdef _DEBUG
 #include<iostream>
 #endif // DEBUG
@@ -39,7 +44,7 @@ namespace ASNET {
 
 
 	static HWND CreateWindows(int width, int height, LPCWSTR ico, LPCWSTR title) {
-		HINSTANCE Hinstance = ::GetModuleHandle(NULL);
+		HINSTANCE Hinstance = HINST_THISCOMPONENT;
 		WNDCLASS WindowClass;
 		HWND Hwnd;
 
